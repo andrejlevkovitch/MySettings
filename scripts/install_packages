@@ -1,0 +1,80 @@
+#!/bin/bash
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# here all added packages
+PACKAGES=""
+
+if [ $# -eq 1 ]; then
+  case $1 in
+    --help|-h)
+      echo 'Supported flags:'
+      echo '    --full     | -f : full installation (compilers, programming soft, qt, cross environment), but without settings!'
+      echo '    --min      | -m : minimal installation (compilers, programming soft)'
+      echo '    --qt       | -q : installation of compilers and latest qt (without programming software)'
+      echo '    --cross    | -c : install cross environment'
+      echo '    --settings | -s : set custom settings'
+      exit 0
+      ;;
+    --full|-f)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1;
+      fi
+      echo full installation
+      PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh install_qt.sh install_mxe.sh"
+      ;;
+    --min|-m)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1;
+      fi
+      echo minimal installation
+      PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh"
+      ;;
+    --qt|-q)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1;
+      fi
+      echo qt installation
+      PACKAGES="install_base_software.sh install_compilers.sh install_qt.sh"
+      ;;
+    --cross|-c)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1;
+      fi
+      echo cross inastallation
+      PACKAGES="install_mxe.sh"
+      ;;
+    --settings|-s)
+      if [ $EUID -eq 0 ]; then
+        echo Do not install this as root
+        exit 1
+      fi
+      echo set settings
+      PACKAGES="set_settings.sh"
+      ;;
+    *)
+      echo type --help or -h for help
+      exit 1
+      ;;
+  esac
+elif [ $# -gt 1 ]; then
+  echo you can set only one flag
+  exit 1
+else
+  if [ $EUID -ne 0 ]; then
+    echo you need start it as superuser
+    exit 1;
+  fi
+  echo full installation
+  PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh install_qt.sh install_mxe.sh"
+fi
+
+for arg in $PACKAGES; do
+  bash $FILE_DIR/$arg
+done
+
+echo FINISH

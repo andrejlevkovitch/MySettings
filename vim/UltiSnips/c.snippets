@@ -1,0 +1,28 @@
+snippet for "for c"
+for (int $1 = 0; $1 < $2; ++$1) {
+    $3
+}
+endsnippet
+
+snippet main "main c"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (void)
+{
+    $1
+
+    return EXIT_SUCCESS;
+}
+endsnippet
+
+snippet file "file c"
+if (($1 = fopen ("$2", "$3")) == NULL) {
+    printf ("ERROR of open file $2\n");
+    exit (EXIT_FAILURE);
+}
+if (fclose ($1) != 0) {
+    printf ("ERROR of exit from file $2\n");
+    exit (EXIT_FAILURE);
+}
+endsnippet

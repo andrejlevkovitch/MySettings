@@ -1,0 +1,115 @@
+snippet build "build.cmake"
+# build.cmake
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+IF(NOT CMAKE_BUILD_TYPE)
+  SET(CMAKE_BUILD_TYPE Release)
+ENDIF(NOT CMAKE_BUILD_TYPE)
+
+enable_testing()
+include(CTest)
+
+message(STATUS "buid type    " ${CMAKE_BUILD_TYPE})
+message(STATUS "Project      " ${PROJECT_NAME})
+message(STATUS "c compiler   " ${CMAKE_C_COMPILER})
+message(STATUS "cxx compiler " ${CMAKE_CXX_COMPILER})
+message(STATUS "build tests  " ${BUILD_TESTING})
+message(STATUS "build shared " ${BUILD_SHARED_LIBS})
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -g -O0")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/bin")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
+endsnippet
+
+snippet cmake "cmake"
+#cmake
+
+cmake_minimum_required(VERSION 3.10)
+
+project($1)
+
+include(build.cmake)
+include(doxygen.cmake)
+
+set(LIST_SUBDIRS)
+foreach(DIR ${LIST_SUBDIRS})
+  add_subdirectory("src/${DIR}")
+endforeach()
+
+message(STATUS "SUBDIRECTORIES: ${LIST_SUBDIRS}")
+endsnippet
+
+snippet cros "cros"
+option(cros_compile "cros compile" 0)
+if(cros_compile)
+    set(PROJECT_NAME ${PROJECT_NAME}.exe)
+    set(CMAKE_CXX_COMPILER i686-w64-mingw32-g++-posix)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -static-libstdc++ -static-libgcc")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -static-libstdc++ -static-libgcc")
+    message(STATUS "Use option cros_compile")
+endif(cros_compile)
+endsnippet
+
+snippet qt "qt"
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(Qt5Widgets REQUIRED)
+endsnippet
+
+snippet options "options"
+option(leak_check "set leak_check" 0)
+option(profiling "set profiling" 0)
+option(thread_check "set thread_check" 0)
+
+if(${CMAKE_BUILD_TYPE} STREQUAL Debug AND leak_check)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fno-omit-frame-pointer")
+endif()
+
+if(${CMAKE_BUILD_TYPE} STREQUAL Debug AND thread_check)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=thread")
+endif()
+
+if(${CMAKE_BUILD_TYPE} STREQUAL Debug AND profiling)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+  set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} -pg")
+  set(CMAKE_SHARED_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -pg")
+  set(CMAKE_STATIC_LINKER_FLAGS_DEBUG "${CMAKE_SHARED_LINKER_FLAGS_DEBUG} -pg")
+endif()
+endsnippet
+
+snippet doxygen "doxygen.cmake"
+# doxygen.cmake
+
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+  set(DOXYGEN_DOXYFILE_ENCODING "UTF-8")
+  set(DOXYGEN_PROJECT_NAME "\"${PROJECT_NAME}\"")
+  set(DOXYGEN_PROJECT_NUMBER "${PROJECT_VERSION}")
+  set(DOXYGEN_PROJECT_BRIEF "${PROJECT_NAME}")
+  set(DOXYGEN_PROJECT_LOGO "")
+  set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/documentation")
+  set(DOXYGEN_FILE_PATTERNS *.c *.cc *.cxx *.cpp *.c++ *.h *.hh *.hpp)
+  set(DOXYGEN_RECURSIVE "YES")
+  set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C "YES")
+  set(DOXYGEN_CPP_CLI_SUPPORT "YES")
+  set(DOXYGEN_CASE_SENSE_NAMES "NO")
+  set(DOXYGEN_EXCLUDE_PATTERNS "*/build*/*" "*/test*/*")
+  set(DOXYGEN_GENERATE_LATEX "NO")
+
+  doxygen_add_docs(doxygen ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "generate doxygen documentation by cmake")
+
+  add_custom_target(documentation
+    COMMAND doxygen "Doxyfile.doxygen"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    COMMENT "Generate doxygen documentation"
+    )
+endif()
+endsnippet
