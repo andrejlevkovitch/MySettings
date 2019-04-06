@@ -42,7 +42,8 @@ apt-get install -y \
   xz-utils libpthread-workqueue-dev \
   libgtk-3-dev \
   libwebkit2gtk-4.0-dev \
-  python3.5-dev
+  python3.5-dev \
+  libcurl4-openssl-dev
 
 
 echo Add links for lua
@@ -70,7 +71,7 @@ cd boost_1_69_0
 
 ./bootstrap.sh
 ./b2
-checkinstall ./b2 install  -D -y --pkgname=boost-ch
+checkinstall -D -y --pkgname=boost-ch ./b2 install
 
 cd ..
 rm boost_1_69_0 -rf
@@ -81,7 +82,7 @@ echo Install cmake
 git clone https://github.com/Kitware/cmake.git
 
 cd cmake
-./bootstrap
+./bootstrap --system-curl
 make -j4
 checkinstall -D -y --pkgname=cmake-ch
 
