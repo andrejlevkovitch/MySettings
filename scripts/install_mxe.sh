@@ -50,7 +50,7 @@ else
   git pull
 fi
 
-make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc cmake qt5 gdb boost
+make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc cmake qt5 gdb
 # TODO You should add to the PATH dir /opt/mxe/usr/bin manually
 # For run under wine you need set WINEPATH
 # export WINEPATH="/opt/mxe/usr/x86_64-w64-mingw32.shared/bin;/opt/mxe/usr/x86_64-w64-mingw32.shared/qt5/bin"
