@@ -107,6 +107,7 @@ Plugin 'peterhoeg/vim-qml'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'othree/xml.vim'
 Plugin 'vifm/vifm.vim'
+Plugin 'pboettch/vim-cmake-syntax'
 
 call vundle#end()
 filetype plugin indent on

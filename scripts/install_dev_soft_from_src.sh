@@ -71,7 +71,7 @@ cd boost_1_69_0
 
 ./bootstrap.sh
 ./b2
-checkinstall -D -y --pkgname=boost-ch ./b2 install
+checkinstall -D -y --pkgname=boost-ch --pkgversion=1.69.0 --nodoc --backup=no ./b2 install
 
 cd ..
 rm boost_1_69_0 -rf
@@ -79,12 +79,14 @@ rm boost_1_69_0 -rf
 echo --------------------------------------------------------------------------
 
 echo Install cmake
-git clone https://github.com/Kitware/cmake.git
+wget "https://github.com/Kitware/CMake/releases/download/v3.14.1/cmake-3.14.1.tar.gz"
+tar -xzvf cmake-3.14.1.tar.gz
+rm cmake-3.14.1.tar.gz
+cd cmake-3.14.1
 
-cd cmake
 ./bootstrap --system-curl
 make -j4
-checkinstall -D -y --pkgname=cmake-ch
+checkinstall -D -y --pkgname=cmake-ch --pkgversion=3.14.1 --nodoc --backup=no
 
 cd ..
 rm cmake -rf
@@ -99,7 +101,7 @@ cd ctags
 ./autogen.sh
 ./configure
 make -j4
-checkinstall -D -y --pkgname=ctags-ch
+checkinstall -D -y --pkgname=ctags-ch --nodoc --backup=no
 
 cd ..
 rm ctags -rf
@@ -124,7 +126,7 @@ cd vim
             --disable-netbeans \
             --prefix=/usr/local
 make -j4
-checkinstall -D -y --pkgname=vim-ch
+checkinstall -D -y --pkgname=vim-ch --pkgversion=8.1 --nodoc --backup=no
 
 cd ..
 rm vim -rf
@@ -137,7 +139,7 @@ cd vifm
 
 ./configure
 make -j4
-checkinstall -D -y --pkgname=vifm-ch
+checkinstall -D -y --pkgname=vifm-ch --nodoc --backup=no
 
 cd ..
 rm vifm -rf
@@ -149,7 +151,7 @@ git clone https://github.com/fanglingsu/vimb.git
 cd vimb
 
 make -j4
-checkinstall -D -y --pkgname=vimb-ch
+checkinstall -D -y --pkgname=vimb-ch --nodoc --backup=no
 
 cd ..
 rm vimb -rf

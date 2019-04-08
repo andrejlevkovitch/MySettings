@@ -41,7 +41,7 @@ echo Install vimb config
 if [ ! -d $HOME_DIR/.config/vimb ]; then
   mkdir $HOME_DIR/.config/vimb/
 fi
-cp $FILE_DIR/../vimb/config $HOME_DIR/.config/vimb/
+cp $FILE_DIR/../vimb/* $HOME_DIR/.config/vimb/
 
 echo Install config for git
 cp $FILE_DIR/../git/.gitconfig $HOME/

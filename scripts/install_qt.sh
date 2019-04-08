@@ -2,7 +2,7 @@
 # Install newest qt from ppa repository
 
 
-# TODO you need manually add qt in path in fire /etc/profile
+# TODO you need manually add qt in path in file /etc/profile or ~/.profile
 # PATH=/opt/qt_version/bin
 QT_PPA="ppa:beineri/opt-qt-5.12.1-$(lsb_release -cs)"
 
