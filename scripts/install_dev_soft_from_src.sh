@@ -109,8 +109,10 @@ rm ctags -rf
 echo --------------------------------------------------------------------------
 
 echo Install vim
-git clone https://github.com/vim/vim.git
-cd vim
+wget "https://github.com/vim/vim/archive/v8.1.1140.tar.gz"
+tar -xzvf v8.1.1140.tar.gz
+rm v8.1.1140.tar.gz
+cd vim-8.1.1140
 
 ./configure --with-features=huge \
             --enable-luainterp=yes \
@@ -126,7 +128,7 @@ cd vim
             --disable-netbeans \
             --prefix=/usr/local
 make -j4
-checkinstall -D -y --pkgname=vim-ch --pkgversion=8.1 --nodoc --backup=no
+checkinstall -D -y --pkgname=vim-ch --pkgversion=8.1.1140 --nodoc --backup=no
 
 cd ..
 rm vim -rf
@@ -134,12 +136,14 @@ rm vim -rf
 echo --------------------------------------------------------------------------
 
 echo Install vifm
-git clone https://github.com/vifm/vifm.git
-cd vifm
+wget "https://github.com/vifm/vifm/archive/v0.10.tar.gz"
+tar -xzvf v0.10.tar.gz
+rm v0.10.tar.gz
+cd vifm-0.10
 
 ./configure
 make -j4
-checkinstall -D -y --pkgname=vifm-ch --nodoc --backup=no
+checkinstall -D -y --pkgname=vifm-ch --pkgversion=0.10 --nodoc --backup=no
 
 cd ..
 rm vifm -rf
@@ -147,11 +151,13 @@ rm vifm -rf
 echo --------------------------------------------------------------------------
 
 echo Install vimb
-git clone https://github.com/fanglingsu/vimb.git
-cd vimb
+wget "https://github.com/fanglingsu/vimb/archive/3.3.0.tar.gz"
+tar -xzvf 3.3.0.tar.gz
+rm 3.3.0.tar.gz
+cd vimb-3.3.0
 
 make -j4
-checkinstall -D -y --pkgname=vimb-ch --nodoc --backup=no
+checkinstall -D -y --pkgname=vimb-ch --pkgversion=3.3.0 --nodoc --backup=no
 
 cd ..
 rm vimb -rf
