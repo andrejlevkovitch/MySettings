@@ -74,7 +74,7 @@ cd boost_1_69_0
 checkinstall -D -y --pkgname=boost-ch --pkgversion=1.69.0 --nodoc --backup=no ./b2 install
 
 cd ..
-rm boost_1_69_0 -rf
+rm -rf boost_1_69_0
 
 echo --------------------------------------------------------------------------
 
@@ -89,22 +89,24 @@ make -j4
 checkinstall -D -y --pkgname=cmake-ch --pkgversion=3.14.1 --nodoc --backup=no
 
 cd ..
-rm cmake -rf
+rm -rf cmake-3.14.1
 
 echo --------------------------------------------------------------------------
 
 # need for vim (tagbar)
 echo Install universal ctags
-git clone https://github.com/universal-ctags/ctags.git
+wget "https://github.com/universal-ctags/ctags/archive/master.zip"
+unzip master.zip
+rm master.zip
 
-cd ctags
+cd ctags-master
 ./autogen.sh
 ./configure
 make -j4
 checkinstall -D -y --pkgname=ctags-ch --nodoc --backup=no
 
 cd ..
-rm ctags -rf
+rm -rf ctags-master
 
 echo --------------------------------------------------------------------------
 
@@ -131,7 +133,7 @@ make -j4
 checkinstall -D -y --pkgname=vim-ch --pkgversion=8.1.1140 --nodoc --backup=no
 
 cd ..
-rm vim -rf
+rm -rf vim-8.1.1140
 
 echo --------------------------------------------------------------------------
 
@@ -146,7 +148,7 @@ make -j4
 checkinstall -D -y --pkgname=vifm-ch --pkgversion=0.10 --nodoc --backup=no
 
 cd ..
-rm vifm -rf
+rm -rf vifm-0.10
 
 echo --------------------------------------------------------------------------
 
@@ -160,7 +162,7 @@ make -j4
 checkinstall -D -y --pkgname=vimb-ch --pkgversion=3.3.0 --nodoc --backup=no
 
 cd ..
-rm vimb -rf
+rm -rf vimb-3.3.0
 
 echo --------------------------------------------------------------------------
 
