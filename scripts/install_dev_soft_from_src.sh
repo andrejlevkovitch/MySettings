@@ -103,7 +103,8 @@ cd ctags-master
 ./autogen.sh
 ./configure
 make -j4
-checkinstall -D -y --pkgname=ctags-ch --nodoc --backup=no
+# real version of universal-ctags is 0.0.0, but we can not set it as version in checkinstall
+checkinstall -D -y --pkgname=ctags-ch --pkgversion=0.0.1 --nodoc --backup=no
 
 cd ..
 rm -rf ctags-master
