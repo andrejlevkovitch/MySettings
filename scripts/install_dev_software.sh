@@ -13,7 +13,8 @@ apt-get install -y \
   python3-dev python-dev \
   gdb \
   gdbserver \
-  cppcheck
+  cppcheck \
+  w3m
 
 if [ $? -ne 0 ]; then
   echo soft for programming can not be installed
