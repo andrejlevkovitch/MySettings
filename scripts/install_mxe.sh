@@ -40,6 +40,12 @@ apt-get install -y \
   wget \
   xz-utils
 
+if [ $? -ne 0 ]; then
+  echo soft for MXE can not be installed
+  exit 1
+fi
+
+
 echo MXE base installation
 if [ ! -d "/opt/mxe" ]; then
   cd /opt
@@ -51,6 +57,13 @@ else
 fi
 
 make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc cmake qt5 gdb
+
+if [ $? -ne 0 ]; then
+  echo MXE installation failed
+  exit 1
+fi
+
+
 # TODO You should add to the PATH dir /opt/mxe/usr/bin manually
 # For run under wine you need set WINEPATH
 # export WINEPATH="/opt/mxe/usr/x86_64-w64-mingw32.shared/bin;/opt/mxe/usr/x86_64-w64-mingw32.shared/qt5/bin"
@@ -59,6 +72,11 @@ make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc 
 echo Install wine
 apt-get install -y \
   wine-development
+
+if [ $? -ne 0 ]; then
+  echo wine can not be installed
+  exit 1
+fi
 
 cd $CUR_DIR
 
