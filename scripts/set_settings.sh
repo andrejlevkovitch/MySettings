@@ -53,6 +53,12 @@ if [ ! -d $HOME_DIR/.gdb ]; then
 fi
 git clone https://github.com/Lekensteyn/qt5printers.git $HOME_DIR/.gdb/qt5printers
 
+echo Install config for w3m
+if [ ! -d $HOME_DIR/.w3m ]; then
+  mkdir $HOME_DIR/.w3m
+fi
+cp $FILE_DIR/../w3m/* $HOME_DIR/.w3m
+
 cd $CUR_DIR
 
 echo -------------------------------------------------------------------------
