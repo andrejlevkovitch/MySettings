@@ -32,7 +32,6 @@ cmake ..
 make
 make install
 cd ../
-rm -rf build
 cd $CUR_DIR
 
 echo Install needed config files for vim
