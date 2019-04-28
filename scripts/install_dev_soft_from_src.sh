@@ -63,7 +63,8 @@ apt-get install -y \
   libgtk-3-dev \
   libwebkit2gtk-4.0-dev \
   python3.5-dev \
-  libcurl4-openssl-dev
+  libcurl4-openssl-dev \
+  autoconf
 
 if [ $? -ne 0 ]; then
   echo neded packages can not be installed
