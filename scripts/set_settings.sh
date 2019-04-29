@@ -31,6 +31,7 @@ cd $HOME_DIR/.vim/bundle/color_coded/build
 cmake ..
 make
 make install
+cd ../
 cd $CUR_DIR
 
 echo Install needed config files for vim
