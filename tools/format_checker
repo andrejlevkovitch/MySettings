@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # check current formatting (files have to be formated like in curent .clang-format file)
+# use .clang-format file
 
 # WARNING change exclude_* on needed values
 

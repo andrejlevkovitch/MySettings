@@ -13,4 +13,9 @@ add-apt-repository $QT_PPA -y
 apt-get update
 apt-get install qt512-meta-dbg-full -y
 
+if [ $? -ne 0 ]; then
+  echo qt can not be installed
+  exit 1
+fi
+
 echo --------------------------------------------------------------------------

@@ -13,13 +13,12 @@ CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$
 
 echo --------------------------------------------------------------------------
 
-# For add-apt-repository command
-apt-get install -y \
-  wget \
-  software-properties-common
+if [ ! -x "$(command -v wget)" ]; then
+  apt-get install -y wget
+fi
 
 echo Install newest compilers
-add-apt-repository ppa:ubuntu-toolchain-r/test -y
+add-apt-repository -y ppa:ubuntu-toolchain-r/test
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
 add-apt-repository "$CLANG_REPO_SRC"
@@ -33,6 +32,11 @@ apt-get install -y \
   clang-format-$CLANG_VERSION \
   clang-tidy-$CLANG_VERSION \
   lld-$CLANG_VERSION
+
+if [ $? -ne 0 ]; then
+  echo newest compilers can not be installed
+  exit 1
+fi
 
 echo Set alternatives for gcc
 update-alternatives --install \

@@ -13,7 +13,14 @@ apt-get install -y \
   python3-dev python-dev \
   gdb \
   gdbserver \
-  cppcheck
+  cppcheck \
+  w3m
+
+if [ $? -ne 0 ]; then
+  echo soft for programming can not be installed
+  exit 1
+fi
+
 
 echo Install docker-ce
 apt-get install -y \
@@ -21,6 +28,12 @@ apt-get install -y \
   ca-certificates \
   curl \
   gnupg-agent
+
+if [ $? -ne 0 ]; then
+  echo soft for docker can not be installed
+  exit 1
+fi
+
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -34,6 +47,12 @@ apt-get install -y \
   docker-ce \
   docker-ce-cli \
   containerd.io
+
+if [ $? -ne 0 ]; then
+  echo docker can not be installed
+  exit 1
+fi
+
 
 # For use docker without sudo add user to docker group
 # $ sudo groupadd docker

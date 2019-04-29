@@ -12,6 +12,11 @@ apt-get install -y \
   wget \
   software-properties-common
 
+if [ $? -ne 0 ]; then
+  echo base soft can not be installed
+  exit 1
+fi
+
 
 echo Install video drivers
 apt-get install -y \
@@ -19,11 +24,21 @@ apt-get install -y \
   libgl1-mesa-dev libgles2-mesa-dev freeglut3-dev \
   xvfb
 
+if [ $? -ne 0 ]; then
+  echo video drivers can not be installed
+  exit 1
+fi
+
 # Especially needed for sdl2
 echo Install audio drivers 
 apt-get install -y \
   libasound2-dev \
   libpulse-dev
+
+if [ $? -ne 0 ]; then
+  echo audio drivers can not be installed
+  exit 1
+fi
 
 echo Install usefull utils
 apt-get install -y \
@@ -33,6 +48,11 @@ apt-get install -y \
   net-tools \
   automake \
   lm-sensors
+
+if [ $? -ne 0 ]; then
+  echo additional soft can not be installed
+  exit 1
+fi
 
 # lm-sensors - utilite for controll temperature of processor
 
