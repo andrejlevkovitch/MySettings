@@ -40,29 +40,21 @@ if [ ! -x "$(command -v wget)" ]; then
   fi
 fi
 
-# add repository for 3.5 python (because bionic not contains the version)
-if [ "$(lsb_release -cs)" = "bionic" ]; then
-  add-apt-repository -y ppa:deadsnakes/ppa
-  apt-get update
-fi
-
 echo Prepare for install custom deb packages
 # For vim, vifm and vimb
+# we need both versions of python
 echo Install libraries for future packages
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
-  libgtk2.0-dev libgnomeui-dev libgnome2-dev \
   libbonoboui2-dev \
   libcairo2-dev \
   libatk1.0-dev \
-  libx11-dev libxpm-dev libxt-dev \
   liblua5.3-0 liblua5.3-dev \
   libperl-dev \
   ruby-dev \
   xz-utils libpthread-workqueue-dev \
-  libgtk-3-dev \
   libwebkit2gtk-4.0-dev \
-  python3.5-dev \
+  python2.7-dev \
   libcurl4-openssl-dev \
   autoconf
 
@@ -175,8 +167,8 @@ cd vim-8.1.1140
 ./configure --with-features=huge \
             --enable-luainterp=yes \
             --with-lua-prefix=/usr/include/lua5.3 \
-            --enable-python3interp=yes \
-            --with-python3-config-dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu \
+            --enable-pythoninterp=yes \
+            --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
             --enable-rubyinterp=yes \
             --enable-perlinterp=yes \
             --enable-multibyte \
