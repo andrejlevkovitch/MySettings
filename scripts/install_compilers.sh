@@ -31,7 +31,8 @@ apt-get install -y \
   lldb-$CLANG_VERSION \
   clang-format-$CLANG_VERSION \
   clang-tidy-$CLANG_VERSION \
-  lld-$CLANG_VERSION
+  lld-$CLANG_VERSION \
+  libclang-$CLANG_VERSION-dev
 
 if [ $? -ne 0 ]; then
   echo newest compilers can not be installed

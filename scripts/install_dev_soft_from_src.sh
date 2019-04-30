@@ -42,7 +42,7 @@ fi
 
 # add repository for 3.5 python (because bionic not contains the version)
 if [ "$(lsb_release -cs)" = "bionic" ]; then
-  add-apt-repository ppa:deadsnakes/ppa
+  add-apt-repository -y ppa:deadsnakes/ppa
   apt-get update
 fi
 

@@ -28,10 +28,9 @@ if [ ! -d $HOME_DIR/.vim/bundle/color_coded/build ]; then
   mkdir $HOME_DIR/.vim/bundle/color_coded/build
 fi
 cd $HOME_DIR/.vim/bundle/color_coded/build
-cmake ..
+cmake -DDOWNLOAD_CLANG=OFF ..
 make
 make install
-cd ../
 cd $CUR_DIR
 
 echo Install needed config files for vim
