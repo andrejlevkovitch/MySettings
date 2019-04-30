@@ -156,7 +156,7 @@ let g:NERDTreeIndicatorMapCustom = {
 "-------------------------------------------------------------------------------
 
 " UltiSnips
-let g:UltiSnipsUsePythonVersion = "3.7"
+let g:UltiSnipsUsePythonVersion = "2.7"
 let g:UltiSnipsExpandTrigger="<leader><tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
