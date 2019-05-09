@@ -23,14 +23,31 @@ fi
 
 vim +PluginInstall +qall
 
+if [ $? -ne 0 ]; then
+  echo vim can not load plugins
+  exit 1
+fi
+
 $HOME_DIR/.vim/bundle/YouCompleteMe/./install.py --clang-completer
+
+if [ $? -ne 0 ]; then
+  echo YCM can not be installed
+  cd $CUR_DIR
+  exit 1
+fi
+
 if [ ! -d $HOME_DIR/.vim/bundle/color_coded/build ]; then
   mkdir $HOME_DIR/.vim/bundle/color_coded/build
 fi
 cd $HOME_DIR/.vim/bundle/color_coded/build
 cmake ..
-cmake --build . -- -j4
-cmake --build . --target  install
+cmake --build . --target install -- -j4
+
+if [ $? -ne 0 ]; then
+  echo color_coded can not be compiled
+  cd $CUR_DIR
+  exit 1
+fi
 cd $CUR_DIR
 
 echo Install needed config files for vim

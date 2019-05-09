@@ -15,6 +15,11 @@ echo --------------------------------------------------------------------------
 
 if [ ! -x "$(command -v wget)" ]; then
   apt-get install -y wget
+
+  if [ $? -ne 0 ]; then
+    echo wget can not be installed
+    exit 1
+  fi
 fi
 
 echo Install newest compilers
@@ -24,6 +29,11 @@ add-apt-repository "$CLANG_REPO_DEB"
 add-apt-repository "$CLANG_REPO_SRC"
 apt-get update
 apt-get upgrade -y
+
+if [ $? -ne 0 ]; then
+  echo system can not be upgraded
+  exit 1
+fi
 
 apt-get install -y \
   gcc-$GCC_VERSION g++-$GCC_VERSION \
