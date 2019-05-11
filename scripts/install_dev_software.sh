@@ -35,10 +35,11 @@ if [ $? -ne 0 ]; then
 fi
 
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/$CUR_SYSTEM/gpg | sudo apt-key add -
 
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   "deb [arch=amd64] https://download.docker.com/linux/$CUR_SYSTEM \
    $(lsb_release -cs) \
    stable"
 
