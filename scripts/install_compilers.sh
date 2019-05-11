@@ -26,7 +26,7 @@ echo Install newest compilers
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   add-apt-repository ppa:ubuntu-toolchain-r/test
-else if [ "$CUR_SYSTEM" = "debian" ]; then
+elif [ "$CUR_SYSTEM" = "debian" ]; then
   add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
 else
   echo unsupported system

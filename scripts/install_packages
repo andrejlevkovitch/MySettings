@@ -76,6 +76,10 @@ fi
 
 for arg in $PACKAGES; do
   bash $FILE_DIR/$arg
+  if [ $? -ne 0 ]; then
+    echo fail install script $arg
+    exit 1
+  fi
 done
 
 echo FINISH
