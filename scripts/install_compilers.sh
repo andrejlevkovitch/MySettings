@@ -23,11 +23,14 @@ if [ ! -x "$(command -v wget)" ]; then
 fi
 
 echo Install newest compilers
-if [ "$(lsb_release -si)" == "Ubuntu" ]; then
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   add-apt-repository ppa:ubuntu-toolchain-r/test
-fi
-if [ "$(lsb_release -si)" == "Debian" ]; then
+else if [ "$CUR_SYSTEM" = "debian" ]; then
   add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
+else
+  echo unsupported system
+  exit 1
 fi
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
