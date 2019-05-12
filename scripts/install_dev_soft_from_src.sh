@@ -51,28 +51,23 @@ echo --------------------------------------------------------------------------
 echo Install checkinstall
 if [ "$CUR_SYSTEM" = "debian" ]; then
   # because buster not have checkinstall
-  wget "http://checkinstall.izto.org/files/source/checkinstall-1.6.2.tar.gz"
-  echo "dc61192cf7b8286d42c44abae6cf594ee52eafc08bfad0bea9d434b73dd593f4  checkinstall-1.6.2.tar.gz" | sha256sum -c | grep -v OK
-  if [ $? -eq 0 ]; then
-    rm checkinstall-1.6.2.tar.gz 
-    echo faild download checkinstall
-    exit 1
-  fi
+  apt-get install -y gettext
+  wget "https://github.com/giuliomoro/checkinstall/archive/master.zip"
 
-  tar -xzvf checkinstall-1.6.2.tar.gz
-  rm checkinstall-1.6.2.tar.gz
-  cd checkinstall-1.6.2
+  unzip checkinstall-master.zip
+  rm checkinstall-master.zip
+  cd checkinstall-master
   make
   make install
   checkinstall -D -y --pkgname=checkinstall-ch --pkgversion=1.6.2 --nodoc --backup=no
   if [ $? -ne 0 ]; then
     cd ..
-    rm -rf checkinstall-1.6.2
+    rm -rf checkinstall-master
     echo checkinstall can not be installed
     exit 1
   fi
   cd ..
-  rm -rf checkinstall-1.6.2
+  rm -rf checkinstall-master
 else
   apt-get install -y checkinstall
 fi
@@ -137,12 +132,6 @@ echo --------------------------------------------------------------------------
 # need for vim (tagbar)
 echo Install universal ctags
 wget "https://github.com/universal-ctags/ctags/archive/master.zip"
-echo "8b38a75cf3dccf7728787cacacacca1f24efc5b2c50a5e5004e19e86852504be  master.zip" | sha256sum -c | grep -v OK
-if [ $? -eq 0 ]; then
-  rm master.zip
-  echo universal ctags can not be loaded
-  exit 1
-fi
 
 unzip master.zip
 rm master.zip
