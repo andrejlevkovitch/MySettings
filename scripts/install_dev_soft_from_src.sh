@@ -209,7 +209,7 @@ cd vifm-0.10
 
 ./configure
 make -j4
-checkinstall -D -y --pkgname=vifm-ch --pkgversion=0.10 --nodoc --backup=no
+checkinstall -D -y --pkgname=vifm-ch --pkgversion=0.10 --nodoc --backup=no --fstrans=no
 if [ $? -ne 0 ]; then
   cd ..
   rm -rf vifm-0.10
