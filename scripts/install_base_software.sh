@@ -1,6 +1,8 @@
 #!/bin/bash
 # Install additional software
 
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+
 echo --------------------------------------------------------------------------
 
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
