@@ -64,8 +64,7 @@ apt-get install -y \
   zlibc zlib1g-dev \
   net-tools \
   automake \
-  lm-sensors \
-  checkinstall
+  lm-sensors
 
 if [ $? -ne 0 ]; then
   echo additional soft can not be installed

@@ -5,6 +5,8 @@
 CUR_DIR=$(pwd)
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+
 echo --------------------------------------------------------------------------
 
 echo Prepare for install custom deb packages
@@ -46,6 +48,28 @@ cd /tmp
 
 # all packages have -ch at the end. It points that it from checkinstall
 echo --------------------------------------------------------------------------
+
+echo Install checkinstall
+if [ "$CUR_SYSTEM" = "debian" ]; then
+  # because buster not have checkinstall
+  wget "http://checkinstall.izto.org/files/source/checkinstall-1.6.2.tar.gz"
+  echo "dc61192cf7b8286d42c44abae6cf594ee52eafc08bfad0bea9d434b73dd593f4  checkinstall-1.6.2.tar.gz" | sha256sum -c | grep -v OK
+  if [ $? -ne 0 ]; then
+    echo faild download checkinstall
+    exit 1
+  fi
+
+  tar -xzvf checkinstall-1.6.2.tar.gz
+  rm checkinstall-1.6.2.tar.gz
+  cd checkinstall-1.6.2
+  make install
+  checkinstall -D -y --pkgname=checkinstall-ch --pkgversion=1.6.2 --nodoc --backup=no
+  cd ..
+  rm -rf checkinstall-1.6.2
+else
+  apt-get install -y checkinstall
+fi
+
 
 echo Install boost
 wget "https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz"
