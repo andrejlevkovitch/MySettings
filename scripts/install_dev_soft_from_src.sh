@@ -24,7 +24,8 @@ apt-get install -y \
   libwebkit2gtk-4.0-dev \
   python2.7-dev \
   libcurl4-openssl-dev \
-  autoconf
+  autoconf \
+  libtinfo5
 
 if [ $? -ne 0 ]; then
   echo neded packages can not be installed
