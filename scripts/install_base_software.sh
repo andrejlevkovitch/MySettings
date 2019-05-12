@@ -8,12 +8,14 @@ echo --------------------------------------------------------------------------
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   echo add testing ppa
   add-apt-repository ppa:ubuntu-toolchain-r/test
-elif [ "$CUR_SYSTEM" = "debian" ] && [ "$(lsb_release -cs)" != "buster" ]; then
-  echo upgrade debian to buster
-  sed -i "s/$(lsb_release -cs)/buster/g" /etc/apt/sources.list
-  apt-get update
-  apt-get upgrade -y
-  apt-get dist-upgrade -y
+elif [ "$CUR_SYSTEM" = "debian" ]; then
+  if [ "$(lsb_release -cs)" != "buster" ]; then
+    echo upgrade debian to buster
+    sed -i "s/$(lsb_release -cs)/buster/g" /etc/apt/sources.list
+    apt-get update
+    apt-get upgrade -y
+    apt-get dist-upgrade -y
+  fi
 else
   echo unsupported system: $CUR_SYSTEM
   exit 1
