@@ -15,13 +15,12 @@ echo Prepare for install custom deb packages
 echo Install libraries for future packages
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
-  libbonoboui2-dev \
   libcairo2-dev \
   libatk1.0-dev \
   liblua5.3-0 liblua5.3-dev \
   libperl-dev \
   ruby-dev \
-  xz-utils libpthread-workqueue-dev \
+  xz-utils \
   libwebkit2gtk-4.0-dev \
   python2.7-dev \
   libcurl4-openssl-dev \
@@ -54,7 +53,7 @@ if [ "$CUR_SYSTEM" = "debian" ]; then
   # because buster not have checkinstall
   wget "http://checkinstall.izto.org/files/source/checkinstall-1.6.2.tar.gz"
   echo "dc61192cf7b8286d42c44abae6cf594ee52eafc08bfad0bea9d434b73dd593f4  checkinstall-1.6.2.tar.gz" | sha256sum -c | grep -v OK
-  if [ $? -ne 0 ]; then
+  if [ $? -eq 0 ]; then
     echo faild download checkinstall
     exit 1
   fi
