@@ -1,44 +1,11 @@
 #!/bin/sh
 # Compile and install soft for developing
+# have to be run only after install_base_software.sh
 
 CUR_DIR=$(pwd)
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 echo --------------------------------------------------------------------------
-
-# if checkinstall not install
-if [ ! -x "$(command -v checkinstall)" ]; then
-  echo Install tool for installation
-  apt-get install -y \
-    checkinstall
-
-  if [ $? -ne 0 ]; then
-    echo checkinstall can not be installed
-    exit 1
-  fi
-fi
-
-if [ ! -x "$(command -v automake)" ]; then
-  echo Install automake
-  apt-get install -y \
-    automake
-
-  if [ $? -ne 0 ]; then
-    echo automake can not be installed
-    exit 1
-  fi
-fi
-
-if [ ! -x "$(command -v wget)" ]; then
-  echo Install automake
-  apt-get install -y \
-    wget
-
-  if [ $? -ne 0 ]; then
-    echo wget can not be installed
-    exit 1
-  fi
-fi
 
 echo Prepare for install custom deb packages
 # For vim, vifm and vimb

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Install newest gcc and clang compilers
+# have to be run only after install_base_software.sh
 
 
 # if you need other version of gcc just set it here
@@ -11,25 +12,18 @@ CLANG_REPO_DEB="deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb
 CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+
+echo --------------------------------------------------------------------------
+
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   add-apt-repository ppa:ubuntu-toolchain-r/test
 elif [ "$CUR_SYSTEM" = "debian" ]; then
   add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
 else
-  echo unsupported system
+  echo unsupported system: $CUR_SYSTEM
   exit 1
 fi
 
-echo --------------------------------------------------------------------------
-
-if [ ! -x "$(command -v wget)" ]; then
-  apt-get install -y wget
-
-  if [ $? -ne 0 ]; then
-    echo wget can not be installed
-    exit 1
-  fi
-fi
 
 echo Install newest compilers
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -

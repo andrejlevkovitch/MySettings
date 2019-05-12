@@ -21,7 +21,7 @@ fi
 echo Install video drivers
 apt-get install -y \
   build-essential mesa-common-dev \
-  libgl1-mesa-dev libgles2-mesa-dev freeglut3-dev \
+  libgl1-mesa-dev libgles2-mesa-dev \
   xvfb
 
 if [ $? -ne 0 ]; then
@@ -47,7 +47,8 @@ apt-get install -y \
   zlibc zlib1g-dev \
   net-tools \
   automake \
-  lm-sensors
+  lm-sensors \
+  checkinstall
 
 if [ $? -ne 0 ]; then
   echo additional soft can not be installed

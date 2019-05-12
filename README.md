@@ -10,3 +10,4 @@ for Debian
   3) add shortcut for open terminal. For this open settings->keyboard and
      add 'x-terminal-emulator' with shortcut `ctrl-alt-t`
   4) add `xfce4-panel` to autoload
+  5) install bash-completion

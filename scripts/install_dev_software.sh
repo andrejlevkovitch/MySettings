@@ -1,24 +1,16 @@
 #!/bin/bash
 # Install software neded for programming
+# have to be run only after install_base_software.sh
 
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-if [ "$CUR_SYSTEM" = "ubuntu" ]; then
-  add-apt-repository ppa:ubuntu-toolchain-r/test
-elif [ "$CUR_SYSTEM" = "debian" ]; then
-  add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
-else
-  echo unsupported system
-  exit 1
-fi
 
 echo --------------------------------------------------------------------------
 
 echo Install software for programming
 apt-get install -y \
   git \
-  checkinstall \
   doxygen graphviz \
   python3-dev python-dev \
   gdb \
@@ -36,13 +28,15 @@ echo Install docker-ce
 apt-get install -y \
   apt-transport-https \
   ca-certificates \
-  curl \
-  software-properties-common
+  curl
 
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   apt-get install -y gnupg-agent
 elif [ "$CUR_SYSTEM" = "debian" ];then
   apt-get install -y gnupg2
+else
+  echo unsupported system: $CUR_SYSTEM
+  exit 1
 fi
 
 if [ $? -ne 0 ]; then
