@@ -54,8 +54,8 @@ if [ "$CUR_SYSTEM" = "debian" ]; then
   apt-get install -y gettext
   wget "https://github.com/giuliomoro/checkinstall/archive/master.zip"
 
-  unzip checkinstall-master.zip
-  rm checkinstall-master.zip
+  unzip master.zip
+  rm master.zip
   cd checkinstall-master
   make
   make install
