@@ -7,7 +7,7 @@ echo --------------------------------------------------------------------------
 
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   echo add testing ppa
-  add-apt-repository ppa:ubuntu-toolchain-r/test
+  add-apt-repository -y ppa:ubuntu-toolchain-r/test
 elif [ "$CUR_SYSTEM" = "debian" ]; then
   if [ "$(lsb_release -cs)" != "buster" ]; then
     echo upgrade debian to buster
