@@ -48,7 +48,7 @@ cd /tmp
 # all packages have -ch at the end. It points that it from checkinstall
 echo --------------------------------------------------------------------------
 
-if [ -x $(command -v checkinstall) -ne 0 ]; then
+if [ ! -x "$(command -v checkinstall)" ]; then
   echo Install checkinstall
   if [ "$CUR_SYSTEM" = "debian" ]; then
     # because buster not have checkinstall
@@ -82,7 +82,8 @@ fi
 
 echo --------------------------------------------------------------------------
 
-if [ $(dpkg -s boost-ch) -ne 0 ]; then
+dpkg -s boost-ch
+if [ $? -ne 0 ]; then
   echo Install boost
   wget "https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz"
   echo "9a2c2819310839ea373f42d69e733c339b4e9a19deab6bfec448281554aa4dbb boost_1_69_0.tar.gz" | sha256sum -c | grep -v OK
@@ -119,7 +120,7 @@ fi
 
 echo --------------------------------------------------------------------------
 
-if [ -x $(command -v cmake) -ne 0 ]; then
+if [ ! -x "$(command -v cmake)" ]; then
   echo Install cmake
   wget "https://github.com/Kitware/CMake/releases/download/v3.14.1/cmake-3.14.1.tar.gz"
   echo "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f  cmake-3.14.1.tar.gz" | sha256sum -c | grep -v OK
@@ -156,7 +157,7 @@ fi
 echo --------------------------------------------------------------------------
 
 # need for vim (tagbar)
-if [ -x $(command -v ctags) -ne 0 ]; then
+if [ ! -x "$(command -v ctags)" ]; then
   echo Install universal ctags
   wget "https://github.com/universal-ctags/ctags/archive/master.zip"
 
@@ -188,7 +189,7 @@ fi
 
 echo --------------------------------------------------------------------------
 
-if [ -x $(command -v vim) -ne 0 ]; then
+if [ ! -x "$(command -v vim)" ]; then
   echo Install vim
   wget "https://github.com/vim/vim/archive/v8.1.1140.tar.gz"
   echo "b2bd214f9e562308af7203e3e8cfeb13327d503ab2fe23090db9c42f13ca0145  v8.1.1140.tar.gz" | sha256sum -c | grep -v OK
@@ -236,7 +237,7 @@ fi
 
 echo --------------------------------------------------------------------------
 
-if [ -x $(command -v vifm) -ne 0 ]; then
+if [ ! -x "$(command -v vifm)" ]; then
   echo Install vifm
   wget "https://github.com/vifm/vifm/archive/v0.10.tar.gz"
   echo "e5681c9e560e23d9deeec3b5b12e0ccad82612d9592c00407f3dd75cf5066548  v0.10.tar.gz" | sha256sum -c | grep -v OK
@@ -272,7 +273,7 @@ fi
 
 echo --------------------------------------------------------------------------
 
-if [ -x $(command -v vimb) -ne 0 ]; then
+if [ ! -x "$(command -v vimb)" ]; then
   echo Install vimb
   wget "https://github.com/fanglingsu/vimb/archive/3.3.0.tar.gz"
   echo "5c6fe39b1b2ca18a342bb6683f7fd5b139ead53903f57dd9eecd5a1074576d6c  3.3.0.tar.gz" | sha256sum -c | grep -v OK
