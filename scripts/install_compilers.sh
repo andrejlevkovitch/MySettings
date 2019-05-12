@@ -15,20 +15,6 @@ CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 
 echo --------------------------------------------------------------------------
 
-if [ "$CUR_SYSTEM" = "ubuntu" ]; then
-  add-apt-repository ppa:ubuntu-toolchain-r/test
-elif [ "$CUR_SYSTEM" = "debian" ] && [ "$(lsb_release -cs)" != "buster" ]; then
-  echo upgrade debian to buster
-  sed -i "s/$(lsb_release -cs)/buster/g" /etc/apt/sources.list
-  apt-get update
-  apt-get upgrade -y
-  apt-get dist-upgrade -y
-else
-  echo unsupported system: $CUR_SYSTEM
-  exit 1
-fi
-
-
 echo Install newest compilers
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
