@@ -1,5 +1,7 @@
 # MySettings
 
+Only for Ubuntu16, Ubuntu18 and Debian9(buster)
+
 for Debian
   1) add current user to sudo group
       - su root
