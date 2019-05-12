@@ -10,6 +10,15 @@ CLANG_VERSION=8
 CLANG_REPO_DEB="deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+if [ "$CUR_SYSTEM" = "ubuntu" ]; then
+  add-apt-repository ppa:ubuntu-toolchain-r/test
+elif [ "$CUR_SYSTEM" = "debian" ]; then
+  add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
+else
+  echo unsupported system
+  exit 1
+fi
 
 echo --------------------------------------------------------------------------
 
@@ -23,15 +32,6 @@ if [ ! -x "$(command -v wget)" ]; then
 fi
 
 echo Install newest compilers
-CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-if [ "$CUR_SYSTEM" = "ubuntu" ]; then
-  add-apt-repository ppa:ubuntu-toolchain-r/test
-elif [ "$CUR_SYSTEM" = "debian" ]; then
-  add-apt-repository "deb http://ftp.us.debian.org/debian/ buster main"
-else
-  echo unsupported system
-  exit 1
-fi
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
 apt-get update
