@@ -17,3 +17,13 @@ for Debian
      add 'x-terminal-emulator' with shortcut `ctrl-alt-t`
   6) install bash-completion (optional)
   7) add `xfce4-panel` to autoload (optional)
+
+If you have problem with load debian on you computer, then you need push `e`
+while in grub and change `quet` to `nomodeset`. After it you need install 
+needed firmware. For this you need add `contrib` and `non-free`, after you
+need run `sudo dmesg` for check which firmware is missing.
+Usually need install:
+  - amd64-microcode
+  - intel-microcode
+  - firmware-amd-graphisc
+  - firmware-linux-nonfree
