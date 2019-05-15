@@ -1,14 +1,16 @@
 #!/bin/bash
 # Install software neded for programming
+# have to be run only after install_base_software.sh
 
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 
 echo --------------------------------------------------------------------------
 
 echo Install software for programming
 apt-get install -y \
   git \
-  checkinstall \
   doxygen graphviz \
   python3-dev python-dev \
   gdb \
@@ -26,8 +28,16 @@ echo Install docker-ce
 apt-get install -y \
   apt-transport-https \
   ca-certificates \
-  curl \
-  gnupg-agent
+  curl
+
+if [ "$CUR_SYSTEM" = "ubuntu" ]; then
+  apt-get install -y gnupg-agent
+elif [ "$CUR_SYSTEM" = "debian" ];then
+  apt-get install -y gnupg2
+else
+  echo unsupported system: $CUR_SYSTEM
+  exit 1
+fi
 
 if [ $? -ne 0 ]; then
   echo soft for docker can not be installed
@@ -35,10 +45,10 @@ if [ $? -ne 0 ]; then
 fi
 
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/$CUR_SYSTEM/gpg | sudo apt-key add -
 
 add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   "deb [arch=amd64] https://download.docker.com/linux/$CUR_SYSTEM \
    $(lsb_release -cs) \
    stable"
 

@@ -1,7 +1,26 @@
 #!/bin/bash
 # Install additional software
 
+CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+
 echo --------------------------------------------------------------------------
+
+if [ "$CUR_SYSTEM" = "ubuntu" ]; then
+  echo add testing ppa
+  add-apt-repository -y ppa:ubuntu-toolchain-r/test
+elif [ "$CUR_SYSTEM" = "debian" ]; then
+  if [ "$(lsb_release -cs)" != "buster" ]; then
+    echo upgrade debian to buster
+    sed -i "s/$(lsb_release -cs)/buster/g" /etc/apt/sources.list
+    apt-get update
+    apt-get upgrade -y
+    apt-get dist-upgrade -y
+  fi
+else
+  echo unsupported system: $CUR_SYSTEM
+  exit 1
+fi
+
 
 echo ugrade system before installation
 apt-get update
@@ -21,7 +40,7 @@ fi
 echo Install video drivers
 apt-get install -y \
   build-essential mesa-common-dev \
-  libgl1-mesa-dev libgles2-mesa-dev freeglut3-dev \
+  libgl1-mesa-dev libgles2-mesa-dev \
   xvfb
 
 if [ $? -ne 0 ]; then
