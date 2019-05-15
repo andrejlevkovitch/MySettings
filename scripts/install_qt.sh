@@ -13,9 +13,9 @@ echo --------------------------------------------------------------------------
 
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   echo Install qt from ppa
-  add-apt-repository $QT_PPA -y
+  add-apt-repository -y $QT_PPA
   apt-get update
-  apt-get install qt512-meta-dbg-full -y
+  apt-get install -y qt512-meta-dbg-full
 
   if [ $? -ne 0 ]; then
     echo qt can not be installed
@@ -23,7 +23,7 @@ if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   fi
 elif [ "$CUR_SYSTEM" = "debian" ]; then
   echo Install qt
-  apt-get install qtbase5-dev
+  apt-get install -y qtbase5-dev
 
   if [ $? -ne 0 ]; then
     echo qt can not be installed
