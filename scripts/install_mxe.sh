@@ -67,7 +67,7 @@ fi
 # TODO You should add to the PATH dir /opt/mxe/usr/bin manually
 # For run under wine you need set WINEPATH
 # export WINEPATH="/opt/mxe/usr/x86_64-w64-mingw32.shared/bin;/opt/mxe/usr/x86_64-w64-mingw32.shared/qt5/bin"
-# you can set this in ~/.profile
+# you can set this in ~/.bashrc
 
 echo Install wine
 apt-get install -y \
