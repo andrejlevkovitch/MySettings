@@ -22,6 +22,9 @@ if [ "$CUR_SYSTEM" = "ubuntu" ]; then
     exit 1
   fi
 elif [ "$CUR_SYSTEM" = "debian" ]; then
+  # this is base installation, if you need install other qt libraries, like as
+  # xmlpatterns, svg and others - you need install this manually, by:
+  # apt-get install libqt5svg5-dev
   echo Install qt
   apt-get install -y qtbase5-dev
 
