@@ -7,8 +7,6 @@ for Debian
   2) add current user to sudo group
       - su root
       - adduser levkovitch sudo
-     here can be problem with 'adduser command not found' - then just add
-     /usr/sbin in you PATH
   3) uncomment string in .bashrc 'force_color_prompt=yes'
   4) set caps_lock as additional ctrl. For this add string
      'XKBOPTIONS="ctrl:nocaps"' in /etc/default/keyboard and run command
@@ -22,8 +20,25 @@ If you have problem with load debian on you computer, then you need push `e`
 while in grub and change `quet` to `nomodeset`. After it you need install 
 needed firmware. For this you need add `contrib` and `non-free`, after you
 need run `sudo dmesg` for check which firmware is missing.
-Usually need install:
-  - amd64-microcode
-  - intel-microcode
-  - firmware-amd-graphisc
-  - firmware-linux-nonfree
+Usually enough only:
+  - apt-get install firmware-linux-nonfree
+
+For reconfigure time you need:
+  - dpkg-reconfigure tzdata
+
+
+For install virtualbox:
+  - add repository `deb http://download.virtualbox.org/virtualbox/debian bionic contrib'
+  - download keys:
+      `wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -`
+      `wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -`
+	- update & install latest virtualbox
+	- download extension and guest addition on `download.virtualbox.org/virtualbox/`
+  - execute `sudo adduser $USER vboxusers`
+
+On guest machine:
+  - install `build-essential` and `linux-headers-...`
+	- install guest addition
+	- `sudo usermod -aG vboxsf $USER`
+
+You shared folders will be in media folder

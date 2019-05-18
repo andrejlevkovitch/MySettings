@@ -16,10 +16,10 @@ echo Install libraries for future packages
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
   libcairo2-dev \
-  libatk1.0-dev \
   liblua5.3-0 liblua5.3-dev \
   libperl-dev \
   ruby-dev \
+  libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
   xz-utils \
   libwebkit2gtk-4.0-dev \
   python2.7-dev \
