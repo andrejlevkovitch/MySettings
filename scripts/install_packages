@@ -11,9 +11,10 @@ if [ $# -eq 1 ]; then
     --help|-h)
       echo 'Supported flags:'
       echo '    --min      | -m : minimal installation (compilers, programming soft)'
-      echo '    --full     | -f : full installation (compilers, programming soft, qt, cross environment), but without settings!'
+      echo '    --full     | -f : full installation (compilers, programming soft, qt, cross environment, virtualbox), but without settings!'
       echo '    --qt       | -q : installation of compilers and latest qt (without programming software)'
       echo '    --cross    | -c : install cross environment'
+      echo '    --vbox     | -v : install virtualbox'
       echo '    --settings | -s : set custom settings'
       echo '\n'
       echo 'by default --min'
@@ -22,7 +23,7 @@ if [ $# -eq 1 ]; then
     --min|-m)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
-        exit 1;
+        exit 1
       fi
       echo minimal installation
       PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh"
@@ -30,15 +31,15 @@ if [ $# -eq 1 ]; then
     --full|-f)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
-        exit 1;
+        exit 1
       fi
       echo full installation
-      PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh install_qt.sh install_mxe.sh"
+      PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh install_qt.sh install_mxe.sh install_virtualbox.sh"
       ;;
     --qt|-q)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
-        exit 1;
+        exit 1
       fi
       echo qt installation
       PACKAGES="install_base_software.sh install_compilers.sh install_qt.sh"
@@ -46,10 +47,18 @@ if [ $# -eq 1 ]; then
     --cross|-c)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
-        exit 1;
+        exit 1
       fi
       echo cross inastallation
       PACKAGES="install_mxe.sh"
+      ;;
+    --vbox|-v)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1
+      fi
+      echo virtualbox installation
+      PACKAGES="install_base_software.sh install_virtualbox.sh"
       ;;
     --settings|-s)
       if [ $EUID -eq 0 ]; then
@@ -70,7 +79,7 @@ elif [ $# -gt 1 ]; then
 else
   if [ $EUID -ne 0 ]; then
     echo you need start it as superuser
-    exit 1;
+    exit 1
   fi
   echo full installation
   PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh"

@@ -27,18 +27,13 @@ For reconfigure time you need:
   - dpkg-reconfigure tzdata
 
 
-For install virtualbox:
-  - add repository `deb http://download.virtualbox.org/virtualbox/debian bionic contrib'
-  - download keys:
-      `wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -`
-      `wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -`
-	- update & install latest virtualbox
+For virtualbox you can install extension and guest addition:
 	- download extension and guest addition on `download.virtualbox.org/virtualbox/`
   - execute `sudo adduser $USER vboxusers`
 
 On guest machine:
   - install `build-essential` and `linux-headers-...`
 	- install guest addition
-	- `sudo usermod -aG vboxsf $USER`
+	- execute `sudo usermod -aG vboxsf $USER`
 
 You shared folders will be in media folder
