@@ -37,3 +37,16 @@ On guest machine:
 	- execute `sudo usermod -aG vboxsf $USER`
 
 You shared folders will be in media folder
+
+
+Raspberry Pi
+for connect lcd ttf display:
+  - git clone https://github.com/goodtft/LCD-show.git
+  - chmod -R 755 LCD-show
+  - cd LCD-show/
+  - sudo ./LCD35-show
+(optional) add in /boot/config.txt at end:
+  - fbcon=map:1
+
+for connect to hdmi back:
+  - sudo ./LCD-hdmi
