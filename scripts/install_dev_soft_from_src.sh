@@ -308,8 +308,48 @@ fi
 
 echo --------------------------------------------------------------------------
 
+if [ ! -x "$(command -v lua-format)" ]; then
+  echo Install lua formatter
+  wget "https://github.com/Koihik/LuaFormatter/archive/1.2.0.zip"
+  echo "c33db33f4e27601c2e8e5aff686b8e84a2c3a14590f197ef507161d5b8dbc9b4  1.2.0.zip" | sha256sum -c | grep -v OK
+  if [ $? -eq 0 ]; then
+    rm 1.2.0.zip
+    echo LuaFormatter can not be loaded
+    exit 1
+  fi
+
+
+  unzip 1.2.0.zip
+  rm 1.2.0.zip
+
+  cd LuaFormatter-1.2.0
+  cmake .
+  cmake --build . -- -j4
+  checkinstall -D -y \
+    --pkgname=lua-format-ch \
+    --pkgversion=1.0.0 \
+    --nodoc \
+    --backup=no \
+    --fstrans=no \
+    --install=yes
+  if [ $? -ne 0 ]; then
+    cd ..
+    rm -rf LuaFormatter-1.2.0
+    echo LuaFormatter can not be installed
+    exit 1
+  fi
+
+  cd ..
+  rm -rf LuaFormatter-1.2.0
+fi
+
+echo --------------------------------------------------------------------------
+
 echo Install diff tool to git
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
+
+echo Install tool for formatting lua in vim
+cp $FILE_DIR/../lua/lua-format.py /usr/local/bin
 
 echo Set vim as default editor
 update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1

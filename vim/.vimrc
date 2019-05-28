@@ -27,6 +27,7 @@ set foldlevel=100
 set foldmethod=indent
 " Use system bufer
 set clipboard=unnamed
+
 " Use one buffer for all files
 set hidden
 if has ("autocmd")
@@ -98,7 +99,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'SirVer/ultisnips'
-Plugin 'rhysd/vim-clang-format'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jeaye/color_coded'
 Plugin 'rdnetto/YCM-Generator'
@@ -165,10 +165,19 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 "-------------------------------------------------------------------------------
 
 " Clang Format
-map <c-k> :ClangFormat<cr>
-let g:clang_format#code_style="file"
-" automatic formating after close
-autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h ClangFormat
+function! ClangFormat()
+  let l:lines = "all"
+  pyf /usr/share/clang/clang-format-8/clang-format.py
+endfunction
+autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
+autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
+
+" Lua Format
+function! LuaFormat()
+  pyf /usr/local/bin/lua-format.py
+endfunction
+autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+autocmd BufWrite *.lua call LuaFormat()
 
 "-------------------------------------------------------------------------------
 
@@ -184,6 +193,9 @@ let g:ycm_confirm_extra_conf=0
 
 " Maximum hight diagnostic window
 let g:ycm_max_diagnostics_to_display = 5
+
+" Set no limit for autocomplete menu
+let g:ycm_max_num_candidates = 0
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
