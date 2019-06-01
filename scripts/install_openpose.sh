@@ -42,7 +42,8 @@ apt-get install -y \
   libatlas-base-dev \
   libgflags-dev \
   libsqlite3-dev \
-  libviennacl-dev
+  libviennacl-dev \
+  mesa-opencl-icd
 
 if [ $? -ne 0 ]; then
   echo neded packages can not be installed
