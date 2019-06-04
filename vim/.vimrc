@@ -98,7 +98,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'SirVer/ultisnips'
-Plugin 'rhysd/vim-clang-format'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jeaye/color_coded'
 Plugin 'rdnetto/YCM-Generator'
@@ -108,6 +107,7 @@ Plugin 'tikhomirov/vim-glsl'
 Plugin 'othree/xml.vim'
 Plugin 'vifm/vifm.vim'
 Plugin 'pboettch/vim-cmake-syntax'
+Plugin 'SpaceVim/vim-luacomplete'
 
 call vundle#end()
 filetype plugin indent on
@@ -165,10 +165,20 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 "-------------------------------------------------------------------------------
 
 " Clang Format
-map <c-k> :ClangFormat<cr>
-let g:clang_format#code_style="file"
-" automatic formating after close
-autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h ClangFormat
+function! ClangFormat() 
+" here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
+  pyf /usr/share/clang/clang-format-8/clang-format.py
+endfunction
+autocmd FileType lua nnoremap <buffer> <c-k> :call ClangFormat()<cr>
+autocmd BufWrite *.lua call ClangFormat()
+
+" Lua Format
+function! LuaFormat() 
+" here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
+  pyf /usr/local/bin/lua-format.py
+endfunction
+autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+autocmd BufWrite *.lua call LuaFormat()
 
 "-------------------------------------------------------------------------------
 
