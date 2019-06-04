@@ -23,6 +23,10 @@ need run `sudo dmesg` for check which firmware is missing.
 Usually enough only:
   - apt-get install firmware-linux-nonfree
 
+Also you have to check firmware by:
+  - sudo dmesg
+
+
 For reconfigure time you need:
   - dpkg-reconfigure tzdata
 
