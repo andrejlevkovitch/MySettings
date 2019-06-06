@@ -345,11 +345,15 @@ fi
 
 echo --------------------------------------------------------------------------
 
+echo Install tool for formatting lua in vim
+git clone http://github.com/andrejlevkovitch/vim-lua-format.git
+cd vim-lua-format.git
+cp lua-format.py /usr/local/bin/
+cd ..
+rm -rf vim-lua-format
+
 echo Install diff tool to git
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
-
-echo Install tool for formatting lua in vim
-cp $FILE_DIR/../lua/lua-format.py /usr/local/bin
 
 echo Set vim as default editor
 update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
