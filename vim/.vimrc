@@ -179,7 +179,7 @@ autocmd BufWrite *.lua call LuaFormat()
 
 " Python Format
 function! PythonFormat()
-  pyf /home/levkovitch/Public/git/vim-python-format/python-format.py
+  pyf /usr/local/bin/python-format.py
 endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
