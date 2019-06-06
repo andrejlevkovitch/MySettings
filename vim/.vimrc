@@ -165,16 +165,15 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 "-------------------------------------------------------------------------------
 
 " Clang Format
-function! ClangFormat() 
-" here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
+function! ClangFormat()
+  let l:lines = "all"
   pyf /usr/share/clang/clang-format-8/clang-format.py
 endfunction
-autocmd FileType lua nnoremap <buffer> <c-k> :call ClangFormat()<cr>
-autocmd BufWrite *.lua call ClangFormat()
+autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
+autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
 " Lua Format
-function! LuaFormat() 
-" here you have to set path to lua-format.py file from the repo. In this case it was be copy to /usr/local/bin directory
+function! LuaFormat()
   pyf /usr/local/bin/lua-format.py
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
@@ -194,6 +193,9 @@ let g:ycm_confirm_extra_conf=0
 
 " Maximum hight diagnostic window
 let g:ycm_max_diagnostics_to_display = 5
+
+" Set no limit for autocomplete menu
+let g:ycm_max_num_candidates = 0
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
