@@ -29,9 +29,6 @@ set foldmethod=indent
 set clipboard=unnamed
 " Use one buffer for all files
 set hidden
-if has ("autocmd")
-    autocmd FileType ruby setlocal ts=2 sts=2 sw=2 expandtab
-endif
 " For gui
 set guioptions-=T
 " Command line height
@@ -108,6 +105,7 @@ Plugin 'othree/xml.vim'
 Plugin 'vifm/vifm.vim'
 Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'SpaceVim/vim-luacomplete'
+Plugin 'vim-python/python-syntax'
 
 call vundle#end()
 filetype plugin indent on
@@ -179,6 +177,14 @@ endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
+" Python Format
+function! PythonFormat()
+  pyf /home/levkovitch/Public/git/vim-python-format/python-format.py
+endfunction
+autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
+autocmd BufWrite *.py call PythonFormat()
+
+
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
@@ -225,3 +231,9 @@ autocmd BufWinEnter *.glsl setfiletype glsl
 
 " Color-coded
 let g:color_coded_filetypes = ['c', 'cpp']
+
+" python-syntax
+let g:python_highlight_all = 1
+autocmd FileType python set shiftwidth=2
+autocmd FileType python set tabstop=2
+autocmd FileType python set softtabstop=2
