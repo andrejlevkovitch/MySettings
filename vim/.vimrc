@@ -154,7 +154,7 @@ let g:NERDTreeIndicatorMapCustom = {
 "-------------------------------------------------------------------------------
 
 " UltiSnips
-let g:UltiSnipsUsePythonVersion = "2.7"
+let g:UltiSnipsUsePythonVersion = "3.7"
 let g:UltiSnipsExpandTrigger="<leader><tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
@@ -165,21 +165,21 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 " Clang Format
 function! ClangFormat()
   let l:lines = "all"
-  pyf /usr/share/clang/clang-format-8/clang-format.py
+  py3f /usr/share/clang/clang-format-8/clang-format.py
 endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
 " Lua Format
 function! LuaFormat()
-  pyf /usr/local/bin/lua-format.py
+  py3f /usr/local/bin/lua-format.py
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
 " Python Format
 function! PythonFormat()
-  pyf /usr/local/bin/python-format.py
+  py3f /usr/local/bin/python-format.py
 endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
@@ -190,7 +190,9 @@ autocmd BufWrite *.py call PythonFormat()
 " YouCompleteMe
 " Get type of wariable
 map <leader>t :YcmCompleter GetType<cr>
-" Preview окно
+" python
+let g:ycm_python_binary_path = '/usr/bin/python3'
+" Preview window
 let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 

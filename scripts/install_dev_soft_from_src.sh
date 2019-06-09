@@ -11,7 +11,6 @@ echo --------------------------------------------------------------------------
 
 echo Prepare for install custom deb packages
 # For vim, vifm and vimb
-# we need both versions of python
 echo Install libraries for future packages
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
@@ -22,7 +21,7 @@ apt-get install -y \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
   xz-utils \
   libwebkit2gtk-4.0-dev \
-  python2.7-dev \
+  python3.7-dev \
   libcurl4-openssl-dev \
   autoconf \
   libtinfo5
@@ -207,8 +206,8 @@ if [ ! -x "$(command -v vim)" ]; then
   ./configure --with-features=huge \
               --enable-luainterp=yes \
               --with-lua-prefix=/usr/include/lua5.3 \
-              --enable-pythoninterp=yes \
-              --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu \
+              --enable-python3interp=yes \
+              --with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu \
               --enable-rubyinterp=yes \
               --enable-perlinterp=yes \
               --enable-multibyte \
@@ -327,7 +326,7 @@ if [ ! -x "$(command -v lua-format)" ]; then
   cmake --build . -- -j4
   checkinstall -D -y \
     --pkgname=lua-format-ch \
-    --pkgversion=1.0.0 \
+    --pkgversion=1.2.0 \
     --nodoc \
     --backup=no \
     --fstrans=no \
