@@ -97,7 +97,7 @@ if [ $? -ne 0 ]; then
   rm boost_1_69_0.tar.gz
   cd boost_1_69_0
 
-  ./bootstrap.sh
+  ./bootstrap.sh --with-python=/usr/bin/python3 --with-python-root=/usr
   ./b2
   checkinstall -D -y \
     --pkgname=boost-ch \
