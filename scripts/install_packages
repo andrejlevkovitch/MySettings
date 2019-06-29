@@ -12,10 +12,12 @@ if [ $# -eq 1 ]; then
       echo 'Supported flags:'
       echo '    --min      | -m : minimal installation (compilers, programming soft)'
       echo '    --full     | -f : full installation (compilers, programming soft, qt, cross environment, virtualbox), but without settings!'
-      echo '    --qt       | -q : installation of compilers and latest qt (without programming software)'
       echo '    --cross    | -c : install cross environment'
-      echo '    --vbox     | -v : install virtualbox'
-      echo '    --settings | -s : set custom settings'
+      echo '    --qt            : installation of compilers and latest qt (without programming software)'
+      echo '    --vbox          : install virtualbox'
+      echo '    --sdl2          : install SDL2'
+      echo '    --opencv        : install OpenCV'
+      echo '    --settings      : set custom settings'
       echo '\n'
       echo 'by default --min'
       exit 0
@@ -36,14 +38,6 @@ if [ $# -eq 1 ]; then
       echo full installation
       PACKAGES="install_base_software.sh install_compilers.sh install_dev_software.sh install_qt.sh install_mxe.sh install_virtualbox.sh"
       ;;
-    --qt|-q)
-      if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
-        exit 1
-      fi
-      echo qt installation
-      PACKAGES="install_base_software.sh install_compilers.sh install_qt.sh"
-      ;;
     --cross|-c)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
@@ -52,7 +46,15 @@ if [ $# -eq 1 ]; then
       echo cross inastallation
       PACKAGES="install_mxe.sh"
       ;;
-    --vbox|-v)
+    --qt)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1
+      fi
+      echo qt installation
+      PACKAGES="install_base_software.sh install_compilers.sh install_qt.sh"
+      ;;
+    --vbox)
       if [ $EUID -ne 0 ]; then
         echo you need start it as superuser
         exit 1
@@ -60,7 +62,23 @@ if [ $# -eq 1 ]; then
       echo virtualbox installation
       PACKAGES="install_base_software.sh install_virtualbox.sh"
       ;;
-    --settings|-s)
+    --sdl2)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1
+      fi
+      echo SDL2 installation
+      PACKAGES="install_base_software.sh install_sdl2.sh"
+      ;;
+    --opencv)
+      if [ $EUID -ne 0 ]; then
+        echo you need start it as superuser
+        exit 1
+      fi
+      echo virtualbox installation
+      PACKAGES="install_base_software.sh install_opencv.sh"
+      ;;
+    --settings)
       if [ $EUID -eq 0 ]; then
         echo Do not install this as root
         exit 1

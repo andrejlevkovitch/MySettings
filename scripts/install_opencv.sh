@@ -65,12 +65,8 @@ if [ $? -ne 0 ]; then
   mkdir build
   cd build
   cmake \
-    -DBUILD_TYPE=Debug \
+    -DBUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DBUILD_NEW_PYTHON_SUPPORT=ON \
-    -DBUILD_opencv_python3=ON \
-    -DHAVE_opencv_python3=ON \
-    -DPYTHON_DEFAULT_EXECUTABLE=python3 \
     ..
   cmake --build . -- -j4
   checkinstall -D -y \
@@ -94,3 +90,10 @@ fi
 echo --------------------------------------------------------------------------
 
 cd $CUR_DIR
+
+echo Install python3 support
+pip3 install opencv-python opencv-contrib-python
+if [ $? -ne 0 ]; then
+  echo Can not install python3 support for opencv
+  exit 1
+fi

@@ -317,7 +317,6 @@ if [ ! -x "$(command -v lua-format)" ]; then
     exit 1
   fi
 
-
   unzip 1.2.0.zip
   rm 1.2.0.zip
 
@@ -345,11 +344,14 @@ fi
 echo --------------------------------------------------------------------------
 
 echo Install tool for formatting lua in vim
-git clone http://github.com/andrejlevkovitch/vim-lua-format.git
-cd vim-lua-format.git
-cp lua-format.py /usr/local/bin/
-cd ..
+git clone https://github.com/andrejlevkovitch/vim-lua-format.git
+cp vim-lua-format/lua-format.py /usr/local/bin/
 rm -rf vim-lua-format
+
+echo Install tool for formatting python in vim
+git clone https://github.com/andrejlevkovitch/vim-python-format.git
+cp vim-python-format/python-format.py /usr/local/bin/
+rm -rf vim-python-format
 
 echo Install diff tool to git
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin

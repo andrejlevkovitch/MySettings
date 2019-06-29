@@ -13,6 +13,7 @@ apt-get install -y \
   git \
   doxygen graphviz \
   python3-dev python-dev \
+  python3-pip \
   gdb \
   gdbserver \
   cppcheck \
