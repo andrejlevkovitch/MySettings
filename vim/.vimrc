@@ -223,6 +223,8 @@ nnoremap<leader>[ :YcmCompleter GoToDefinition<cr>
 
 " TagBar
 nmap <F8> :TagbarToggle<CR>
+" Fix bug with slow cursor in tagbar
+autocmd FileType tagbar setlocal nocursorline nocursorcolumn
 
 "-------------------------------------------------------------------------------
 
