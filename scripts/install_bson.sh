@@ -4,6 +4,9 @@ CUR_DIR=$(pwd)
 
 cd /tmp
 
+apt-get install -y \
+  libluajit-5.1-dev
+
 wget "https://github.com/mongodb/libbson/archive/1.9.5.tar.gz"
 tar -xzvf 1.9.5.tar.gz
 rm 1.9.5.tar.gz
