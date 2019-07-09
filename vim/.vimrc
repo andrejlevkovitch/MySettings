@@ -99,13 +99,13 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'jeaye/color_coded'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
-Plugin 'peterhoeg/vim-qml'
 Plugin 'tikhomirov/vim-glsl'
-Plugin 'othree/xml.vim'
 Plugin 'vifm/vifm.vim'
 Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'SpaceVim/vim-luacomplete'
 Plugin 'vim-python/python-syntax'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'godlygeek/tabular'
 
 call vundle#end()
 filetype plugin indent on

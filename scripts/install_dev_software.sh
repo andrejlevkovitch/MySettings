@@ -17,7 +17,8 @@ apt-get install -y \
   gdb \
   gdbserver \
   cppcheck \
-  w3m
+  w3m \
+  tree
 
 if [ $? -ne 0 ]; then
   echo soft for programming can not be installed
