@@ -26,6 +26,8 @@ if [ $? -ne 0 ]; then
 fi
 
 
+echo --------------------------------------------------------------------------
+
 echo Install docker-ce
 apt-get install -y \
   apt-transport-https \
@@ -66,6 +68,13 @@ if [ $? -ne 0 ]; then
 fi
 
 
+echo --------------------------------------------------------------------------
+
+bash $FILE_DIR/install_dev_soft_from_src.sh
+
+echo --------------------------------------------------------------------------
+
+
 # For use docker without sudo add user to docker group
 # $ sudo groupadd docker
 # $ sudo usermod -aG docker $USER
@@ -87,6 +96,4 @@ fi
 
 # And do not forget about installation plugins for Jenkins, especially Xvfb !!!!
 
-bash $FILE_DIR/install_dev_soft_from_src.sh
 
-echo --------------------------------------------------------------------------
