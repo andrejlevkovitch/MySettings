@@ -15,7 +15,31 @@ CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 
 echo --------------------------------------------------------------------------
 
-echo Install newest compilers
+echo Install gnu
+apt-get update
+apt-get upgrade -y
+
+if [ $? -ne 0 ]; then
+  echo system can not be upgraded
+  exit 1
+fi
+
+apt-get install -y \
+  gcc-$GCC_VERSION g++-$GCC_VERSION
+
+if [ $? -ne 0 ]; then
+  echo gnu can not be installed
+  exit 1
+fi
+
+echo Set alternatives for gcc
+update-alternatives --install \
+          /usr/bin/gcc             gcc              /usr/bin/gcc-$GCC_VERSION  60 \
+  --slave /usr/bin/g++             g++              /usr/bin/g++-$GCC_VERSION
+
+echo --------------------------------------------------------------------------
+
+echo Install llvm
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
 apt-get update
@@ -27,7 +51,6 @@ if [ $? -ne 0 ]; then
 fi
 
 apt-get install -y \
-  gcc-$GCC_VERSION g++-$GCC_VERSION \
   clang-$CLANG_VERSION \
   lldb-$CLANG_VERSION \
   clang-format-$CLANG_VERSION \
@@ -36,15 +59,9 @@ apt-get install -y \
   libclang-$CLANG_VERSION-dev
 
 if [ $? -ne 0 ]; then
-  echo newest compilers can not be installed
+  echo llvm can not be installed
   exit 1
 fi
-
-echo Set alternatives for gcc
-update-alternatives --install \
-          /usr/bin/gcc             gcc              /usr/bin/gcc-$GCC_VERSION  60 \
-  --slave /usr/bin/g++             g++              /usr/bin/g++-$GCC_VERSION
- 
 
 echo Set alternatives for clang
 update-alternatives --install \

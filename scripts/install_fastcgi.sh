@@ -1,4 +1,5 @@
 #!/bin/bash
+# WARN you need already installing boost!
 
 CUR_DIR=$(pwd)
 cd /tmp

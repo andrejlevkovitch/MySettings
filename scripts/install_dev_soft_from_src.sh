@@ -341,7 +341,7 @@ if [ ! -x "$(command -v lua-format)" ]; then
   fi
 
   cd ..
-  rm -rf LuaFormatter-1.2.0
+  rm -rf LuaFormatter-$LUA_FORMATTER_VERSION
 fi
 
 echo --------------------------------------------------------------------------
