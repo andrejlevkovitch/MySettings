@@ -2,6 +2,10 @@
 # Compile and install soft for developing
 # have to be run only after install_base_software.sh
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -27,7 +31,7 @@ apt-get install -y \
   libtinfo5
 
 if [ $? -ne 0 ]; then
-  echo neded packages can not be installed
+  echo -e $RED neded packages can not be installed $NC
   exit 1
 fi
 
@@ -70,7 +74,7 @@ if [ ! -x "$(command -v checkinstall)" ]; then
     if [ $? -ne 0 ]; then
       cd ..
       rm -rf checkinstall-master
-      echo checkinstall can not be installed
+      echo -e $RED checkinstall can not be installed $NC
       exit 1
     fi
     cd ..
@@ -89,7 +93,7 @@ if [ $? -ne 0 ]; then
   echo "9a2c2819310839ea373f42d69e733c339b4e9a19deab6bfec448281554aa4dbb boost_1_69_0.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm boost_1_69_0.tar.gz
-    echo boost can not be loaded
+    echo -e $RED boost can not be loaded $NC
     exit 1
   fi
 
@@ -110,7 +114,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf boost_1_69_0
-    echo boost can not be installed
+    echo -e $RED boost can not be installed $NC
     exit 1
   fi
 
@@ -126,7 +130,7 @@ if [ ! -x "$(command -v cmake)" ]; then
   echo "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f  cmake-3.14.1.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm cmake-3.14.1.tar.gz
-    echo cmake can not be loaded
+    echo -e $RED cmake can not be loaded $NC
     exit 1
   fi
 
@@ -146,7 +150,7 @@ if [ ! -x "$(command -v cmake)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf cmake-3.14.1
-    echo cmake can not be installed
+    echo -e $RED cmake can not be installed $NC
     exit 1
   fi
 
@@ -179,7 +183,7 @@ if [ ! -x "$(command -v ctags)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf ctags-master
-    echo ctags can not be installed
+    echo -e $RED ctags can not be installed $NC
     exit 1
   fi
 
@@ -195,7 +199,7 @@ if [ ! -x "$(command -v vim)" ]; then
   echo "b2bd214f9e562308af7203e3e8cfeb13327d503ab2fe23090db9c42f13ca0145  v8.1.1140.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm v8.1.1140.tar.gz
-    echo vim can not be loaded
+    echo -e $RED vim can not be loaded $NC
     exit 1
   fi
 
@@ -227,7 +231,7 @@ if [ ! -x "$(command -v vim)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vim-8.1.1140
-    echo vim can not be installed
+    echo -e $RED vim can not be installed $NC
     exit 1
   fi
 
@@ -243,7 +247,7 @@ if [ ! -x "$(command -v vifm)" ]; then
   echo "e5681c9e560e23d9deeec3b5b12e0ccad82612d9592c00407f3dd75cf5066548  v0.10.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm v0.10.tar.gz
-    echo vifm can not be loaded
+    echo -e $RED vifm can not be loaded $NC
     exit 1
   fi
 
@@ -263,7 +267,7 @@ if [ ! -x "$(command -v vifm)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vifm-0.10
-    echo vifm can not be installed
+    echo -e $RED vifm can not be installed $NC
     exit 1
   fi
 
@@ -279,7 +283,7 @@ if [ ! -x "$(command -v vimb)" ]; then
   echo "5c6fe39b1b2ca18a342bb6683f7fd5b139ead53903f57dd9eecd5a1074576d6c  3.3.0.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm 3.3.0.tar.gz
-    echo vimb can not be loaded
+    echo -e $RED vimb can not be loaded $NC
     exit 1
   fi
 
@@ -297,7 +301,7 @@ if [ ! -x "$(command -v vimb)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vimb-3.3.0
-    echo vimb can not be installed
+    echo -e $RED vimb can not be installed $NC
     exit 1
   fi
 
@@ -309,21 +313,11 @@ echo --------------------------------------------------------------------------
 
 if [ ! -x "$(command -v lua-format)" ]; then
   LUA_FORMATTER_VERSION="1.2.2"
-  LUA_SHA_256="2e53dcbfeba59255def7dfb3af2b464611758988b31c73100231b0e5f2fe1191  1.2.2.zip"
 
   echo Install lua formatter
-  wget "https://github.com/Koihik/LuaFormatter/archive/$LUA_FORMATTER_VERSION.zip"
-  echo $LUA_SHA_256 | sha256sum -c | grep -v OK
-  if [ $? -eq 0 ]; then
-    rm $LUA_FORMATTER_VERSION.zip
-    echo LuaFormatter can not be loaded
-    exit 1
-  fi
+  git clone https://github.com/andrejlevkovitch/LuaFormatter.git
 
-  unzip $LUA_FORMATTER_VERSION.zip
-  rm $LUA_FORMATTER_VERSION.zip
-
-  cd LuaFormatter-$LUA_FORMATTER_VERSION
+  cd LuaFormatter
   cmake .
   cmake --build . -- -j4
   checkinstall -D -y \
@@ -335,13 +329,13 @@ if [ ! -x "$(command -v lua-format)" ]; then
     --install=yes
   if [ $? -ne 0 ]; then
     cd ..
-    rm -rf LuaFormatter-$LUA_FORMATTER_VERSION
-    echo LuaFormatter can not be installed
+    rm -rf LuaFormatter
+    echo -e $RED LuaFormatter can not be installed $NC
     exit 1
   fi
 
   cd ..
-  rm -rf LuaFormatter-$LUA_FORMATTER_VERSION
+  rm -rf LuaFormatter
 fi
 
 echo --------------------------------------------------------------------------

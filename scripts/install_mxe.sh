@@ -1,6 +1,10 @@
 #!/bin/bash
 # Install mxe cross environment
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 
 echo --------------------------------------------------------------------------
@@ -41,7 +45,7 @@ apt-get install -y \
   xz-utils
 
 if [ $? -ne 0 ]; then
-  echo soft for MXE can not be installed
+  echo -e $RED soft for MXE can not be installed $NC
   exit 1
 fi
 
@@ -59,7 +63,7 @@ fi
 make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc cmake qt5 gdb
 
 if [ $? -ne 0 ]; then
-  echo MXE installation failed
+  echo -e $RED MXE installation failed $NC
   exit 1
 fi
 
@@ -74,7 +78,7 @@ apt-get install -y \
   wine-development
 
 if [ $? -ne 0 ]; then
-  echo wine can not be installed
+  echo -e $RED wine can not be installed $NC
   exit 1
 fi
 

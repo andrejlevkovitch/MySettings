@@ -1,6 +1,10 @@
 #!/usr/bin/bash
 # NOTE: first you have to remove libbson and lua-cbson if it is installed!
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 
 cd /tmp
@@ -28,7 +32,7 @@ checkinstall -D -y \
 if [ $? -ne 0 ]; then
   cd ../../
   rm -rf mongo-c-driver-1.14.0
-  echo mongo-c-driver can not be installed
+  echo -e $RED mongo-c-driver can not be installed $NC
   exit 1
 fi
 cd ../../
@@ -51,7 +55,7 @@ checkinstall -D -y \
 if [ $? -ne 0 ]; then
   cd ../../
   rm -rf lua-mongo
-  echo mongo-c-driver can not be installed
+  echo -e $RED mongo-c-driver can not be installed $NC
   exit 1
 fi
 cd ../../

@@ -5,6 +5,10 @@
 # TODO you need manually add qt in path in file /etc/profile or ~/.bashrc
 # PATH=/opt/qt_version/bin
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 QT_PPA="ppa:beineri/opt-qt-5.12.1-$(lsb_release -cs)"
 
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
@@ -18,7 +22,7 @@ if [ "$CUR_SYSTEM" = "ubuntu" ]; then
   apt-get install -y qt512-meta-dbg-full
 
   if [ $? -ne 0 ]; then
-    echo qt can not be installed
+    echo -e $RED qt can not be installed $NC
     exit 1
   fi
 elif [ "$CUR_SYSTEM" = "debian" ]; then
@@ -29,11 +33,11 @@ elif [ "$CUR_SYSTEM" = "debian" ]; then
   apt-get install -y qtbase5-dev
 
   if [ $? -ne 0 ]; then
-    echo qt can not be installed
+    echo -e $RED qt can not be installed $NC
     exit 1
   fi
 else
-  echo "unsupported system"
+  echo -e $RED "unsupported system" $NC
   exit 1
 fi
 

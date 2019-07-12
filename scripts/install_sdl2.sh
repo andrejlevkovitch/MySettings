@@ -1,6 +1,10 @@
 #!/bin/sh
 # Install SDL2
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 
 echo --------------------------------------------------------------------------
@@ -14,7 +18,7 @@ if [ $? -ne 0 ]; then
   echo "255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1  SDL2-2.0.9.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm SDL2-2.0.9.tar.gz
-    echo SDL2 can not be loaded
+    echo -e $RED SDL2 can not be loaded $NC
     exit 1
   fi
 
@@ -35,9 +39,9 @@ if [ $? -ne 0 ]; then
     --fstrans=no \
     --install=yes
   if [ $? -ne 0 ]; then
-    echo SDL2 can not be installed
     cd ../../
     rm SDL2-2.0.9 -rf
+    echo -e $RED SDL2 can not be installed $NC
     exit 1
   fi
   cd ../../

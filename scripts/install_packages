@@ -1,6 +1,9 @@
 #!/bin/bash
 # Avaliable for Ubuntu (16, 18) and Debian (9)
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # here all added packages
@@ -24,7 +27,7 @@ if [ $# -eq 1 ]; then
       ;;
     --min|-m)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo minimal installation
@@ -32,7 +35,7 @@ if [ $# -eq 1 ]; then
       ;;
     --full|-f)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo full installation
@@ -40,7 +43,7 @@ if [ $# -eq 1 ]; then
       ;;
     --cross|-c)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo cross inastallation
@@ -48,7 +51,7 @@ if [ $# -eq 1 ]; then
       ;;
     --qt)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo qt installation
@@ -56,7 +59,7 @@ if [ $# -eq 1 ]; then
       ;;
     --vbox)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo virtualbox installation
@@ -64,7 +67,7 @@ if [ $# -eq 1 ]; then
       ;;
     --sdl2)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo SDL2 installation
@@ -72,7 +75,7 @@ if [ $# -eq 1 ]; then
       ;;
     --opencv)
       if [ $EUID -ne 0 ]; then
-        echo you need start it as superuser
+        echo -e $RED you need start it as superuser $NC
         exit 1
       fi
       echo virtualbox installation
@@ -80,7 +83,7 @@ if [ $# -eq 1 ]; then
       ;;
     --settings)
       if [ $EUID -eq 0 ]; then
-        echo Do not install this as root
+        echo -e $RED Do not install this as root $NC
         exit 1
       fi
       echo set settings
@@ -92,11 +95,11 @@ if [ $# -eq 1 ]; then
       ;;
   esac
 elif [ $# -gt 1 ]; then
-  echo you can set only one flag
+  echo -e $RED you can set only one flag $NC
   exit 1
 else
   if [ $EUID -ne 0 ]; then
-    echo you need start it as superuser
+    echo -e $RED you need start it as superuser $NC
     exit 1
   fi
   echo full installation
@@ -106,7 +109,7 @@ fi
 for arg in $PACKAGES; do
   bash $FILE_DIR/$arg
   if [ $? -ne 0 ]; then
-    echo fail install script $arg
+    echo -e $RED fail install script $arg $NC
     exit 1
   fi
 done

@@ -3,6 +3,10 @@
 # have to be run only after install_base_software.sh
 
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # if you need other version of gcc just set it here
 GCC_VERSION=8
 
@@ -20,7 +24,7 @@ apt-get update
 apt-get upgrade -y
 
 if [ $? -ne 0 ]; then
-  echo system can not be upgraded
+  echo -e $RED system can not be upgraded $NC
   exit 1
 fi
 
@@ -28,7 +32,7 @@ apt-get install -y \
   gcc-$GCC_VERSION g++-$GCC_VERSION
 
 if [ $? -ne 0 ]; then
-  echo gnu can not be installed
+  echo -e $RED gnu can not be installed $NC
   exit 1
 fi
 
@@ -46,7 +50,7 @@ apt-get update
 apt-get upgrade -y
 
 if [ $? -ne 0 ]; then
-  echo system can not be upgraded
+  echo -e $RED system can not be upgraded $NC
   exit 1
 fi
 
@@ -59,7 +63,7 @@ apt-get install -y \
   libclang-$CLANG_VERSION-dev
 
 if [ $? -ne 0 ]; then
-  echo llvm can not be installed
+  echo -e $RED llvm can not be installed $NC
   exit 1
 fi
 

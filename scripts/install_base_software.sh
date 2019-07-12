@@ -1,6 +1,10 @@
 #!/bin/bash
 # Install additional software
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 
 echo --------------------------------------------------------------------------
@@ -17,7 +21,7 @@ elif [ "$CUR_SYSTEM" = "debian" ]; then
     apt-get dist-upgrade -y
   fi
 else
-  echo unsupported system: $CUR_SYSTEM
+  echo -e $RED unsupported system: $CUR_SYSTEM $NC
   exit 1
 fi
 
@@ -32,7 +36,7 @@ apt-get install -y \
   software-properties-common
 
 if [ $? -ne 0 ]; then
-  echo base soft can not be installed
+  echo -e $RED base soft can not be installed $NC
   exit 1
 fi
 
@@ -44,7 +48,7 @@ apt-get install -y \
   xvfb
 
 if [ $? -ne 0 ]; then
-  echo video drivers can not be installed
+  echo -e $RED video drivers can not be installed $NC
   exit 1
 fi
 
@@ -55,7 +59,7 @@ apt-get install -y \
   libpulse-dev
 
 if [ $? -ne 0 ]; then
-  echo audio drivers can not be installed
+  echo -e $RED audio drivers can not be installed $NC
   exit 1
 fi
 
@@ -69,7 +73,7 @@ apt-get install -y \
   lm-sensors
 
 if [ $? -ne 0 ]; then
-  echo additional soft can not be installed
+  echo -e $RED additional soft can not be installed $NC
   exit 1
 fi
 

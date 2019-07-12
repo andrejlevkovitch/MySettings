@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 
 cd /tmp
@@ -25,7 +29,7 @@ if [ $? -ne 0 ]; then
     --fstrans=no \
     --install=yes
   if [ $? -ne 0 ]; then
-    echo libbson can not be installed
+    echo -e $RED libbson can not be installed $NC
     exit 1
   fi
   cd ../../
@@ -48,7 +52,7 @@ if [ $? -ne 0 ]; then
     --fstrans=no \
     --install=yes
   if [ $? -ne 0 ]; then
-    echo lua-cbson can not be installed
+    echo -e $RED lua-cbson can not be installed $NC
     exit 1
   fi
   cd ../..

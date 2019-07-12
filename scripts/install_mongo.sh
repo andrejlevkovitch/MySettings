@@ -1,9 +1,13 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 apt-get install -y \
   dirmngr
 if [ $? -ne 0 ]; then
-  echo needed packages can not be installed
+  echo -e $RED needed packages can not be installed $NC
   exit 1
 fi
 
@@ -13,7 +17,7 @@ apt-get update
 apt-get install -y \
   mongodb-org
 if [ $? -ne 0 ]; then
-  echo needed packages can not be installed
+  echo -e $RED needed packages can not be installed $NC
   exit 1
 fi
 

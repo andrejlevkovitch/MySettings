@@ -2,6 +2,10 @@
 # This can be run by user without root
 # Only after install_pkgs script!
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 HOME_DIR=$HOME
@@ -24,15 +28,15 @@ fi
 vim +PluginInstall +qall
 
 if [ $? -ne 0 ]; then
-  echo vim can not load plugins
+  echo -e $RED vim can not load plugins $NC
   exit 1
 fi
 
 python3 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clang-completer
 
 if [ $? -ne 0 ]; then
-  echo YCM can not be installed
   cd $CUR_DIR
+  echo -e $RED YCM can not be installed $NC
   exit 1
 fi
 
@@ -44,8 +48,8 @@ cmake ..
 cmake --build . --target install -- -j4
 
 if [ $? -ne 0 ]; then
-  echo color_coded can not be compiled
   cd $CUR_DIR
+  echo -e $RED color_coded can not be compiled $NC
   exit 1
 fi
 cd $CUR_DIR

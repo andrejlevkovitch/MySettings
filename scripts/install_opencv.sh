@@ -1,5 +1,9 @@
 #!/usr/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CUR_DIR=$(pwd)
 
 echo --------------------------------------------------------------------------
@@ -14,7 +18,7 @@ apt-get install -y \
   libtiff-dev
 
 if [ $? -ne 0 ]; then
-  echo neded packages can not be installed
+  echo -e $RED neded packages can not be installed $NC
   exit 1
 fi
 
@@ -27,7 +31,7 @@ apt-get install -y \
   python3-matplotlib
 
 if [ $? -ne 0 ]; then
-  echo neded packages can not be installed
+  echo -e $RED neded packages can not be installed $NC
   exit 1
 fi
 
@@ -46,7 +50,7 @@ elif [ "$OPENCV_VER" = "4.1.0" ]; then
   OPENCV_SHA="2c75b129da2e2c8728d168b7bf14ceca2da0ebe938557b109bae6742855ede13"
   CONTRIB_SHA="b4013495ac6c4dd05dcad1c90b6c731b488a1d775835175327f3c20884269715"
 else
-  echo unsupported version of OpenCV: $OPENCV_VER
+  echo -e $RED unsupported version of OpenCV: $OPENCV_VER $NC
   exit 1
 fi
 dpkg -s opencv-ch
@@ -56,7 +60,7 @@ if [ $? -ne 0 ]; then
   echo "$OPENCV_SHA  $OPENCV_VER.zip" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm $OPENCV_VER.zip
-    echo opencv can not be loaded
+    echo -e $RED opencv can not be loaded $NC
     exit 1
   fi
 
@@ -69,7 +73,7 @@ if [ $? -ne 0 ]; then
   if [ $? -eq 0 ]; then
     cd ../
     rm -rf opencv-$OPENCV_VER
-    echo opencv can not be loaded
+    echo -e $RED opencv can not be loaded $NC
     exit 1
   fi
 
@@ -94,7 +98,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ../..
     rm -rf opencv-$OPENCV_VER
-    echo opencv can not be installed
+    echo -e $RED opencv can not be installed $NC
     exit 1
   fi
 
@@ -109,6 +113,6 @@ cd $CUR_DIR
 echo Install python3 support
 pip3 install opencv-python opencv-contrib-python
 if [ $? -ne 0 ]; then
-  echo Can not install python3 support for opencv
+  echo -e $RED Can not install python3 support for opencv $NC
   exit 1
 fi

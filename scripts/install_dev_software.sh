@@ -2,6 +2,10 @@
 # Install software neded for programming
 # have to be run only after install_base_software.sh
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
@@ -21,7 +25,7 @@ apt-get install -y \
   tree
 
 if [ $? -ne 0 ]; then
-  echo soft for programming can not be installed
+  echo -e $RED soft for programming can not be installed $NC
   exit 1
 fi
 
@@ -39,12 +43,12 @@ if [ "$CUR_SYSTEM" = "ubuntu" ]; then
 elif [ "$CUR_SYSTEM" = "debian" ];then
   apt-get install -y gnupg2
 else
-  echo unsupported system: $CUR_SYSTEM
+  echo -e $RED unsupported system: $CUR_SYSTEM $NC
   exit 1
 fi
 
 if [ $? -ne 0 ]; then
-  echo soft for docker can not be installed
+  echo -e $RED soft for docker can not be installed $NC
   exit 1
 fi
 
@@ -63,7 +67,7 @@ apt-get install -y \
   containerd.io
 
 if [ $? -ne 0 ]; then
-  echo docker can not be installed
+  echo -e $RED docker can not be installed $NC
   exit 1
 fi
 
