@@ -1,10 +1,8 @@
 #!/usr/bin/bash
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
+print_delim
 
 cd /tmp
 
@@ -13,6 +11,7 @@ apt-get install -y \
 
 dpkg -s libbson-ch
 if [ $? -ne 0 ]; then
+  print_info "Install libbson"
   wget "https://github.com/mongodb/libbson/archive/1.9.5.tar.gz"
   tar -xzvf 1.9.5.tar.gz
   rm 1.9.5.tar.gz
@@ -29,7 +28,7 @@ if [ $? -ne 0 ]; then
     --fstrans=no \
     --install=yes
   if [ $? -ne 0 ]; then
-    echo -e $RED libbson can not be installed $NC
+    print_info "libbson can not be installed"
     exit 1
   fi
   cd ../../
@@ -38,6 +37,7 @@ fi
 
 dpkg -s lua-bson-ch
 if [ $? -ne 0 ]; then
+  print_info "Install lua-bson"
   git clone https://github.com/isage/lua-cbson.git
   cd lua-cbson
   mkdir build
@@ -52,12 +52,13 @@ if [ $? -ne 0 ]; then
     --fstrans=no \
     --install=yes
   if [ $? -ne 0 ]; then
-    echo -e $RED lua-cbson can not be installed $NC
+    print_info "lua-cbson can not be installed"
     exit 1
   fi
   cd ../..
   rm -rf lua-cbson
 fi
 
-
 cd $CUR_DIR
+
+print_delim

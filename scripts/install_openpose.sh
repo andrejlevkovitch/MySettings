@@ -1,16 +1,12 @@
 #!/usr/bin/bash
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
+source utils.sh
 
 bash install_opencv.sh
 
-echo --------------------------------------------------------------------------
+print_delim
 
-echo install soft for Caffe
+print_info "install soft for Caffe"
 apt-get install -y \
   libprotobuf-dev \
   protobuf-compiler \
@@ -25,25 +21,25 @@ apt-get install -y \
   mesa-opencl-icd
 
 if [ $? -ne 0 ]; then
-  echo -e $RED neded packages can not be installed $NC
+  print_error "neded packages can not be installed"
   exit 1
 fi
 
 
-echo install soft for OpenPose
+print_info "install soft for OpenPose"
 apt-get install -y \
   libgoogle-glog-dev \
   ocl-icd-opencl-dev
 
 if [ $? -ne 0 ]; then
-  echo -e $RED neded packages can not be installed $NC
+  print_info "neded packages can not be installed"
   exit 1
 fi
 
 # all dowload packages will be stored in /tmp and removed after installation
 cd /tmp
 
-echo --------------------------------------------------------------------------
+print_delim
 
 # TODO OpenPose build caffe by self, so it not needed build it sepparetly
 # dpkg -s caffe-ch
@@ -83,11 +79,11 @@ echo --------------------------------------------------------------------------
 #   rm -rf caffe-1.0
 # fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 dpkg -s openpose-ch
 if [ $? -ne 0 ]; then
-  echo install OpenPose
+  print_info "install OpenPose"
   git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose.git
   cd openpose
   mkdir build
@@ -105,7 +101,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ../..
     rm -rf openpose
-    echo -e $RED OpenPose can not be installed $NC
+    print_error "OpenPose can not be installed"
     exit 1
   fi
 
@@ -113,7 +109,7 @@ if [ $? -ne 0 ]; then
   rm -rf openpose
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 # go back
 cd $CUR_DIR

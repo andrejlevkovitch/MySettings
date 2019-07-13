@@ -1,15 +1,11 @@
 #!/bin/bash
 # Install mxe cross environment
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
+print_delim
 
-echo --------------------------------------------------------------------------
-
-echo Preparing for MXE installation cross environment
+print_info "Preparing for MXE installation cross environment"
 apt-get install -y \
   autoconf \
   automake \
@@ -45,12 +41,12 @@ apt-get install -y \
   xz-utils
 
 if [ $? -ne 0 ]; then
-  echo -e $RED soft for MXE can not be installed $NC
+  print_error "soft for MXE can not be installed"
   exit 1
 fi
 
 
-echo MXE base installation
+print_info "MXE base installation"
 if [ ! -d "/opt/mxe" ]; then
   cd /opt
   git clone https://github.com/andrejlevkovitch/mxe.git
@@ -63,7 +59,7 @@ fi
 make MXE_TARGETS="x86_64-w64-mingw32.shared" MXE_PLUGIN_DIRS="plugins/gcc8" gcc cmake qt5 gdb
 
 if [ $? -ne 0 ]; then
-  echo -e $RED MXE installation failed $NC
+  print_error "MXE installation failed"
   exit 1
 fi
 
@@ -73,15 +69,15 @@ fi
 # export WINEPATH="/opt/mxe/usr/x86_64-w64-mingw32.shared/bin;/opt/mxe/usr/x86_64-w64-mingw32.shared/qt5/bin"
 # you can set this in ~/.bashrc
 
-echo Install wine
+print_info "Install wine"
 apt-get install -y \
   wine-development
 
 if [ $? -ne 0 ]; then
-  echo -e $RED wine can not be installed $NC
+  print_error "wine can not be installed"
   exit 1
 fi
 
 cd $CUR_DIR
 
-echo --------------------------------------------------------------------------
+print_delim

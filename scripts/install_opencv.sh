@@ -1,14 +1,10 @@
 #!/usr/bin/bash
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
+print_delim
 
-echo --------------------------------------------------------------------------
-
-echo install soft for OpenCV
+print_info "install soft for OpenCV"
 apt-get install -y \
   libgtk2.0-dev \
   libtbb-dev \
@@ -18,7 +14,7 @@ apt-get install -y \
   libtiff-dev
 
 if [ $? -ne 0 ]; then
-  echo -e $RED neded packages can not be installed $NC
+  print_error "neded packages can not be installed"
   exit 1
 fi
 
@@ -31,14 +27,14 @@ apt-get install -y \
   python3-matplotlib
 
 if [ $? -ne 0 ]; then
-  echo -e $RED neded packages can not be installed $NC
+  print_error "neded packages can not be installed"
   exit 1
 fi
 
 
 cd /tmp
 
-echo --------------------------------------------------------------------------
+print_delim
 
 # NOTE: caffe not build with OpenCV-4.1.0, so we use 3.4.6 version
 OPENCV_VER=4.1.0
@@ -50,17 +46,17 @@ elif [ "$OPENCV_VER" = "4.1.0" ]; then
   OPENCV_SHA="2c75b129da2e2c8728d168b7bf14ceca2da0ebe938557b109bae6742855ede13"
   CONTRIB_SHA="b4013495ac6c4dd05dcad1c90b6c731b488a1d775835175327f3c20884269715"
 else
-  echo -e $RED unsupported version of OpenCV: $OPENCV_VER $NC
+  print_error "unsupported version of OpenCV: $OPENCV_VER"
   exit 1
 fi
 dpkg -s opencv-ch
 if [ $? -ne 0 ]; then
-  echo install OpenCV
+  print_info "install OpenCV"
   wget "https://github.com/opencv/opencv/archive/$OPENCV_VER.zip"
   echo "$OPENCV_SHA  $OPENCV_VER.zip" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm $OPENCV_VER.zip
-    echo -e $RED opencv can not be loaded $NC
+    print_error "opencv can not be loaded"
     exit 1
   fi
 
@@ -73,7 +69,7 @@ if [ $? -ne 0 ]; then
   if [ $? -eq 0 ]; then
     cd ../
     rm -rf opencv-$OPENCV_VER
-    echo -e $RED opencv can not be loaded $NC
+    print_error "opencv can not be loaded"
     exit 1
   fi
 
@@ -98,7 +94,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ../..
     rm -rf opencv-$OPENCV_VER
-    echo -e $RED opencv can not be installed $NC
+    print_error "opencv can not be installed"
     exit 1
   fi
 
@@ -106,13 +102,15 @@ if [ $? -ne 0 ]; then
   rm -rf opencv-$OPENCV_VER
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 cd $CUR_DIR
 
-echo Install python3 support
+print_info "Install python3 support"
 pip3 install opencv-python opencv-contrib-python
 if [ $? -ne 0 ]; then
-  echo -e $RED Can not install python3 support for opencv $NC
+  print_error "Can not install python3 support for opencv"
   exit 1
 fi
+
+print_delim

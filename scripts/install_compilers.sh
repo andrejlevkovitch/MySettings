@@ -2,11 +2,8 @@
 # Install newest gcc and clang compilers
 # have to be run only after install_base_software.sh
 
+source utils.sh
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # if you need other version of gcc just set it here
 GCC_VERSION=8
 
@@ -15,16 +12,14 @@ CLANG_VERSION=8
 CLANG_REPO_DEB="deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 
-CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+print_delim
 
-echo --------------------------------------------------------------------------
-
-echo Install gnu
+print_info "Install gnu"
 apt-get update
 apt-get upgrade -y
 
 if [ $? -ne 0 ]; then
-  echo -e $RED system can not be upgraded $NC
+  print_error "system can not be upgraded"
   exit 1
 fi
 
@@ -32,25 +27,25 @@ apt-get install -y \
   gcc-$GCC_VERSION g++-$GCC_VERSION
 
 if [ $? -ne 0 ]; then
-  echo -e $RED gnu can not be installed $NC
+  print_error "gnu can not be installed"
   exit 1
 fi
 
-echo Set alternatives for gcc
+print_error "Set alternatives for gcc"
 update-alternatives --install \
           /usr/bin/gcc             gcc              /usr/bin/gcc-$GCC_VERSION  60 \
   --slave /usr/bin/g++             g++              /usr/bin/g++-$GCC_VERSION
 
-echo --------------------------------------------------------------------------
+print_delim
 
-echo Install llvm
+echo ${GREEN}Install llvm${NC}
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
 apt-get update
 apt-get upgrade -y
 
 if [ $? -ne 0 ]; then
-  echo -e $RED system can not be upgraded $NC
+  echo -e ${RED}system can not be upgraded${NC}
   exit 1
 fi
 
@@ -63,11 +58,11 @@ apt-get install -y \
   libclang-$CLANG_VERSION-dev
 
 if [ $? -ne 0 ]; then
-  echo -e $RED llvm can not be installed $NC
+  echo -e ${RED}llvm can not be installed${NC}
   exit 1
 fi
 
-echo Set alternatives for clang
+echo ${GREEN}Set alternatives for clang${NC}
 update-alternatives --install \
         /usr/bin/llvm-config       llvm-config      /usr/bin/llvm-config-$CLANG_VERSION  200 \
 --slave /usr/bin/llvm-ar           llvm-ar          /usr/bin/llvm-ar-$CLANG_VERSION \
@@ -104,4 +99,4 @@ update-alternatives --install\
 --slave /usr/bin/run-clang-tidy.py run-clang-tidy.py /usr/bin/run-clang-tidy-$CLANG_VERSION.py \
 --slave /usr/bin/clang-apply-replacements clang-apply-replacements /usr/bin/clang-apply-replacements-$CLANG_VERSION
 
-echo --------------------------------------------------------------------------
+print_delim

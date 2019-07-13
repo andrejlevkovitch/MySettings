@@ -1,13 +1,13 @@
 #!/bin/bash
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+print_delim
+
 apt-get install -y \
   dirmngr
 if [ $? -ne 0 ]; then
-  echo -e $RED needed packages can not be installed $NC
+  print_error "needed packages can not be installed"
   exit 1
 fi
 
@@ -17,9 +17,11 @@ apt-get update
 apt-get install -y \
   mongodb-org
 if [ $? -ne 0 ]; then
-  echo -e $RED needed packages can not be installed $NC
+  print_error "needed packages can not be installed"
   exit 1
 fi
 
 systemctl enable mongod.service
 systemctl start mongod.service
+
+print_delim

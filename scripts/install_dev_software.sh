@@ -2,17 +2,11 @@
 # Install software neded for programming
 # have to be run only after install_base_software.sh
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+print_delim
 
-CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-
-echo --------------------------------------------------------------------------
-
-echo Install software for programming
+print_info "Install software for programming"
 apt-get install -y \
   git \
   doxygen graphviz \
@@ -25,14 +19,13 @@ apt-get install -y \
   tree
 
 if [ $? -ne 0 ]; then
-  echo -e $RED soft for programming can not be installed $NC
+  print_error "soft for programming can not be installed"
   exit 1
 fi
 
+print_delim
 
-echo --------------------------------------------------------------------------
-
-echo Install docker-ce
+print_info "Install docker-ce"
 apt-get install -y \
   apt-transport-https \
   ca-certificates \
@@ -43,12 +36,12 @@ if [ "$CUR_SYSTEM" = "ubuntu" ]; then
 elif [ "$CUR_SYSTEM" = "debian" ];then
   apt-get install -y gnupg2
 else
-  echo -e $RED unsupported system: $CUR_SYSTEM $NC
+  print_error "unsupported system: $CUR_SYSTEM"
   exit 1
 fi
 
 if [ $? -ne 0 ]; then
-  echo -e $RED soft for docker can not be installed $NC
+  print_error "soft for docker can not be installed"
   exit 1
 fi
 
@@ -67,16 +60,16 @@ apt-get install -y \
   containerd.io
 
 if [ $? -ne 0 ]; then
-  echo -e $RED docker can not be installed $NC
+  print_error "docker can not be installed"
   exit 1
 fi
 
 
-echo --------------------------------------------------------------------------
+print_delim
 
 bash $FILE_DIR/install_dev_soft_from_src.sh
 
-echo --------------------------------------------------------------------------
+print_delim
 
 
 # For use docker without sudo add user to docker group
@@ -99,5 +92,3 @@ echo --------------------------------------------------------------------------
 # ufw enable
 
 # And do not forget about installation plugins for Jenkins, especially Xvfb !!!!
-
-

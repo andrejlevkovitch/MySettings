@@ -2,24 +2,20 @@
 # TODO not tests, needed qt. Better load AppImage of Tiled - this fast and simple. Just 
 # load it from official site
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
-
-echo --------------------------------------------------------------------------
+print_delim
 
 cd /tmp
 
 dpkg -s tiled-ch
 if [ $? -ne 0 ]; then
-  echo Install Tiled
+  print_info "Install Tiled"
   wget "https://github.com/bjorn/tiled/archive/v1.2.4.tar.gz"
   echo "591d9aef53a3d618fca8f8f61101f618915584c3b188595c8632d38d97352ad8  v1.2.4.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm v1.2.4.tar.gz
-    echo -e $RED Tiled can not be loaded $NC
+    print_error "Tiled can not be loaded"
     exit 1
   fi
 
@@ -40,7 +36,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ../../
     rm tiled-1.2.4 -rf
-    echo -e $RED Tiled can not be installed $NC
+    print_error "Tiled can not be installed"
     exit 1
   fi
   cd ../../
@@ -49,4 +45,4 @@ fi
 
 cd $CUR_DIR
 
-echo --------------------------------------------------------------------------
+print_delim

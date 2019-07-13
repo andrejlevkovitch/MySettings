@@ -2,20 +2,13 @@
 # Compile and install soft for developing
 # have to be run only after install_base_software.sh
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
+source utils.sh
 
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-CUR_DIR=$(pwd)
-FILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+print_delim
 
-CUR_SYSTEM=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
-
-echo --------------------------------------------------------------------------
-
-echo Prepare for install custom deb packages
+print_info "Prepare for install custom deb packages"
 # For vim, vifm and vimb
-echo Install libraries for future packages
+print_info "Install libraries for future packages"
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
   libcairo2-dev \
@@ -31,11 +24,11 @@ apt-get install -y \
   libtinfo5
 
 if [ $? -ne 0 ]; then
-  echo -e $RED neded packages can not be installed $NC
+  print_error "neded packages can not be installed"
   exit 1
 fi
 
-echo Add links for lua
+print_info "Add links for lua"
 LUA_DIR=/usr/include/lua5.3
 if [ ! -d $LUA_DIR/lib ]; then
   mkdir $LUA_DIR/lib
@@ -49,11 +42,10 @@ ln -sf $LUA_DIR                               $LUA_DIR/include
 cd /tmp
 
 
-# all packages have -ch at the end. It points that it from checkinstall
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v checkinstall)" ]; then
-  echo Install checkinstall
+  print_info "Install checkinstall"
   if [ "$CUR_SYSTEM" = "debian" ]; then
     # because buster not have checkinstall
     apt-get install -y gettext
@@ -62,7 +54,7 @@ if [ ! -x "$(command -v checkinstall)" ]; then
     unzip master.zip
     rm master.zip
     cd checkinstall-master
-    make
+    make -j4
     make install
     checkinstall -D -y \
       --pkgname=checkinstall-ch \
@@ -74,7 +66,7 @@ if [ ! -x "$(command -v checkinstall)" ]; then
     if [ $? -ne 0 ]; then
       cd ..
       rm -rf checkinstall-master
-      echo -e $RED checkinstall can not be installed $NC
+      print_error "checkinstall can not be installed"
       exit 1
     fi
     cd ..
@@ -84,16 +76,16 @@ if [ ! -x "$(command -v checkinstall)" ]; then
   fi
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 dpkg -s boost-ch
 if [ $? -ne 0 ]; then
-  echo Install boost
+  print_info "Install boost"
   wget "https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz"
   echo "9a2c2819310839ea373f42d69e733c339b4e9a19deab6bfec448281554aa4dbb boost_1_69_0.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm boost_1_69_0.tar.gz
-    echo -e $RED boost can not be loaded $NC
+    print_error "boost can not be loaded"
     exit 1
   fi
 
@@ -114,7 +106,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf boost_1_69_0
-    echo -e $RED boost can not be installed $NC
+    print_error "boost can not be installed"
     exit 1
   fi
 
@@ -122,15 +114,15 @@ if [ $? -ne 0 ]; then
   rm -rf boost_1_69_0
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v cmake)" ]; then
-  echo Install cmake
+  print_info "Install cmake"
   wget "https://github.com/Kitware/CMake/releases/download/v3.14.1/cmake-3.14.1.tar.gz"
   echo "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f  cmake-3.14.1.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm cmake-3.14.1.tar.gz
-    echo -e $RED cmake can not be loaded $NC
+    print_error "cmake can not be loaded"
     exit 1
   fi
 
@@ -150,7 +142,7 @@ if [ ! -x "$(command -v cmake)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf cmake-3.14.1
-    echo -e $RED cmake can not be installed $NC
+    print_error "cmake can not be installed"
     exit 1
   fi
 
@@ -158,11 +150,11 @@ if [ ! -x "$(command -v cmake)" ]; then
   rm -rf cmake-3.14.1
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 # need for vim (tagbar)
 if [ ! -x "$(command -v ctags)" ]; then
-  echo Install universal ctags
+  print_info "Install universal ctags"
   wget "https://github.com/universal-ctags/ctags/archive/master.zip"
 
   unzip master.zip
@@ -183,7 +175,7 @@ if [ ! -x "$(command -v ctags)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf ctags-master
-    echo -e $RED ctags can not be installed $NC
+    print_error "ctags can not be installed"
     exit 1
   fi
 
@@ -191,15 +183,15 @@ if [ ! -x "$(command -v ctags)" ]; then
   rm -rf ctags-master
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v vim)" ]; then
-  echo Install vim
+  print_info "Install vim"
   wget "https://github.com/vim/vim/archive/v8.1.1140.tar.gz"
   echo "b2bd214f9e562308af7203e3e8cfeb13327d503ab2fe23090db9c42f13ca0145  v8.1.1140.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm v8.1.1140.tar.gz
-    echo -e $RED vim can not be loaded $NC
+    print_error "vim can not be loaded"
     exit 1
   fi
 
@@ -231,7 +223,7 @@ if [ ! -x "$(command -v vim)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vim-8.1.1140
-    echo -e $RED vim can not be installed $NC
+    print_error "vim can not be installed"
     exit 1
   fi
 
@@ -239,15 +231,15 @@ if [ ! -x "$(command -v vim)" ]; then
   rm -rf vim-8.1.1140
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v vifm)" ]; then
-  echo Install vifm
+  print_info "Install vifm"
   wget "https://github.com/vifm/vifm/archive/v0.10.tar.gz"
   echo "e5681c9e560e23d9deeec3b5b12e0ccad82612d9592c00407f3dd75cf5066548  v0.10.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm v0.10.tar.gz
-    echo -e $RED vifm can not be loaded $NC
+    print_error "vifm can not be loaded"
     exit 1
   fi
 
@@ -267,7 +259,7 @@ if [ ! -x "$(command -v vifm)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vifm-0.10
-    echo -e $RED vifm can not be installed $NC
+    print_error "vifm can not be installed"
     exit 1
   fi
 
@@ -275,15 +267,15 @@ if [ ! -x "$(command -v vifm)" ]; then
   rm -rf vifm-0.10
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v vimb)" ]; then
-  echo Install vimb
+  print_info "Install vimb"
   wget "https://github.com/fanglingsu/vimb/archive/3.3.0.tar.gz"
   echo "5c6fe39b1b2ca18a342bb6683f7fd5b139ead53903f57dd9eecd5a1074576d6c  3.3.0.tar.gz" | sha256sum -c | grep -v OK
   if [ $? -eq 0 ]; then
     rm 3.3.0.tar.gz
-    echo -e $RED vimb can not be loaded $NC
+    print_error "vimb can not be loaded"
     exit 1
   fi
 
@@ -301,7 +293,7 @@ if [ ! -x "$(command -v vimb)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf vimb-3.3.0
-    echo -e $RED vimb can not be installed $NC
+    print_error "vimb can not be installed"
     exit 1
   fi
 
@@ -309,12 +301,12 @@ if [ ! -x "$(command -v vimb)" ]; then
   rm -rf vimb-3.3.0
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
 if [ ! -x "$(command -v lua-format)" ]; then
   LUA_FORMATTER_VERSION="1.2.2"
 
-  echo Install lua formatter
+  print_info "Install lua formatter"
   git clone https://github.com/andrejlevkovitch/LuaFormatter.git
 
   cd LuaFormatter
@@ -330,7 +322,7 @@ if [ ! -x "$(command -v lua-format)" ]; then
   if [ $? -ne 0 ]; then
     cd ..
     rm -rf LuaFormatter
-    echo -e $RED LuaFormatter can not be installed $NC
+    print_error "LuaFormatter can not be installed"
     exit 1
   fi
 
@@ -338,28 +330,28 @@ if [ ! -x "$(command -v lua-format)" ]; then
   rm -rf LuaFormatter
 fi
 
-echo --------------------------------------------------------------------------
+print_delim
 
-echo Install tool for formatting lua in vim
+print_info "Install tool for formatting lua in vim"
 git clone https://github.com/andrejlevkovitch/vim-lua-format.git
 cp vim-lua-format/lua-format.py /usr/local/bin/
 rm -rf vim-lua-format
 
-echo Install tool for formatting python in vim
+print_info "Install tool for formatting python in vim"
 git clone https://github.com/andrejlevkovitch/vim-python-format.git
 cp vim-python-format/python-format.py /usr/local/bin/
 rm -rf vim-python-format
 
-echo Install diff tool to git
+print_info "Install diff tool to git"
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
 
-echo Set vim as default editor
+print_info "Set vim as default editor"
 update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
 update-alternatives --set editor /usr/local/bin/vim
 update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1
 update-alternatives --set vi /usr/local/bin/vim
 
-echo --------------------------------------------------------------------------
+print_delim
 
 # go back
 cd $CUR_DIR
