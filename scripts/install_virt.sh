@@ -5,7 +5,15 @@ apt-get install -y \
   qemu-kvm \
   libvirt-clients libvirt-daemon-system \
   virtinst \
-  virt-manager
+  virt-manager \
+  libguestfs-tools
 
 virsh net-autostart default
 virsh net-start default
+
+# Also you need manually add user to groups
+# - sudo adduser username libvirt
+# - sudo adduser username libvirt-qemu
+
+# After clonning some image for change ip you need start
+# - sudo virt-sysprep -d my_image_name
