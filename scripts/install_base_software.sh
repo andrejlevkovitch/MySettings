@@ -22,7 +22,7 @@ else
 fi
 
 
-print_info "ugrade system before installation"
+print_info "upgrade system before installation"
 apt-get update
 apt-get -y upgrade
 

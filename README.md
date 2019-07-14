@@ -34,6 +34,17 @@ Also you have to check firmware by:
   - `sudo dmesg`
 
 
+If after installation all needed packages you get "passible missing firmware",
+then you can install it manually from linux-frimware repo:
+  - `git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git`
+
+
+### Release
+If you have testing buster, then you need manually change repositories. In
+security you have to set `testing-security` insted `buster/security`, and change
+buster to stable.
+
+
 ### Time
 
 For reconfigure time you need:

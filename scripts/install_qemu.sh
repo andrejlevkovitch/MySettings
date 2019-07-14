@@ -15,9 +15,6 @@ print_delim
 
 cd /tmp
 
-apt-get install -y \
-  bridge-utils
-
 if [ ! -x "$(command -v qemu-img)" ]; then
   print_info "Install qemu"
   wget $LINK/$ARCHIVE
