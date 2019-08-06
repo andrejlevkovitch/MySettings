@@ -79,9 +79,12 @@ if [ $? -ne 0 ]; then
   mkdir build
   cd build
   cmake \
+    -DCMAKE_C_COMPILER=gcc-7 \
+    -DCMAKE_CXX_COMPILER=g++-7 \
     -DBUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-$OPENCV_VER/modules \
+    -DWITH_CUDA=ON \
     ..
   cmake --build . -- -j4
   checkinstall -D -y \
