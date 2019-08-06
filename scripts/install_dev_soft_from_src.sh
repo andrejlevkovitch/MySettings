@@ -12,7 +12,7 @@ print_info "Install libraries for future packages"
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
   libcairo2-dev \
-  liblua5.3-0 liblua5.3-dev \
+  liblua5.1-0 liblua5.1-dev \
   libperl-dev \
   ruby-dev \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
@@ -29,12 +29,12 @@ if [ $? -ne 0 ]; then
 fi
 
 print_info "Add links for lua"
-LUA_DIR=/usr/include/lua5.3
+LUA_DIR=/usr/include/lua5.1
 if [ ! -d $LUA_DIR/lib ]; then
   mkdir $LUA_DIR/lib
 fi
-ln -sf /usr/lib/x86_64-linux-gnu/liblua5.3.so $LUA_DIR/lib/liblua.so
-ln -sf /usr/lib/x86_64-linux-gnu/liblua5.3.a  $LUA_DIR/lib/liblua.a
+ln -sf /usr/lib/x86_64-linux-gnu/liblua5.1.so $LUA_DIR/lib/liblua.so
+ln -sf /usr/lib/x86_64-linux-gnu/liblua5.1.a  $LUA_DIR/lib/liblua.a
 ln -sf $LUA_DIR                               $LUA_DIR/include
 
 
@@ -201,7 +201,7 @@ if [ ! -x "$(command -v vim)" ]; then
 
   ./configure --with-features=huge \
               --enable-luainterp=yes \
-              --with-lua-prefix=/usr/include/lua5.3 \
+              --with-lua-prefix=/usr/include/lua5.1 \
               --enable-python3interp=yes \
               --with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu \
               --enable-rubyinterp=yes \
