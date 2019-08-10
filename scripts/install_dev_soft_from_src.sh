@@ -341,6 +341,8 @@ print_info "Install tool for formatting python in vim"
 git clone https://github.com/andrejlevkovitch/vim-python-format.git
 cp vim-python-format/python-format.py /usr/local/bin/
 rm -rf vim-python-format
+pip3 install yapf
+# TODO you also have to add yapf to PATH if it was installed to .local dir
 
 print_info "Install diff tool to git"
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
