@@ -5,13 +5,16 @@ source utils.sh
 print_delim
 
 print_info "install soft for OpenCV"
+# you need install also compilers, because cuda not support compilers above
+# 7 version
 apt-get install -y \
   libgtk2.0-dev \
   libtbb-dev \
   zlib1g-dev \
   libpng-dev \
   libjpeg-dev \
-  libtiff-dev
+  libtiff-dev \
+  gcc-7 g++-7
 
 if [ $? -ne 0 ]; then
   print_error "neded packages can not be installed"
@@ -78,6 +81,9 @@ if [ $? -ne 0 ]; then
 
   mkdir build
   cd build
+  # Note! In cuda10 nvidia-video-codec was be deprecated, so you need option
+  # BUILD_opencv_cudacodec=OFF. If cuda version less then 10, then you can not
+  # set this (by default ON)
   cmake \
     -DCMAKE_C_COMPILER=gcc-7 \
     -DCMAKE_CXX_COMPILER=g++-7 \
@@ -85,6 +91,9 @@ if [ $? -ne 0 ]; then
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-$OPENCV_VER/modules \
     -DWITH_CUDA=ON \
+    -DBUILD_opencv_cudacodec=OFF \
+    -DWITH_OPENCL=ON \
+    -DOPENCL_DNN_OPENCL=ON \
     ..
   cmake --build . -- -j4
   checkinstall -D -y \

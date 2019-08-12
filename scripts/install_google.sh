@@ -64,7 +64,7 @@ if [ $? -ne 0 ]; then
   cmake ..
   cmake --build . -- -j4
   checkinstall -D -y \
-    --pkgname=gfags-ch \
+    --pkgname=gflags-ch \
     --pkgversion=2.2.2 \
     --nodoc \
     --backup=no \
@@ -72,13 +72,13 @@ if [ $? -ne 0 ]; then
     --install=yes
   if [ $? -ne 0 ]; then
     cd /tmp
-    rm -rf gfags-2.2.2
+    rm -rf gflags-2.2.2
     print_error "gflags can not be installed"
     exit 1
   fi
 
   cd /tmp
-  rm -rf gfags-2.2.2
+  rm -rf gflags-2.2.2
 fi
 
 print_delim
