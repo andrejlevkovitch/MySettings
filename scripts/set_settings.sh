@@ -8,13 +8,8 @@ print_delim
 
 print_info "Downloads vim plugins"
 cp $FILE_DIR/../vim/.vimrc $HOME_DIR/
-cp $FILE_DIR/../vim/.ycm_extra_conf.py $HOME_DIR/
-cp $FILE_DIR/../vim/.color_coded $HOME_DIR/
 if [ ! -d $HOME_DIR/.vim ]; then
   mkdir $HOME_DIR/.vim
-  mkdir $HOME_DIR/.vim/bundle
-fi
-if [ ! -d $HOME_DIR/.vim/bundle ]; then
   mkdir $HOME_DIR/.vim/bundle
 fi
 if [ ! -d $HOME_DIR/.vim/bundle/Vundle.vim ]; then
@@ -53,6 +48,8 @@ cd $CUR_DIR
 print_info "Install needed config files for vim"
 cp $FILE_DIR/../vim/UltiSnips $HOME_DIR/.vim/ -rf
 cp $FILE_DIR/../vim/color_coded.vim $HOME_DIR/.vim/bundle/color_coded/after/syntax
+cp $FILE_DIR/../vim/.ycm_extra_conf.py $HOME_DIR/.vim/
+cp $FILE_DIR/../vim/.color_coded $HOME_DIR/
 
 print_info "Install vimb config"
 if [ ! -d $HOME_DIR/.config/vimb ]; then
