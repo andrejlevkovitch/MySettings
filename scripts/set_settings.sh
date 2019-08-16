@@ -8,6 +8,8 @@ print_delim
 
 print_info "Downloads vim plugins"
 cp $FILE_DIR/../vim/.vimrc $HOME_DIR/
+cp $FILE_DIR/../vim/.ycm_extra_conf.py $HOME_DIR/
+cp $FILE_DIR/../vim/.color_coded $HOME_DIR/
 if [ ! -d $HOME_DIR/.vim ]; then
   mkdir $HOME_DIR/.vim
   mkdir $HOME_DIR/.vim/bundle

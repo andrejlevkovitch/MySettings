@@ -236,6 +236,8 @@ autocmd BufWinEnter *.glsl setfiletype glsl
 " Color-coded
 let g:color_coded_filetypes = ['c', 'cpp']
 
+"-------------------------------------------------------------------------------
+
 " python-syntax
 let g:python_highlight_all = 1
 autocmd FileType python set shiftwidth=2
