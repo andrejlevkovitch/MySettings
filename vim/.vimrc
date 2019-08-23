@@ -188,8 +188,6 @@ autocmd BufWrite *.py call PythonFormat()
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
-" default settings
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 " Get type of wariable
 map <leader>t :YcmCompleter GetType<cr>
 " python
