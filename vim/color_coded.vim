@@ -2,9 +2,10 @@
 " Maintainer: Jeaye <contact@jeaye.com>
 
 " LightStell color
-hi default Member ctermfg=147 guifg=#afafff
-hi default Variable ctermfg=white guifg=white
-hi default EnumConstant ctermfg=DarkGreen guifg=DarkGreen
+hi default Member cterm=NONE ctermfg=147
+hi default Variable cterm=NONE ctermfg=white
+hi default EnumConstant cterm=NONE ctermfg=DarkGreen
+hi default Namespace cterm=bold ctermfg=46
 
 hi link StructDecl Type
 hi link UnionDecl Type
@@ -26,7 +27,7 @@ hi link ObjCImplementationDecl Normal
 hi link ObjCCategoryImplDecl Normal
 hi link TypedefDecl Type
 hi link CXXMethod Member
-hi link Namespace ModeMsg
+hi link Namespace Namespace
 hi link LinkageSpec Normal
 hi link Constructor Function
 hi link Destructor Function
@@ -37,7 +38,7 @@ hi link TemplateTemplateParameter Type
 hi link FunctionTemplate Function
 hi link ClassTemplate Type
 hi link ClassTemplatePartialSpecialization Type
-hi link NamespaceAlias ModeMsg
+hi link NamespaceAlias Namespace
 hi link UsingDirective Type
 hi link UsingDeclaration Type
 hi link TypeAliasDecl Type
