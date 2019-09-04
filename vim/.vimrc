@@ -94,7 +94,6 @@ filetype plugin indent on
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'SirVer/ultisnips'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'jeaye/color_coded'
 Plugin 'rdnetto/YCM-Generator'
@@ -150,15 +149,6 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '☒',
     \ "Unknown"   : "?"
     \ }
-
-"-------------------------------------------------------------------------------
-
-" UltiSnips
-let g:UltiSnipsUsePythonVersion = "3.7"
-let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 
 "-------------------------------------------------------------------------------
 
