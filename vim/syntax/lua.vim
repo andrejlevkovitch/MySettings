@@ -56,7 +56,7 @@ syntax keyword luaCommentTodo contained TODO FIXME XXX TBD
 syntax match   luaComment "--.*$" contains=luaCommentTodo,luaDocTag,@Spell
 call s:FoldableRegion('comment', 'luaCommentLong',
       \ 'matchgroup=luaCommentLongTag start="--\[\z(=*\)\[" end="\]\z1\]" contains=luaCommentTodo,luaDocTag,@Spell')
-syntax match   luaDocTag contained "\s@\k\+"
+syntax match   luaDocTag contained "@\(module\|classmod\|submodule\|script\|author\|copyright\|license\|release\|function\|lfunction\|param\|return\|raise\|local\|see\|usage\|table\|field\|section\|type\|within\|fixme\|todo\|warning\)"
 
 " Function calls
 syntax match luaFuncCall /\k\+\%(\s*[{('"]\)\@=/

@@ -7,3 +7,7 @@ http://docs.gl/	docs.gl	gl
 https://www.lua.org/manual/5.1/	Lua 5.1 Reference Manual - contents	lua
 https://paulradzkov.com/2014/markdown_cheatsheet/	Краткое руководство по Маркдауну	markdown
 https://docs.opencv.org/master/index.html	OpenCV: OpenCV modules	opencv
+https://clang.llvm.org/doxygen/modules.html	clang: Modules	clang
+https://llvm.org/doxygen/modules.html	LLVM: Modules	llvm
+http://www.doxygen.nl/manual/commands.html	Doxygen Manual: Special Commands	doxygen
+https://stevedonovan.github.io/ldoc/manual/doc.md.html	LDoc documentation	ldoc

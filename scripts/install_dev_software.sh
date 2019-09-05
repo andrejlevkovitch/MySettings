@@ -10,6 +10,7 @@ print_info "Install software for programming"
 apt-get install -y \
   git \
   doxygen graphviz \
+  lua-ldoc\
   python3-dev python-dev \
   python3-pip \
   gdb \

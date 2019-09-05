@@ -229,17 +229,18 @@ if exists("c_comment_strings")
     syn region cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cCommentString,cCharacter,cNumbersCom,cSpaceError,@Spell fold extend
   endif
 else
-  syn region	cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup,cSpaceError,@Spell
+  syn region	cCommentL	start="//" skip="\\$" end="$" keepend contains=@cCommentGroup,cSpaceError,cDocTag,@Spell
   if exists("c_no_comment_fold")
-    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,@Spell extend
+    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,cDocTag,@Spell extend
   else
-    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,@Spell fold extend
+    syn region	cComment	matchgroup=cCommentStart start="/\*" end="\*/" contains=@cCommentGroup,cCommentStartError,cSpaceError,cDocTag,@Spell fold extend
   endif
 endif
 " keep a // comment separately, it terminates a preproc. conditional
 syn match	cCommentError	display "\*/"
 syn match	cCommentStartError display "/\*"me=e-1 contained
 syn match	cWrongComTail	display "\*/"
+syntax match cDocTag contained "\(@\|\\\)\(addindex\|addtogroup\|anchor\|arg\|attention\|authors\|author\|brief\|bug\|callegraph\|callgraph\|category\|cite\|class\|code\|cond\|copybrief\|copydetails\|copydoc\|copyright\|data\|defgroup\|deprecated\|details\|diafile\|dir\|docbookonly\|dontinclude\|dot\|dotfile\|elseif\|else\|emoji\|em\|endcode\|endcond\|enddocbookonly\|enddot\|endhtmlonly\|endif\|endinternal\|endlatexonly\|endlink\|endmanonly\|endmsc\|endparblock\|endrtfonly\|endsecreflist\|endverbatim\|enduml\|endxmlonly\|enum\|example\|exception\|extends\|f$\|f[\|f]\|f{\|f}\|file\|fn\|headerfile\|hidecallergraph\|hidecallgraph\|hiderefby\|hiderefs\|hideinitializer\|htmlinclude\|htmlonly\|idlexcept\|ifnot\|if\|image\|implements\|includedoc\|includelineno\|include\|ingroup\|internal\|invariant\|interface\|latexinclude\|latexonly\|line\|link\|li\|mainpage\|manonly\|memberof\|mscfile\|msc\|namespace\|name\|nosubgrouping\|note\|overload\|package\|page\|paragraph\|param\|parblock\|par\|post\|pre\|privatesection\|private\|property\|protectedsection\|protected\|protocol\|publicsection\|public\|pure\|refitem\|ref\|relatedalso\|related\|relatesalso\|relates\|remarks\|remark\|result\|returns\|return\|retval\|rtfonly\|sa\|secreflist\|section\|see\|short\|showinitializer\|showrefby\|showrefs\|since\|skipline\|skip\|snippetdoc\|snippetlineno\|snippet\|startuml\|struct\|subpage\|subsection\|subsubsection\|tableofcontents\|test\|throws\|throw\|todo\|tparam\|typedef\|union\|until\|var\|verbatim\|verbinclude\|version\|vhdlflow\|warning\|weakgroup\|xmlonly\|xrefitem\|$\|@\|\\\|&\|\~\|<\|=\|>\|#\|%\|\"\|\.\|\::\||\|--\|---\|a\|b\|c\|e\|n\|p\)"
 
 syn keyword	cOperator	sizeof
 if exists("c_gnu")
@@ -503,6 +504,7 @@ hi def link cCppOutSkip		cCppOutIf2
 hi def link cCppInElse2		cCppOutIf2
 hi def link cCppOutIf2		cCppOut
 hi def link cCppOut		Comment
+hi def link cDocTag   Underlined
 
 let b:current_syntax = "c"
 
