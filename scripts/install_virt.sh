@@ -17,3 +17,5 @@ virsh net-start default
 
 # After clonning some image for change ip you need start
 # - sudo virt-sysprep -d my_image_name
+# Also you need reconfigure ssh server after cloning
+# - sudo dpkg-reconfigure openssh-server

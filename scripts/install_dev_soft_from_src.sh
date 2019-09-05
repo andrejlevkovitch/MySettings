@@ -347,6 +347,9 @@ pip3 install yapf
 print_info "Install diff tool to git"
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
 
+print_info "copy syntax files for vim"
+cp -f $FILE_DIR/../vim/syntax/* /usr/local/share/vim/vim81/syntax/
+
 print_info "Set vim as default editor"
 update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
 update-alternatives --set editor /usr/local/bin/vim
