@@ -91,3 +91,11 @@ And start command: `sudo ifup enp0s8`.
 
 2. for connect to hdmi back:
   - `sudo ./LCD-hdmi`
+
+## Create bootable usb stick
+
+as root:
+```sh
+umount /dev/sdb1
+cat image.iso > /dev/sdb; sync
+```
