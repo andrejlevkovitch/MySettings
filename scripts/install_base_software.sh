@@ -29,7 +29,8 @@ apt-get -y upgrade
 print_info "install base soft"
 apt-get install -y \
   wget \
-  software-properties-common
+  software-properties-common \
+  pkg-config
 
 if [ $? -ne 0 ]; then
   print_error "base soft can not be installed"

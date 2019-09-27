@@ -10,7 +10,8 @@ cd /tmp
 apt-get install -y \
   autoconf automake \
   libxml2 libxml2-dev \
-  libfcgi0ldbl libfcgi-dev
+  libfcgi0ldbl libfcgi-dev \
+  pkg-config
 
 dpkg -s fastcgi-ch
 if [ $? -ne 0 ]; then
