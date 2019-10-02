@@ -31,6 +31,9 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# NOTE: color_coded must be compiled with save version of lua with witch
+# compiled vim. BUT! if you have several versions of lua can be founded not
+# needed version. So be careful. In this case you will get SEGMENTATION FAULT
 if [ ! -d $HOME_DIR/.vim/bundle/color_coded/build ]; then
   mkdir $HOME_DIR/.vim/bundle/color_coded/build
 fi

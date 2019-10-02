@@ -12,7 +12,7 @@ print_info "Install libraries for future packages"
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
   libcairo2-dev \
-  liblua5.1-0 liblua5.1-dev \
+  liblua5.1-0 liblua5.1-0-dev \
   libperl-dev \
   ruby-dev \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
