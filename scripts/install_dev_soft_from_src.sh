@@ -344,6 +344,9 @@ rm -rf vim-python-format
 pip3 install yapf
 # TODO you also have to add yapf to PATH if it was installed to .local dir
 
+print_info "Install tool for formatting json in vim"
+cp $FILE_DIR/../tools/json-format.py /usr/local/bin
+
 print_info "Install diff tool to git"
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
 

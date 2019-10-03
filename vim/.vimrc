@@ -174,6 +174,12 @@ endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
 
+" Json Format (just use python format
+function! JsonFormat()
+  py3f /usr/local/bin/json-format.py
+endfunction
+autocmd FileType json nnoremap <buffer> <c-k> :call JsonFormat()<cr>
+autocmd BufWrite *.json call JsonFormat()
 
 "-------------------------------------------------------------------------------
 
