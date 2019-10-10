@@ -5,27 +5,29 @@ source utils.sh
 
 print_delim
 
-print_info "install soft for Caffe"
+PACKAGE=caffe
+VERSION=1.0.0
+DOWNLOAD_LINK="https://github.com/andrejlevkovitch/caffe.git"
+OUT_DIR=$TMP_DIR/caffe
+
+print_info "install soft for $PACKAGE"
 apt-get install -y \
   libopenblas-dev
 
 if [ $? -ne 0 ]; then
-  print_error "neded packages can not be installed"
+  print_error "needed packages can not be installed"
   exit 1
 fi
 
 
-cd /tmp
-
 print_delim
 
-dpkg -s caffe-ch
+check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  git clone https://github.com/andrejlevkovitch/caffe.git
+  git clone $DOWNLOAD_LINK $OUT_DIR
 
-  cd caffe
-  mkdir build
-  cd build
+  mkdir $OUT_DIR/build
+  cd $OUT_DIR/build
   cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
@@ -35,27 +37,19 @@ if [ $? -ne 0 ]; then
     -DUSE_CUDNN=ON \
     -DBLAS=Open \
     -DBUILD_python=OFF \
-    ..
+    $OUT_DIR
   cmake --build . -- -j4
-  checkinstall -D -y \
-    --pkgname=caffe-ch \
-    --pkgversion=1.0.0 \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
 
+  ch_install $PACKAGE $VERSION
   if [ $? -ne 0 ]; then
-    cd /tmp
-    rm -rf caffe
-    print_error "caffe can not be installed"
+    cd $CUR_DIR
+    rm -rf $OUT_DIR
+    print_error "$PACKAGE can not be installed"
     exit 1
   fi
 
-  cd /tmp
-  rm -rf caffe
+  cd $CUR_DIR
+  rm -rf $OUT_DIR
 fi
-
-cd $CUR_DIR
 
 print_delim

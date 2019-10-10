@@ -35,52 +35,46 @@ if [ $? -ne 0 ]; then
 fi
 
 
-cd /tmp
-
 print_delim
 
-# NOTE: caffe not build with OpenCV-4.1.0, so we use 3.4.6 version
+PACKAGE=opencv
 OPENCV_VER=4.1.0
-OPENCV_SHA=""
-if [ "$OPENCV_VER" = "3.4.6" ]; then
-  OPENCV_SHA="ca2dbe3008471b059d9f32a176ef2195eaa8a4b357ef1afaa5bfd255d501d2ec"
-  CONTRIB_SHA="8987437291c328271a0929f1a7af7f5029126a2080020b30324d131e1b59c19f  3.4.6.zip"
-elif [ "$OPENCV_VER" = "4.1.0" ]; then
-  OPENCV_SHA="2c75b129da2e2c8728d168b7bf14ceca2da0ebe938557b109bae6742855ede13"
-  CONTRIB_SHA="b4013495ac6c4dd05dcad1c90b6c731b488a1d775835175327f3c20884269715"
-else
-  print_error "unsupported version of OpenCV: $OPENCV_VER"
-  exit 1
-fi
-dpkg -s opencv-ch
+OPENCV_LINK="https://github.com/opencv/opencv/archive/$OPENCV_VER.tar.gz"
+OPENCV_SHA="8f6e4ab393d81d72caae6e78bd0fd6956117ec9f006fba55fcdb88caf62989b7"
+CONTRIB_LINK="https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.tar.gz"
+CONTRIB_SHA="e7d775cc0b87b04308823ca518b11b34cc12907a59af4ccdaf64419c1ba5e682"
+
+OPENCV_ARCHIVE=$TMP_DIR/opecv_archive
+OPENCV_DIR=$TMP_DIR/opencv_dir
+CONTRIB_ARCHIVE=$TMP_DIR/contrib_archive
+CONTRIB_DIR=$TMP_DIR/contrib_dir
+
+check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "install OpenCV"
-  wget "https://github.com/opencv/opencv/archive/$OPENCV_VER.zip"
-  echo "$OPENCV_SHA  $OPENCV_VER.zip" | sha256sum -c | grep -v OK
-  if [ $? -eq 0 ]; then
-    rm $OPENCV_VER.zip
-    print_error "opencv can not be loaded"
+  print_info "load $PACKAGE"
+
+  package_loader $OPENCV_LINK $OPENCV_ARCHIVE $OPENCV_SHA
+  if [ $? -ne 0 ]; then
+    print_error "$PACKAGE can not be loaded"
+    exit 1
+  fi
+  package_loader $CONTRIB_LINK $CONTRIB_ARCHIVE $CONTRIB_SHA
+  if [ $? -ne 0 ]; then
+    rm $OPENCV_ARCHIVE
+    print_error "contrib can not be loaded"
     exit 1
   fi
 
-  unzip $OPENCV_VER.zip
-  rm $OPENCV_VER.zip
-  cd opencv-$OPENCV_VER
+  mkdir $OPENCV_DIR
+  mkdir $CONTRIB_DIR
+  tar -xzvf $OPENCV_ARCHIVE --directory $OPENCV_DIR --strip-components=1
+  tar -xzvf $CONTRIB_ARCHIVE --directory $CONTRIB_DIR --strip-components=1
+  rm $OPENCV_ARCHIVE
+  rm $CONTRIB_ARCHIVE
 
-  wget "https://github.com/opencv/opencv_contrib/archive/$OPENCV_VER.zip"
-  echo "$CONTRIB_SHA  $OPENCV_VER.zip" | sha256sum -c | grep -v OK
-  if [ $? -eq 0 ]; then
-    cd ../
-    rm -rf opencv-$OPENCV_VER
-    print_error "opencv can not be loaded"
-    exit 1
-  fi
 
-  unzip $OPENCV_VER.zip
-  rm $OPENCV_VER.zip
-
-  mkdir build
-  cd build
+  mkdir $OPENCV_DIR/build
+  cd $OPENCV_DIR/build
   # Note! In cuda10 nvidia-video-codec was be deprecated, so you need option
   # BUILD_opencv_cudacodec=OFF. If cuda version less then 10, then you can not
   # set this (by default ON)
@@ -89,34 +83,31 @@ if [ $? -ne 0 ]; then
     -DCMAKE_CXX_COMPILER=g++-7 \
     -DBUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
-    -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib-$OPENCV_VER/modules \
+    -DOPENCV_EXTRA_MODULES_PATH=$CONTRIB_DIR/modules \
     -DWITH_CUDA=ON \
+    -DOPENCV_DNN_CUDA=ON \
     -DBUILD_opencv_cudacodec=OFF \
     -DWITH_OPENCL=ON \
-    -DOPENCL_DNN_OPENCL=ON \
-    ..
+    -DOPENCV_DNN_OPENCL=ON \
+    $OPENCV_DIR
   cmake --build . -- -j4
-  checkinstall -D -y \
-    --pkgname=opencv-ch \
-    --pkgversion=$OPENCV_VER \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
+
+  ch_install $PACKAGE $VERSION
   if [ $? -ne 0 ]; then
-    cd ../..
-    rm -rf opencv-$OPENCV_VER
+    cd $CUR_DIR
+    rm -rf $OPENCV_DIR
+    rm -rf $CONTRIB_DIR
     print_error "opencv can not be installed"
     exit 1
   fi
 
-  cd ../..
-  rm -rf opencv-$OPENCV_VER
+  cd $CUR_DIR
+  rm -rf $OPENCV_DIR
+  rm -rf $CONTRIB_DIR
 fi
 
 print_delim
 
-cd $CUR_DIR
 
 print_info "Install python3 support"
 pip3 install opencv-python opencv-contrib-python
