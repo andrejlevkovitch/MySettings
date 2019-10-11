@@ -41,7 +41,7 @@ CTAGS_PACKAGE=ctags
 CTAGS_VERSION=0.0.1
 CTAGS_LINK="https://github.com/universal-ctags/ctags/archive/master.zip"
 CTAGS_ARCHIVE=$TMP_DIR/ctags_ar
-CTAGS_DIR=$TMP_DIR/ctags_dir
+CTAGS_DIR=$TMP_DIR/ctags-master
 
 check_package $CTAGS_PACKAGE
 if [ $? -ne 0 ]; then
@@ -85,12 +85,13 @@ VIM_DIR=vim_dir
 check_package $VIM_PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $VIM_PACKAGE"
-  package_loader $VIM_PACKAGE $VIM_ARCHIVE $VIM_SHA
+  package_loader $VIM_LINK $VIM_ARCHIVE $VIM_SHA
   if [ $? -ne 0 ]; then
     print_error "Can not load $VIM_PACKAGE"
     exit 1
   fi
 
+  mkdir $VIM_DIR
   tar -xzvf $VIM_ARCHIVE --directory $VIM_DIR --strip-components=1
   rm $VIM_ARCHIVE
   cd $VIM_DIR
@@ -134,12 +135,13 @@ VIFM_DIR=vifm_dir
 check_package $VIFM_PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $VIFM_PACKAGE"
-  package_loader $VIFM_PACKAGE $VIFM_ARCHIVE $VIFM_SHA
+  package_loader $VIFM_LINK $VIFM_ARCHIVE $VIFM_SHA
   if [ $? -ne 0 ]; then
     print_error "Can not load $VIFM_PACKAGE"
     exit 1
   fi
 
+  mkdir $VIFM_DIR
   tar -xzvf $VIFM_ARCHIVE --directory $VIFM_DIR --strip-components=1
   rm $VIFM_ARCHIVE
   cd $VIFM_DIR
@@ -163,9 +165,9 @@ print_delim
 
 LF_PACKAGE=lua-format
 LF_VERSION=1.2.2
-LF_LINK="https://github.com/andrejlevkovitch/LuaFormatter.git"
+LF_LINK="https://github.com/andrejlevkovitch/LuaFormatter/archive/master.zip"
 LF_ARCHIVE=$TMP_DIR/lt_ar
-LF_DIR=$TMP_DIR/LuaFormatter
+LF_DIR=$TMP_DIR/LuaFormatter-master
 
 check_package $LF_PACKAGE
 if [ $? -ne 0 ]; then

@@ -36,11 +36,11 @@ ch_install () {
   local VERSION=$2
   local HANDLER=$3
 
-  if [ -z ${PACKAGE+x} ]; then
+  if ! [ -n "$PACKAGE" ]; then
     print_error "package not set"
     return 1
   fi
-  if [ -z ${VERSION+x} ]; then
+  if ! [ -n "$VERSION" ]; then
     print_error "version not set"
     return 1
   fi
@@ -66,11 +66,11 @@ package_loader() {
   local OUT_FILE=$2
   local SHA_SUM=$3
 
-  if [ -z ${DOWNLOAD_LINK+x} ]; then
+  if ! [ -n "$DOWNLOAD_LINK" ]; then
     print_error "package not set"
     return 1
   fi
-  if [ -z ${OUT_FILE+x} ]; then
+  if ! [ -n "$OUT_FILE" ]; then
     print_error "version not set"
     return 1
   fi
@@ -80,7 +80,7 @@ package_loader() {
     rm $OUT_FILE
     return 1
   fi
-  if ! [ -z ${SHA_SUM+x} ]; then
+  if [ -n "$SHA_SUM" ]; then
     echo "$SHA_SUM  $OUT_FILE" | sha256sum -c | grep -v OK
     if [ $? -eq 0 ]; then
       rm $OUT_FILE
@@ -94,7 +94,7 @@ package_loader() {
 check_package() {
   local PACKAGE=$1
 
-  if [ -z ${PACKAGE+x} ]; then
+  if ! [ -n "$PACKAGE" ]; then
     print_error "package not set"
     return 1
   fi
