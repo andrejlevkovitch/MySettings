@@ -25,7 +25,3 @@ if [ $? -ne 0 ]; then
 fi
 
 print_delim
-
-bash $FILE_DIR/install_dev_soft_from_src.sh
-
-print_delim
