@@ -30,7 +30,8 @@ print_info "install base soft"
 apt-get install -y \
   wget \
   software-properties-common \
-  pkg-config
+  pkg-config \
+  autoconf
 
 if [ $? -ne 0 ]; then
   print_error "base soft can not be installed"

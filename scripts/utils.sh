@@ -76,6 +76,10 @@ package_loader() {
   fi
 
   wget $DOWNLOAD_LINK -O $OUT_FILE
+  if [ $? -ne 0 ]; then
+    rm $OUT_FILE
+    return 1
+  fi
   if ! [ -z ${SHA_SUM+x} ]; then
     echo "$SHA_SUM  $OUT_FILE" | sha256sum -c | grep -v OK
     if [ $? -eq 0 ]; then
@@ -97,4 +101,18 @@ check_package() {
 
   dpkg -s $PACKAGE-ch
   return $?
+}
+
+check_root() {
+  if [ $EUID -ne 0 ]; then
+    print_error "you need start it as superuser"
+    exit 1
+  fi
+}
+
+check_user() {
+  if [ $EUID -eq 0 ]; then
+    print_error "you not need start it as superuser"
+    exit 1
+  fi
 }
