@@ -5,41 +5,43 @@ source utils.sh
 
 print_delim
 
-cd /tmp
-
 apt-get install -y \
   autoconf automake \
   libxml2 libxml2-dev \
   libfcgi0ldbl libfcgi-dev \
   pkg-config
 
-dpkg -s fastcgi-ch
 if [ $? -ne 0 ]; then
-  print_info "Install fastcgi"
-  git clone https://github.com/lmovsesjan/Fastcgi-Daemon.git
-  cd Fastcgi-Daemon
+  print_error "can not install needed packages"
+  exit 1
+fi
+
+PACKAGE=fastcgi
+VERSION=1.0.0
+LINK="https://github.com/lmovsesjan/Fastcgi-Daemon.git"
+OUT_DIR=$TMP_DIR/Fastcgi-Daemon
+
+check_package $PACKAGE
+if [ $? -ne 0 ]; then
+  print_info "Install $PACKAGE"
+  git clone $LINK
+
+  cd $OUT_DIR
   autoreconf --install
   ./configure --prefix=/usr/local
   make
-  checkinstall -D -y \
-    --pkgname=fastcgi-ch \
-    --pkgversion=1.0.0 \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
+
+  ch_install $PACKAGE $VERSION
   if [ $? -ne 0 ]; then
-    cd ../
-    rm -rf Fastcgi-Daemon
-    print_error "fastcgi can not be installed"
+    cd $CUR_DIR
+    rm -rf $OUT_DIR
+    print_error "$PACKAGE can not be installed"
     exit 1
   fi
-
   ldconfig
-  cd ..
-  rm -rf Fastcgi-Daemon
-fi
 
-cd $CUR_DIR
+  cd $CUR_DIR
+  rm -rf $OUT_DIR
+fi
 
 print_delim

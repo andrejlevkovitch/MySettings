@@ -1,5 +1,6 @@
 #!/bin/bash
 # install latest qemu
+# XXX deprecated, use install_virt
 
 source utils.sh
 

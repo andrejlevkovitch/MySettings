@@ -3,7 +3,7 @@
 
 ## Support
 
-Only for Ubuntu16, Ubuntu18 and Debian9(buster)
+Only for Debian10(buster)
 
 ## for Debian
   1. add shortcut for open terminal. For this open settings->keyboard and

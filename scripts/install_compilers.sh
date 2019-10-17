@@ -38,14 +38,14 @@ update-alternatives --install \
 
 print_delim
 
-echo ${GREEN}Install llvm${NC}
+print_info "Install llvm"
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 add-apt-repository "$CLANG_REPO_DEB"
 apt-get update
 apt-get upgrade -y
 
 if [ $? -ne 0 ]; then
-  echo -e ${RED}system can not be upgraded${NC}
+  print_error "system can not be upgraded"
   exit 1
 fi
 
@@ -58,11 +58,11 @@ apt-get install -y \
   libclang-$CLANG_VERSION-dev
 
 if [ $? -ne 0 ]; then
-  echo -e ${RED}llvm can not be installed${NC}
+  print_error "llvm can not be installed"
   exit 1
 fi
 
-echo ${GREEN}Set alternatives for clang${NC}
+print_info "Set alternatives for clang"
 update-alternatives --install \
         /usr/bin/llvm-config       llvm-config      /usr/bin/llvm-config-$CLANG_VERSION  200 \
 --slave /usr/bin/llvm-ar           llvm-ar          /usr/bin/llvm-ar-$CLANG_VERSION \

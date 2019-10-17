@@ -7,11 +7,11 @@
 
 source utils.sh
 
-QT_PPA="ppa:beineri/opt-qt-5.12.1-$(lsb_release -cs)"
-
 print_delim
 
 if [ "$CUR_SYSTEM" = "ubuntu" ]; then
+  QT_PPA="ppa:beineri/opt-qt-5.12.1-$(lsb_release -cs)"
+
   print_info "Install qt from ppa"
   add-apt-repository -y $QT_PPA
   apt-get update

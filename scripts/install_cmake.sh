@@ -4,6 +4,16 @@ source utils.sh
 
 print_delim
 
+apt-get install -y \
+  curl
+
+if [ $? -ne 0 ]; then
+  print_error "can not install needed packages"
+  exit 1
+fi
+
+print_delim
+
 PACKAGE=cmake
 VERSION=3.14.1
 LINK="https://github.com/Kitware/CMake/releases/download/v3.14.1/cmake-3.14.1.tar.gz"
@@ -14,12 +24,13 @@ OUT_DIR=$TMP_DIR/cmake_dir
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $PACKAGE"
-  package_loader $PACKAGE $ARCHIVE $SHA_SUM
+  package_loader $LINK $ARCHIVE $SHA_SUM
   if [ $? -ne 0 ]; then
     print_error "Can not load $PACKAGE"
     exit 1
   fi
 
+  mkdir $OUT_DIR
   tar -xzvf $ARCHIVE --directory $OUT_DIR --strip-components=1
   rm $ARCHIVE
   cd $OUT_DIR

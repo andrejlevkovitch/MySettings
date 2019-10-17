@@ -7,118 +7,120 @@ cd /tmp
 
 print_delim
 
-dpkg -s protobuf-ch
+PB_PACKAGE=protobuf
+PB_VERSION=3.9.1
+PB_LINK="https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-all-3.9.1.tar.gz"
+PB_SHA_SUM="3040a5b946d9df7aa89c0bf6981330bf92b7844fd90e71b61da0c721e421a421"
+PB_ARCHIVE=pb_archive
+PB_DIR=pb_dir
+
+check_package $PB_PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install protobuf"
-  wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-all-3.9.1.tar.gz
-  echo "3040a5b946d9df7aa89c0bf6981330bf92b7844fd90e71b61da0c721e421a421  protobuf-all-3.9.1.tar.gz" | sha256sum -c | grep -v OK
-  if [ $? -eq 0 ]; then
-    rm protobuf-all-3.9.1.tar.gz
-    print_error "protobuf can not be loaded"
+  print_info "Install $PB_PACKAGE"
+  package_loader $PB_LINK $PB_ARCHIVE $PB_SHA_SUM
+  if [ $? -ne 0 ]; then
+    print_error "$PB_PACKAGE can not be loaded"
     exit 1
   fi
 
-  tar -xzvf protobuf-all-3.9.1.tar.gz
-  rm protobuf-all-3.9.1.tar.gz
-  cd protobuf-3.9.1
+  mkdir $PB_DIR
+  tar -xzvf $PB_ARCHIVE --directory $PB_DIR --strip-components=1
+  rm $PB_ARCHIVE
+  cd $PB_DIR
+
   ./autogen.sh
   ./configure
   make -j4
-  checkinstall -D -y \
-    --pkgname=protobuf-ch \
-    --pkgversion=3.9.1 \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
+
+  ch_install $PACKAGE $VERSION
   if [ $? -ne 0 ]; then
-    cd /tmp
-    rm -rf protobuf-3.9.1
-    print_error "protobuf can not be installed"
+    cd $CUR_DIR
+    rm -rf $PB_DIR
+    print_error "$PB_PACKAGE can not be installed"
     exit 1
   fi
   ldconfig
 
-  cd /tmp
-  rm -rf protobuf-3.9.1
+  cd $CUR_DIR
+  rm -rf $PB_DIR
 fi
 
 print_delim
 
-dpkg -s gflags-ch
+GF_PACKAGE=gflags
+GF_VERSION=2.2.2
+GF_LINK="https://github.com/gflags/gflags/archive/v2.2.2.tar.gz"
+GF_SHA_SUM="34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf"
+GF_ARCHIVE=$TMP_DIR/gf_ar
+GF_DIR=$TMP_DIR/gf_dir
+GF_SHA_SUM="34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf"
+
+check_package $GF_PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install gflags"
-  wget https://github.com/gflags/gflags/archive/v2.2.2.tar.gz
-  echo "34af2f15cf7367513b352bdcd2493ab14ce43692d2dcd9dfc499492966c64dcf  v2.2.2.tar.gz" | sha256sum -c | grep -v OK
-  if [$? -eq 0 ]; then
-    rm v2.2.2.tar.gz
-    print_error "gflags can not be installed"
+  print_info "Install $GF_PACKAGE"
+  package_loader $GF_LINK $GF_ARCHIVE $GF_SHA_SUM
+  if [$? -ne 0 ]; then
+    print_error "$GF_PACKAGE can not be installed"
     exit 1
   fi
 
-  tar -xzvf v2.2.2.tar.gz
-  rm v2.2.2.tar.gz
-  cd gflags-2.2.2
-  mkdir build
-  cd build
+  mkdir $GF_DIR
+  tar -xzvf $GF_ARCHIVE --directory $GF_DIR --strip-components=1
+  rm $ARCHIVE
+  mkdir $GF_DIR/build
+  cd $GF_DIR/build
+
   cmake ..
   cmake --build . -- -j4
-  checkinstall -D -y \
-    --pkgname=gflags-ch \
-    --pkgversion=2.2.2 \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
+
+  ch_install $GF_PACKAGE $GF_VERSION
   if [ $? -ne 0 ]; then
-    cd /tmp
-    rm -rf gflags-2.2.2
-    print_error "gflags can not be installed"
+    cd $CUR_DIR
+    rm -rf $GF_DIR
+    print_error "$GF_PACKAGE can not be installed"
     exit 1
   fi
 
-  cd /tmp
-  rm -rf gflags-2.2.2
+  cd $CUR_DIR
+  rm -rf $GF_DIR
 fi
 
 print_delim
 
-dpkg -s glog-ch
+GL_PACKAGE=glog
+GL_LINK="https://github.com/google/glog/archive/v0.4.0.tar.gz"
+GL_SHA_SUM="f28359aeba12f30d73d9e4711ef356dc842886968112162bc73002645139c39c"
+GL_ARCHIVE=$TMP_DIR/gl_ar
+GL_DIR=$TMP_DIR/gl_dir
+
+check_package $GL_PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install glog"
-  wget "https://github.com/google/glog/archive/v0.4.0.tar.gz"
-  echo "f28359aeba12f30d73d9e4711ef356dc842886968112162bc73002645139c39c  v0.4.0.tar.gz" | sha256sum -c | grep -v OK
+  print_info "Install $GL_PACKAGE"
+  package_loader $GL_LINK $GL_ARCHIVE $GL_SHA_SUM
   if [ $? -eq 0 ]; then
-    rm v0.4.0.tar.gz
-    print_error "glog can not be loaded"
+    print_error "$GL_PACKAGE can not be loaded"
     exit 1
   fi
 
-  tar -xzvf v0.4.0.tar.gz
-  rm v0.4.0.tar.gz
-  cd glog-0.4.0
-  mkdir build
-  cd build
+  mkdir $GL_DIR
+  tar -xzvf $GL_ARCHIVE --directory $GL_DIR --strip-components=1
+  rm $GL_ARCHIVE
+  mkdir $GL_DIR/build
+  cd $GL_DIR/build
+
   cmake ..
   cmake --build . -- -j4
-  checkinstall -D -y \
-    --pkgname=glog-ch \
-    --pkgversion=0.4.0 \
-    --nodoc \
-    --backup=no \
-    --fstrans=no \
-    --install=yes
+
+  ch_install $PACKAGE $VERSION
   if [ $? -ne 0 ]; then
-    cd /tmp
-    rm -rf glog-0.4.0
-    print_error "glog can not be installed"
+    cd $CUR_DIR
+    rm -rf $GL_DIR
+    print_error "$GL_PACKAGE can not be installed"
     exit 1
   fi
 
-  cd /tmp
-  rm -rf glog-0.4.0
+  cd $CUR_DIR
+  rm -rf $GL_DIR
 fi
-
-cd $CUR_DIR
 
 print_delim
