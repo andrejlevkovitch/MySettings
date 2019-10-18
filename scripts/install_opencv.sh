@@ -81,7 +81,7 @@ if [ $? -ne 0 ]; then
   cmake \
     -DCMAKE_C_COMPILER=gcc-7 \
     -DCMAKE_CXX_COMPILER=g++-7 \
-    -DBUILD_TYPE=Release \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DOPENCV_EXTRA_MODULES_PATH=$CONTRIB_DIR/modules \
     -DWITH_CUDA=ON \

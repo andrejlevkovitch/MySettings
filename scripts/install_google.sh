@@ -11,8 +11,8 @@ PB_PACKAGE=protobuf
 PB_VERSION=3.9.1
 PB_LINK="https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-all-3.9.1.tar.gz"
 PB_SHA_SUM="3040a5b946d9df7aa89c0bf6981330bf92b7844fd90e71b61da0c721e421a421"
-PB_ARCHIVE=pb_archive
-PB_DIR=pb_dir
+PB_ARCHIVE=$TMP_DIR/pb_archive
+PB_DIR=$TMP_DIR/pb_dir
 
 check_package $PB_PACKAGE
 if [ $? -ne 0 ]; then
@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
   ./configure
   make -j4
 
-  ch_install $PACKAGE $VERSION
+  ch_install $PB_PACKAGE $PB_VERSION
   if [ $? -ne 0 ]; then
     cd $CUR_DIR
     rm -rf $PB_DIR
@@ -66,7 +66,7 @@ if [ $? -ne 0 ]; then
 
   mkdir $GF_DIR
   tar -xzvf $GF_ARCHIVE --directory $GF_DIR --strip-components=1
-  rm $ARCHIVE
+  rm $GF_ARCHIVE
   mkdir $GF_DIR/build
   cd $GF_DIR/build
 
