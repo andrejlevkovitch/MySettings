@@ -5,6 +5,13 @@ source utils.sh
 
 print_delim
 
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
+
 PACKAGE=caffe
 VERSION=1.0.0
 DOWNLOAD_LINK="https://github.com/andrejlevkovitch/caffe.git"

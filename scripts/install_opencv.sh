@@ -4,6 +4,13 @@ source utils.sh
 
 print_delim
 
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
+
 print_info "install soft for OpenCV"
 # you need install also compilers, because cuda not support compilers above
 # 7 version

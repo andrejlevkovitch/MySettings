@@ -34,7 +34,7 @@ print_error () {
 ch_install () {
   local PACKAGE=$1
   local VERSION=$2
-  local HANDLER=$3
+  local HANDLER=${@:3}
 
   if ! [ -n "$PACKAGE" ]; then
     print_error "package not set"
@@ -115,4 +115,16 @@ check_user() {
     print_error "you not need start it as superuser"
     exit 1
   fi
+}
+
+# return 0 if all commands checks, otherwise return 1
+check_commands() {
+  COMMANDS=${@}
+
+  for command in $COMMANDS; do
+    if [ ! -x "$(command -v $command)" ]; then
+      echo $command
+      return 1
+    fi
+  done
 }

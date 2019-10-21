@@ -4,6 +4,13 @@ source utils.sh
 
 print_delim
 
+check_commands checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install checkinstall"
+  exit 1
+fi
+
+
 PACKAGE=boost
 VERSION=1.69.0
 LINK="https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.gz"
@@ -27,8 +34,7 @@ if [ $? -ne 0 ]; then
 
   ./bootstrap.sh --with-python=/usr/bin/python3 --with-python-root=/usr
   ./b2
-  INSTALL_COMMAND=./b2 install
-  ch_install $PACKAGE $VERSION $INSTALL_COMMAND
+  ch_install $PACKAGE $VERSION ./b2 install
   if [ $? -ne 0 ]; then
     cd $CUR_DIR
     rm -rf $OUT_DIR
