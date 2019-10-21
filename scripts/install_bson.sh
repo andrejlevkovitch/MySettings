@@ -49,7 +49,7 @@ if [ $? -ne 0 ]; then
   if [ $? -ne 0 ]; then
     cd $CUR_DIR
     rm -rf $BSON_DIR
-    print_info "$BSON_PACKAGE can not be installed"
+    print_error "$BSON_PACKAGE can not be installed"
     exit 1
   fi
 
@@ -65,7 +65,7 @@ LB_DIR=$TMP_DIR/lua-cbson
 check_package $LB_PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $LB_PACKAGE"
-  git clone $LB_LINK
+  git clone $LB_LINK $LB_DIR
   mkdir $LB_DIR/build
   cd $LB_DIR/build
 
@@ -74,9 +74,9 @@ if [ $? -ne 0 ]; then
 
   ch_install $LB_PACKAGE $LB_VERSION
   if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $LB_DIR
-    print_info "$LB_PACKAGE can not be installed"
+##  cd $CUR_DIR
+##  rm -rf $LB_DIR
+    print_error "$LB_PACKAGE can not be installed"
     exit 1
   fi
 
