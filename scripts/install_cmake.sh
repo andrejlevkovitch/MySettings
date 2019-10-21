@@ -12,7 +12,7 @@ fi
 
 
 apt-get install -y \
-  curl
+  libcurl4-openssl-dev
 
 if [ $? -ne 0 ]; then
   print_error "can not install needed packages"

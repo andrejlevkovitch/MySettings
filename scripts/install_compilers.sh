@@ -31,7 +31,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-print_error "Set alternatives for gcc"
+print_info "Set alternatives for gcc"
 update-alternatives --install \
           /usr/bin/gcc             gcc              /usr/bin/gcc-$GCC_VERSION  60 \
   --slave /usr/bin/g++             g++              /usr/bin/g++-$GCC_VERSION
