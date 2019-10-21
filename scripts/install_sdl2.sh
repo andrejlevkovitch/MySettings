@@ -5,6 +5,13 @@ source utils.sh
 
 print_delim
 
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
+
 PACKAGE=sdl2
 VERSION=2.0.9
 LINK="https://www.libsdl.org/release/SDL2-2.0.9.tar.gz"

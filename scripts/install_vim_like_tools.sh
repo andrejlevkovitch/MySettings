@@ -1,10 +1,17 @@
 #!/bin/sh
-# Note: have to be run only after install_base_software.sh
+# Note: have to be run only after install_base_software.sh. Also you need installed cmake
 # Note: you need have only one version of lua interpreter (see `color_coded` in `set_settings.sh`)
 
 source utils.sh
 
 print_delim
+
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
 
 print_info "Install additional packages"
 apt-get install -y \

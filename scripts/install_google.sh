@@ -3,9 +3,14 @@
 
 source utils.sh
 
-cd /tmp
-
 print_delim
+
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
 
 PB_PACKAGE=protobuf
 PB_VERSION=3.9.1

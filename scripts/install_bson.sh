@@ -4,6 +4,13 @@ source utils.sh
 
 print_delim
 
+check_commands cmake checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install cmake and checkinstall"
+  exit 1
+fi
+
+
 apt-get install -y \
   libluajit-5.1-dev
 

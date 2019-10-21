@@ -15,6 +15,10 @@ virsh net-start default
 # - sudo adduser username libvirt
 # - sudo adduser username libvirt-qemu
 
+# Also you may need add fallowing strings in /etc/libvirt/qemu.conf:
+# - user = "root"
+# - group = "root"
+
 # After clonning some image for change ip you need start
 # - sudo virt-sysprep -d my_image_name
 # Also you need reconfigure ssh server after cloning

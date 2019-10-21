@@ -4,6 +4,13 @@ source utils.sh
 
 print_delim
 
+check_commands checkinstall
+if [ $? -ne 0 ]; then
+  print_error "first you need install checkinstall"
+  exit 1
+fi
+
+
 apt-get install -y \
   libwebkit2gtk-4.0-dev
 
