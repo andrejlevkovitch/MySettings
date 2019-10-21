@@ -19,6 +19,9 @@ virsh net-start default
 # - user = "root"
 # - group = "root"
 
+# Also change default path to store images by command:
+# - virsh pool-edit default
+
 # After clonning some image for change ip you need start
 # - sudo virt-sysprep -d my_image_name
 # Also you need reconfigure ssh server after cloning
