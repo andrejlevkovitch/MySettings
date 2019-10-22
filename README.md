@@ -99,3 +99,51 @@ as root:
 umount /dev/sdb1
 cat image.iso > /dev/sdb; sync
 ```
+
+
+## Add gpu to kvm (Intel, Nvidia)
+
+NOTE: you can not use the `GPU` on you host, so switch to `internal GPU` and
+remove all drivers for `GPU`. Also you have to switch on `VT-d`
+
+  - Install `kvm` (see `install_virt.sh`)
+  - Add nouveau to blacklist (`/etc/modprobe.d/blacklist-nouveau.conf`):
+      ```bash
+      blacklist nouveau
+      options nouveau modeset=0
+      ```
+
+  - Edit grub (`/etc/default/grub`):
+      ```bash
+      GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intel_iommu=on"
+      ```
+
+  - Update grup:
+      ```bash
+      sudo update-grub
+      ```
+
+  - Get GPU PCI ID's:
+      ```bash
+      lspci -nn | grep -i nvidia
+      ```
+
+  - Write it to `/etc/modprobe.d/vfio.conf` like:
+      ```bash
+      options vfio-pci ids=$1,$2,...
+      ```
+
+  - Update initramfs:
+      ```bash
+      sudo update-initramfs -u
+      ```
+
+  - Reboot
+
+  - For check you can use commands:
+      ```bash
+      dmesg | grep -E "DMAR|IOMMU"
+      dmesg | grep -i vfio
+      ```
+
+NOTE: before installing image you have to add pci devices of the `GPU`
