@@ -31,7 +31,7 @@ OUT_DIR=$TMP_DIR/Fastcgi-Daemon
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $PACKAGE"
-  git clone $LINK
+  git clone $LINK $OUT_DIR
 
   cd $OUT_DIR
   autoreconf --install

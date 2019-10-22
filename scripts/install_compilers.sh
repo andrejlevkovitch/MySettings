@@ -8,7 +8,7 @@ source utils.sh
 GCC_VERSION=8
 
 # if you need other version of clang just set it here
-CLANG_VERSION=8
+CLANG_VERSION=9
 CLANG_REPO_DEB="deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 
@@ -51,7 +51,6 @@ fi
 
 apt-get install -y \
   clang-$CLANG_VERSION \
-  lldb-$CLANG_VERSION \
   clang-format-$CLANG_VERSION \
   clang-tidy-$CLANG_VERSION \
   lld-$CLANG_VERSION \
