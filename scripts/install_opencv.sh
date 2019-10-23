@@ -99,7 +99,7 @@ if [ $? -ne 0 ]; then
     $OPENCV_DIR
   cmake --build . -- -j4
 
-  ch_install $PACKAGE $VERSION
+  ch_install $PACKAGE $OPENCV_VER
   if [ $? -ne 0 ]; then
     cd $CUR_DIR
     rm -rf $OPENCV_DIR
