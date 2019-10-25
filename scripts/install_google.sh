@@ -75,7 +75,7 @@ if [ $? -ne 0 ]; then
   mkdir $GF_DIR/build
   cd $GF_DIR/build
 
-  cmake ..
+  cmake -DBUILD_SHARED_LIBS=ON ..
   cmake --build . -- -j4
 
   ch_install $GF_PACKAGE $GF_VERSION
@@ -115,7 +115,7 @@ if [ $? -ne 0 ]; then
   mkdir $GL_DIR/build
   cd $GL_DIR/build
 
-  cmake ..
+  cmake -DBUILD_SHARED_LIBS=ON ..
   cmake --build . -- -j4
 
   ch_install $GL_PACKAGE $GL_VERSION
