@@ -93,6 +93,7 @@ fi
 print_delim
 
 GL_PACKAGE=glog
+GL_VERSION=0.4.0
 GL_LINK="https://github.com/google/glog/archive/v0.4.0.tar.gz"
 GL_SHA_SUM="f28359aeba12f30d73d9e4711ef356dc842886968112162bc73002645139c39c"
 GL_ARCHIVE=$TMP_DIR/gl_ar
@@ -102,8 +103,9 @@ check_package $GL_PACKAGE
 if [ $? -ne 0 ]; then
   print_info "Install $GL_PACKAGE"
   package_loader $GL_LINK $GL_ARCHIVE $GL_SHA_SUM
-  if [ $? -eq 0 ]; then
+  if [ $? -ne 0 ]; then
     print_error "$GL_PACKAGE can not be loaded"
+    rm $GL_ARCHIVE
     exit 1
   fi
 
@@ -116,7 +118,7 @@ if [ $? -ne 0 ]; then
   cmake ..
   cmake --build . -- -j4
 
-  ch_install $PACKAGE $VERSION
+  ch_install $GL_PACKAGE $GL_VERSION
   if [ $? -ne 0 ]; then
     cd $CUR_DIR
     rm -rf $GL_DIR

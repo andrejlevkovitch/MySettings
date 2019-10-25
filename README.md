@@ -147,3 +147,17 @@ remove all drivers for `GPU`. Also you have to switch on `VT-d`
       ```
 
 NOTE: before installing image you have to add pci devices of the `GPU`
+
+Also you need add next lines in image config file:
+```xml
+    <hyperv>
+	    <vendor_id state="on" value="whatever"/>
+    </hyperv>
+    <kvm>
+	    <hidden state="on"/>
+    </kvm>
+```
+
+Use command:
+
+  - `virsh edit micro`
