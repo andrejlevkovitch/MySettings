@@ -1,5 +1,7 @@
 #!/bin/bash
 # This script install caffe for using OpenPose network and cuda support
+# NOTE: you need install gflags, glog, protobuf. See `install_google.sh`
+# NOTE: google packages have to be compiled to shared libraries
 
 source utils.sh
 
@@ -19,7 +21,11 @@ OUT_DIR=$TMP_DIR/caffe
 
 print_info "install soft for $PACKAGE"
 apt-get install -y \
-  libopenblas-dev
+  libopenblas-dev \
+  libhdf5-dev \
+  liblmdb-dev \
+  libleveldb-dev \
+  libsnappy-dev
 
 if [ $? -ne 0 ]; then
   print_error "needed packages can not be installed"
