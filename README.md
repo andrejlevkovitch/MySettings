@@ -161,3 +161,32 @@ Also you need add next lines in image config file:
 Use command:
 
   - `virsh edit micro`
+
+
+## Change partions with save all data
+
+- `fdisk -l` - get all partitons
+
+- `fdisk -u /dev/sda` - can be `sda` or some other name
+
+- by `d` command remove partition which you want to resize
+
+- by `n` recreate the partition with same number (save existing filesystem)
+
+- if you need change type of partition by `t`
+
+- by `w` save changes
+
+- quit by `q`
+
+- `partx /dev/sda` or reboot
+
+- `resize2fs /dev/sda1` - can be `sda1` or some other name of device, which you resized
+
+
+Also you can have problem while boot: `resume device`. For resolve it you need
+change (or remove) `UUID` (user command `blkid`) of changed (removed) device in files `/etc/fstab` and
+`/etc/initramfs-tools/conf.d/resume`. And call `update-initramfs -u`.
+
+NOTE: if you have `PARTUUID` instead `UUID` you have to set `PARTUUID` instead
+`UUID` in the files.
