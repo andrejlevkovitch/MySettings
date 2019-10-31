@@ -1,5 +1,6 @@
 #!/bin/sh
 # Install protobuf, gflags and glog
+# Note: for installing `glog` on `windows` by mingw you need get branch v035
 
 source utils.sh
 
