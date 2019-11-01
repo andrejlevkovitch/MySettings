@@ -190,3 +190,8 @@ change (or remove) `UUID` (user command `blkid`) of changed (removed) device in 
 
 NOTE: if you have `PARTUUID` instead `UUID` you have to set `PARTUUID` instead
 `UUID` in the files.
+
+Also, if you change swap partition you need format and on it:
+
+- `mkswap /dev/sda4`
+- `swapon -a`
