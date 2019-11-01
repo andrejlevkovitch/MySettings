@@ -148,7 +148,7 @@ remove all drivers for `GPU`. Also you have to switch on `VT-d`
 
 NOTE: before installing image you have to add pci devices of the `GPU`
 
-Also you need add next lines in image config file:
+Also you need add next lines in image config file to `features` tag:
 ```xml
     <hyperv>
 	    <vendor_id state="on" value="whatever"/>
@@ -160,7 +160,7 @@ Also you need add next lines in image config file:
 
 Use command:
 
-  - `virsh edit micro`
+  - `virsh edit name_of_image`
 
 
 ## Change partions with save all data
@@ -190,3 +190,8 @@ change (or remove) `UUID` (user command `blkid`) of changed (removed) device in 
 
 NOTE: if you have `PARTUUID` instead `UUID` you have to set `PARTUUID` instead
 `UUID` in the files.
+
+Also, if you change swap partition you need format and on it:
+
+- `mkswap /dev/sda4`
+- `swapon -a`
