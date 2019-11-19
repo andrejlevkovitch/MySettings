@@ -133,6 +133,8 @@ call NERDTreeHighlightFile('cpp', 'lightgreen', 'none', 'lightgreen', '#151515')
 call NERDTreeHighlightFile('cxx', 'lightgreen', 'none', 'lightgreen', '#151515')
 call NERDTreeHighlightFile('cmake', 'lightblue', 'none', 'lightblue', '#151515')
 
+call NERDTreeHighlightFile('lua', 'lightyellow', 'none', 'lightyellow', '#151515')
+
 call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('xml', 'yellow', 'none', 'yellow', '#151515')
 
@@ -196,6 +198,8 @@ let g:ycm_max_diagnostics_to_display = 5
 
 " Set no limit for autocomplete menu
 let g:ycm_max_num_candidates = 0
+
+let g:ycm_key_invoke_completion = '<C-Space>'
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
