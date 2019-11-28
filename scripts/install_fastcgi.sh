@@ -16,7 +16,8 @@ apt-get install -y \
   autoconf automake \
   libxml2 libxml2-dev \
   libfcgi0ldbl libfcgi-dev \
-  pkg-config
+  pkg-config \
+  libtool
 
 if [ $? -ne 0 ]; then
   print_error "can not install needed packages"

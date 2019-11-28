@@ -1,4 +1,5 @@
 #!/bin/bash
+# NOTE: by default installed with python3 support
 
 source utils.sh
 
@@ -7,6 +8,16 @@ print_delim
 check_commands checkinstall
 if [ $? -ne 0 ]; then
   print_error "first you need install checkinstall"
+  exit 1
+fi
+
+
+print_info "Install needed software"
+apt-get install -y \
+  python3-dev
+
+if [ $? -ne 0 ]; then
+  print_error "needed software can not be installed"
   exit 1
 fi
 

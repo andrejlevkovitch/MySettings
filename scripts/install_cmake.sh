@@ -12,7 +12,8 @@ fi
 
 
 apt-get install -y \
-  libcurl4-openssl-dev
+  libcurl4-openssl-dev \
+  zlibc zlib1g-dev
 
 if [ $? -ne 0 ]; then
   print_error "can not install needed packages"

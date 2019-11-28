@@ -31,7 +31,10 @@ apt-get install -y \
   wget \
   software-properties-common \
   pkg-config \
-  autoconf \
+  autoconf automake \
+  libtool \
+  libpng-dev \
+  zlibc zlib1g-dev \
   unzip
 
 if [ $? -ne 0 ]; then
@@ -65,10 +68,7 @@ fi
 print_info "Install usefull utils"
 apt-get install -y \
   apt-file \
-  libpng-dev \
-  zlibc zlib1g-dev \
   net-tools \
-  automake \
   lm-sensors
 
 # lm-sensors - utilite for controll temperature of processor

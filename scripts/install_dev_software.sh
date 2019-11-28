@@ -10,13 +10,10 @@ print_info "Install software for programming"
 apt-get install -y \
   git \
   doxygen graphviz \
-  lua-ldoc\
-  python3-dev python-dev \
-  python3-pip \
-  gdb \
-  gdbserver \
+  luajit lua-ldoc \
+  python3-dev python-dev python3-pip \
+  gdb gdbserver \
   cppcheck \
-  w3m \
   tree
 
 if [ $? -ne 0 ]; then

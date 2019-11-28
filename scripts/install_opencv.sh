@@ -1,4 +1,6 @@
 #!/bin/bash
+# NOTE: by default install without python support, but at the end of the script
+# is installation of python-opencv, which you can uncomment
 
 source utils.sh
 
@@ -28,13 +30,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-
-# also install packages for python (in this case for python2.7)
-apt-get install -y \
-  python3-numpy \
-  libavcodec-dev \
-  ffmpeg \
-  python3-matplotlib
 
 if [ $? -ne 0 ]; then
   print_error "neded packages can not be installed"
@@ -96,6 +91,10 @@ if [ $? -ne 0 ]; then
     -DBUILD_opencv_cudacodec=OFF \
     -DWITH_OPENCL=ON \
     -DOPENCV_DNN_OPENCL=ON \
+    -DBUILD_opencv_python2=OFF \
+    -DBUILD_opencv_python3=OFF \
+    -DBUILD_opencv_js=OFF \
+    -DBUILD_JAVA=OFF \
     $OPENCV_DIR
   cmake --build . -- -j4
 
@@ -116,11 +115,18 @@ fi
 print_delim
 
 
-print_info "Install python3 support"
-pip3 install opencv-python opencv-contrib-python
-if [ $? -ne 0 ]; then
-  print_error "Can not install python3 support for opencv"
-  exit 1
-fi
+# print_info "Install python3 support"
+# apt-get install -y \
+#   python3-numpy \
+#   libavcodec-dev \
+#   ffmpeg \
+#   python3-matplotlib \
+#   python3-pip
+
+# pip3 install opencv-python opencv-contrib-python
+# if [ $? -ne 0 ]; then
+#   print_error "Can not install python3 support for opencv"
+#   exit 1
+# fi
 
 print_delim
