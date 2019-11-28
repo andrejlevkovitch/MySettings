@@ -44,6 +44,8 @@ If you have testing buster, then you need manually change repositories. In
 security you have to set `testing-security` insted `buster/security`, and change
 buster to stable.
 
+Also you can fix problem by:
+  - `sudo apt-get update --allow-releaseinfo-change`
 
 ### Time
 
