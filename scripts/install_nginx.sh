@@ -1,5 +1,9 @@
 #!/bin/bash
 # Warn if you have installing apach - you have do disable it!
+# XXX you can get error with restart nginx (or some other service) after
+# reboot. Error happens if you set some aliases for host ip in /etc/hosts. For
+# escape the error you need add next string to service config:
+# - ExecStartPre=/bin/bash -c 'while ! ping -w 1 -c 1 micro > /dev/null; do sleep 1; done'
 
 source utils.sh
 
