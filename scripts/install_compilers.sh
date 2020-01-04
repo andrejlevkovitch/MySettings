@@ -54,7 +54,10 @@ apt-get install -y \
   clang-format-$CLANG_VERSION \
   clang-tidy-$CLANG_VERSION \
   lld-$CLANG_VERSION \
-  libclang-$CLANG_VERSION-dev
+  libclang-$CLANG_VERSION-dev \
+  llvm-$CLANG_VERSION \
+  llvm-$CLANG_VERSION-dev \
+  llvm-$CLANG_VERSION-tools
 
 if [ $? -ne 0 ]; then
   print_error "llvm can not be installed"
