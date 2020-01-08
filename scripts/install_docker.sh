@@ -32,7 +32,8 @@ apt-get update
 apt-get install -y \
   docker-ce \
   docker-ce-cli \
-  containerd.io
+  containerd.io \
+  docker-compose
 
 if [ $? -ne 0 ]; then
   print_error "docker can not be installed"
@@ -45,6 +46,7 @@ print_delim
 # For use docker without sudo add user to docker group
 # $ sudo groupadd docker
 # $ sudo usermod -aG docker $USER
+# NOTE: you need reboot after it
 
 # Install jenkins
 # apt-get install -y \
