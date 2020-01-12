@@ -1,8 +1,0 @@
--x
-c++
--Wall
--Wextra
--Wnon-virtual-dtor
--Wshadow
--std=gnu++17
--isystem

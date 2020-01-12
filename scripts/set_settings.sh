@@ -50,8 +50,6 @@ cd $CUR_DIR
 
 print_info "Install needed config files for vim"
 cp $FILE_DIR/../vim/color_coded.vim $HOME_DIR/.vim/bundle/color_coded/after/syntax
-cp $FILE_DIR/../vim/.ycm_extra_conf.py $HOME_DIR/.vim/
-cp $FILE_DIR/../vim/.color_coded $HOME_DIR/
 
 print_info "Install vimb config"
 if [ ! -d $HOME_DIR/.config/vimb ]; then
