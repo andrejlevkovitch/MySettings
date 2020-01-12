@@ -2,6 +2,9 @@
 # This can be run by user without root
 # Only after install_pkgs script!
 
+# XXX the variable need for configuring color_coded
+FULL_CURRENT_CLANG_VERSION=9.0.1
+
 source utils.sh
 
 print_delim
@@ -38,7 +41,7 @@ if [ ! -d $HOME_DIR/.vim/bundle/color_coded/build ]; then
   mkdir $HOME_DIR/.vim/bundle/color_coded/build
 fi
 cd $HOME_DIR/.vim/bundle/color_coded/build
-cmake ..
+cmake -DDOWNLOAD_CLANG=OFF -DCLANG_VERSION=$FULL_CURRENT_CLANG_VERSION ..
 cmake --build . --target install -- -j4
 
 if [ $? -ne 0 ]; then
