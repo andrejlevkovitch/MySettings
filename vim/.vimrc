@@ -179,6 +179,21 @@ autocmd BufWrite *.py call PythonFormat()
 autocmd FileType json nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.json call PythonFormat()
 
+" HTML tidy
+function! HTMLFormat()
+  silent %!tidy -qi -ashtml --show-errors 0
+endfunction
+autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
+
+function! HTMLErrors()
+  let text=getline(1, '$')
+  let errors=system('tidy -q 1>/dev/null', text)
+  cexpr errors
+  cwindow 5
+endfunction
+autocmd FileType html nnoremap <buffer> <c-f> :call HTMLErrors()<cr>
+autocmd FileType html set efm+=line\ %l\ column\ %c\ -\ %m
+
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
