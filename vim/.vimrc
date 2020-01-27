@@ -187,12 +187,13 @@ autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
 
 function! HTMLErrors()
   let text=getline(1, '$')
+  let filename=expand("%")
   let errors=system('tidy -q 1>/dev/null', text)
-  cexpr errors
+  cexpr filename . "\n" . errors
   cwindow 5
 endfunction
 autocmd FileType html nnoremap <buffer> <c-f> :call HTMLErrors()<cr>
-autocmd FileType html set efm+=line\ %l\ column\ %c\ -\ %m
+autocmd FileType html set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
 
 "-------------------------------------------------------------------------------
 
