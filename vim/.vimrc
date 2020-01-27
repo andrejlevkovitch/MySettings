@@ -168,6 +168,16 @@ endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
+" NOTE: you need save file changes for check by this function
+" TODO this is bad practice, when we need save file before checking
+function! LuaCheck()
+  let errors=system("luacheck ".expand("%"))
+  cexpr errors
+  cwindow 5
+endfunction
+autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
+autocmd FileType lua set efm=%f:%l:%c:\ %m
+
 " Python Format
 function! PythonFormat()
   py3f /usr/local/bin/python-format.py
@@ -175,7 +185,7 @@ endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
 
-" Json Format (just use python format
+" Json Format (just uses python format)
 autocmd FileType json nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.json call PythonFormat()
 
@@ -185,15 +195,30 @@ function! HTMLFormat()
 endfunction
 autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
 
-function! HTMLErrors()
+function! HTMLCheck()
   let text=getline(1, '$')
   let filename=expand("%")
   let errors=system('tidy -q 1>/dev/null', text)
-  cexpr filename . "\n" . errors
+  if len(errors) " ther are some errors
+    cexpr filename . "\n" . errors " append filename for right errorformat
+    cwindow 5
+  else " no errors, so we have clear cbuffer
+    cexpr errors
+    cwindow 5
+  endif
+endfunction
+autocmd FileType html nnoremap <buffer> <c-f> :call HTMLCheck()<cr>
+autocmd FileType html set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+
+" NOTE: you need save file changes for check by this function
+" TODO this is bad practice, when we need save file before checking
+function! BashCheck()
+  let errors=system("shellcheck -f gcc -x ".expand("%"))
+  cexpr errors
   cwindow 5
 endfunction
-autocmd FileType html nnoremap <buffer> <c-f> :call HTMLErrors()<cr>
-autocmd FileType html set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+autocmd FileType sh nnoremap <buffer> <c-f> :call BashCheck()<cr>
+autocmd FileType sh set efm=%f:%l:%c:\ %t%*[^:]:\ %m
 
 "-------------------------------------------------------------------------------
 
