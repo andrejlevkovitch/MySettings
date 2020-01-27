@@ -13,7 +13,8 @@ apt-get install -y \
   luajit lua-ldoc \
   python3-dev python-dev python3-pip \
   gdb gdbserver \
-  cppcheck \
+  cppcheck \  # static analizer
+  tidy \      # checking HTML
   tree
 
 if [ $? -ne 0 ]; then
