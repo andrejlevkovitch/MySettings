@@ -230,7 +230,7 @@ autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
 " Python Format
 function! PythonFormat()
   let text=getline(1, '$')
-  let result=system('yapf', text)
+  let result=system('yapf --style=chromium', text)
   if v:shell_error == 0 " all right
     " save cursor position
     let sourcepos=line(".")
@@ -281,11 +281,11 @@ function! BashCheck()
   let sourcefile=expand("%")
   let text=getline(1, '$')
 
-  " Because luacheck work only with files we have to create temporary file for
+  " Because shellcheck work only with files we have to create temporary file for
   " validation
   let tempfile=tempname()
   call writefile(text, tempfile)
-  let errors=system("shellcheck -f gcc -x " . tempfile)
+  let errors=system("shellcheck -f gcc " . tempfile)
   call delete(tempfile)
 
   " append filename for errorformat
