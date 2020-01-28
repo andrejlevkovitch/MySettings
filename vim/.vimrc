@@ -155,8 +155,7 @@ let g:NERDTreeIndicatorMapCustom = {
 
 " Clang Format
 function! ClangFormat()
-  let l:lines = "all"
-  py3f /usr/share/clang/clang-format-9/clang-format.py
+  %!clang-format
 endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
