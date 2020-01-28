@@ -209,8 +209,7 @@ fi
 print_delim
 
 # tool for formatting python code
-pip3 install yapf
-# TODO you also have to add yapf to PATH if it was installed to .local dir
+apt-get install -y yapf
 
 print_info "Install diff tool to git"
 cp $FILE_DIR/../git/git_diff_wrapper /usr/local/bin
