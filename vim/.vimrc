@@ -168,15 +168,23 @@ endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
-" NOTE: you need save file changes for check by this function
-" TODO this is bad practice, when we need save file before checking
 function! LuaCheck()
-  let errors=system("luacheck ".expand("%"))
-  cexpr errors
+  let sourcefile=expand("%")
+  let text=getline(1, '$')
+
+  " Because luacheck work only with files we have to create temporary file for
+  " validation
+  let tempfile=tempname()
+  call writefile(text, tempfile)
+  let errors=system("luacheck " . tempfile)
+  call delete(tempfile)
+
+  " append filename for errorformat
+  cexpr sourcefile . "\n" . errors
   cwindow 5
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
-autocmd FileType lua set efm=%f:%l:%c:\ %m
+autocmd FileType lua set efm=%+P%f,%*[^:]:%l:%c:\ %m
 
 " Python Format
 function! PythonFormat()
@@ -197,10 +205,10 @@ autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
 
 function! HTMLCheck()
   let text=getline(1, '$')
-  let filename=expand("%")
+  let sourcefile=expand("%")
   let errors=system('tidy -q 1>/dev/null', text)
   if len(errors) " ther are some errors
-    cexpr filename . "\n" . errors " append filename for right errorformat
+    cexpr sourcefile . "\n" . errors " append filename for right errorformat
     cwindow 5
   else " no errors, so we have clear cbuffer
     cexpr errors
@@ -213,12 +221,27 @@ autocmd FileType html set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
 " NOTE: you need save file changes for check by this function
 " TODO this is bad practice, when we need save file before checking
 function! BashCheck()
-  let errors=system("shellcheck -f gcc -x ".expand("%"))
-  cexpr errors
-  cwindow 5
+  let sourcefile=expand("%")
+  let text=getline(1, '$')
+
+  " Because luacheck work only with files we have to create temporary file for
+  " validation
+  let tempfile=tempname()
+  call writefile(text, tempfile)
+  let errors=system("shellcheck -f gcc -x " . tempfile)
+  call delete(tempfile)
+
+  " append filename for errorformat
+  if len(errors)
+    cexpr sourcefile . "\n" . errors
+    cwindow 5
+  else " clear cbuffer
+    cexpr errors
+    cwindow 5
+  end
 endfunction
 autocmd FileType sh nnoremap <buffer> <c-f> :call BashCheck()<cr>
-autocmd FileType sh set efm=%f:%l:%c:\ %t%*[^:]:\ %m
+autocmd FileType sh set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
 
 "-------------------------------------------------------------------------------
 
