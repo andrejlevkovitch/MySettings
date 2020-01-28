@@ -160,9 +160,51 @@ endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
+
 " Lua Format
 function! LuaFormat()
-  py3f /usr/local/bin/lua-format.py
+  let sourcefile=expand("%")
+  let text=getline(1, "$")
+
+  " in case of some error formatter print to stderr error message and exit
+  " with 0 code, so we need redirect stderr to file, for read message in case
+  " of some error. So let create a temporary file
+  let errorfile=tempname()
+
+  let flags=" -si "
+
+  " we can use config file for formatting which we have to set manually
+  let config=findfile(".lua-format", ".;")
+  if len(config) " append config file to flags
+    let flags=flags . " -c " . config
+  end
+
+  let result=system("lua-format " . flags . " 2>" . errorfile, text)
+
+  if len(result) " all right
+    " save cursor position
+    let sourcepos=line(".")
+
+    " change content
+    call deletebufline(bufname("%"), 1, "$")
+    call setline(1, split(result, "\n"))
+
+    " and restore cursor position
+    call cursor(sourcepos, 0)
+
+    " also clear cbuffer
+    cexpr ""
+    cwindow
+  else
+    let errors=readfile(errorfile)
+    call insert(errors, sourcefile)
+
+    set efm=%+P%f,line\ %l:%c\ %m,%-Q
+    cexpr errors
+    cwindow 5
+  end
+
+  call delete(errorfile)
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
@@ -178,23 +220,40 @@ function! LuaCheck()
   let errors=system("luacheck " . tempfile)
   call delete(tempfile)
 
-  " append filename for errorformat
-  cexpr sourcefile . "\n" . errors
+  set efm=%+P%f,%*[^:]:%l:%c:\ %m
+  cexpr sourcefile . "\n" . errors " append filename for errorformat
   cwindow 5
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
-autocmd FileType lua set efm=%+P%f,%*[^:]:%l:%c:\ %m
+
 
 " Python Format
 function! PythonFormat()
-  py3f /usr/local/bin/python-format.py
+  let text=getline(1, '$')
+  let result=system('yapf', text)
+  if v:shell_error == 0 " all right
+    " save cursor position
+    let sourcepos=line(".")
+
+    " change content
+    call deletebufline(bufname("%"), 1, '$')
+    call setline(1, split(result, '\n'))
+
+    " and resotre cursor position
+    call cursor(sourcepos, 0)
+  else " we get errors
+    cexpr result
+    cwindow 5
+  end
 endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
 
+
 " Json Format (just uses python format)
 autocmd FileType json nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.json call PythonFormat()
+
 
 " HTML tidy
 function! HTMLFormat()
@@ -210,15 +269,14 @@ function! HTMLCheck()
     cexpr sourcefile . "\n" . errors " append filename for right errorformat
     cwindow 5
   else " no errors, so we have clear cbuffer
+    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
     cexpr errors
     cwindow 5
   endif
 endfunction
 autocmd FileType html nnoremap <buffer> <c-f> :call HTMLCheck()<cr>
-autocmd FileType html set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
 
-" NOTE: you need save file changes for check by this function
-" TODO this is bad practice, when we need save file before checking
+
 function! BashCheck()
   let sourcefile=expand("%")
   let text=getline(1, '$')

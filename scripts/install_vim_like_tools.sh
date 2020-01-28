@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Note: have to be run only after install_base_software.sh. Also you need installed cmake
 # Note: you need have only one version of lua interpreter (see `color_coded` in `set_settings.sh`)
 
@@ -208,15 +208,7 @@ fi
 
 print_delim
 
-print_info "Install tool for formatting lua in vim"
-git clone https://github.com/andrejlevkovitch/vim-lua-format.git
-cp vim-lua-format/lua-format.py /usr/local/bin/
-rm -rf vim-lua-format
-
-print_info "Install tool for formatting python in vim"
-git clone https://github.com/andrejlevkovitch/vim-python-format.git
-cp vim-python-format/python-format.py /usr/local/bin/
-rm -rf vim-python-format
+# tool for formatting python code
 pip3 install yapf
 # TODO you also have to add yapf to PATH if it was installed to .local dir
 
