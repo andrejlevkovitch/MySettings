@@ -155,7 +155,9 @@ let g:NERDTreeIndicatorMapCustom = {
 
 " Clang Format
 function! ClangFormat()
+  let sourcepos=line(".")
   %!clang-format
+  call cursor(sourcepos, 0)
 endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
