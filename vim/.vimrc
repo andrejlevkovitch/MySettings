@@ -153,11 +153,39 @@ let g:NERDTreeIndicatorMapCustom = {
 
 "-------------------------------------------------------------------------------
 
+" help function for formatters
+function! CopyDiffToBuffer(input, output, bufname)
+  " prevent out of range in cickle
+  let min_len=min([len(a:input), len(a:output)])
+
+  " copy all lines, that was changed
+  for i in range(0, min_len - 1)
+    let output_line=a:output[i]
+    let input_line=a:input[i]
+    if input_line != output_line
+      call setline(i + 1, output_line) " lines calculate from 1, items - from 0
+    end
+  endfor
+
+  " in this case we have to handle all lines, that was in range
+  if len(a:input) != len(a:output)
+    if min_len == len(a:output) " remove all extra lines from input
+      call deletebufline(a:bufname, min_len + 1, "$")
+    else " append all extra lines from output
+      call append("$", a:output[min_len:])
+    end
+  end
+endfunction
+
 " Clang Format
 function! ClangFormat()
-  let sourcepos=line(".")
-  %!clang-format
-  call cursor(sourcepos, 0)
+  let input=getline(1, "$")
+  let output_str=system("clang-format", input)
+
+  " output of system is a string, so transform it to list
+  let output=split(output_str, "\n")
+
+  call CopyDiffToBuffer(input, output, bufname("%"))
 endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
@@ -165,8 +193,7 @@ autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
 " Lua Format
 function! LuaFormat()
-  let sourcefile=expand("%")
-  let text=getline(1, "$")
+  let input=getline(1, "$")
 
   " in case of some error formatter print to stderr error message and exit
   " with 0 code, so we need redirect stderr to file, for read message in case
@@ -181,29 +208,25 @@ function! LuaFormat()
     let flags=flags . " -c " . config
   end
 
-  let result=system("lua-format " . flags . " 2>" . errorfile, text)
+  let output_str=system("lua-format " . flags . " 2>" . errorfile, input)
 
-  if len(result) " all right
-    " save cursor position
-    let sourcepos=line(".")
+  if len(output_str) " all right
+    let output=split(output_str, "\n")
+    call CopyDiffToBuffer(input, output, bufname("%"))
 
-    " change content
-    call deletebufline(bufname("%"), 1, "$")
-    call setline(1, split(result, "\n"))
-
-    " and restore cursor position
-    call cursor(sourcepos, 0)
-
-    " also clear cbuffer
-    cexpr ""
-    cwindow
-  else
+    " also clear lbuffer
+    lexpr ""
+    lwindow
+  else " we got error
     let errors=readfile(errorfile)
+
+    " insert filename of current buffer in front of list. Need for errorformat
+    let sourcefile=expand("%")
     call insert(errors, sourcefile)
 
     set efm=%+P%f,line\ %l:%c\ %m,%-Q
-    cexpr errors
-    cwindow 5
+    lexpr errors
+    lwindow 5
   end
 
   call delete(errorfile)
@@ -213,39 +236,36 @@ autocmd BufWrite *.lua call LuaFormat()
 
 function! LuaCheck()
   let sourcefile=expand("%")
-  let text=getline(1, '$')
+  let input=getline(1, '$')
 
-  " Because luacheck work only with files we have to create temporary file for
-  " validation
+  " we have to create temporary file for validation, because luacheck work only
+  " with files 
   let tempfile=tempname()
-  call writefile(text, tempfile)
+  call writefile(input, tempfile)
   let errors=system("luacheck " . tempfile)
   call delete(tempfile)
 
   set efm=%+P%f,%*[^:]:%l:%c:\ %m
-  cexpr sourcefile . "\n" . errors " append filename for errorformat
-  cwindow 5
+  lexpr sourcefile . "\n" . errors " append filename for errorformat
+  lwindow 5
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
 
 
 " Python Format
 function! PythonFormat()
-  let text=getline(1, '$')
-  let result=system('yapf --style=chromium', text)
+  let input=getline(1, '$')
+  let output_str=system('yapf --style=chromium', input)
   if v:shell_error == 0 " all right
-    " save cursor position
-    let sourcepos=line(".")
+    let output=split(output_str, "\n")
+    call CopyDiffToBuffer(input, output, bufname("%"))
 
-    " change content
-    call deletebufline(bufname("%"), 1, '$')
-    call setline(1, split(result, '\n'))
-
-    " and resotre cursor position
-    call cursor(sourcepos, 0)
-  else " we get errors
-    cexpr result
-    cwindow 5
+    " and creare lbuffer
+    lexpr ""
+    lwindow
+  else " we got errors
+    lexpr output_str
+    lwindow 5
   end
 endfunction
 autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
@@ -259,48 +279,66 @@ autocmd BufWrite *.json call PythonFormat()
 
 " HTML tidy
 function! HTMLFormat()
-  silent %!tidy -qi -ashtml --show-errors 0
+  let input=getline(1, "$")
+  let output_str=system("tidy -qi -ashtml", input)
+
+  if v:shell_error == 0 " all right
+    let output=split(output_str, "\n")
+    call CopyDiffToBuffer(input, output, bufname("%"))
+
+    " alse cleare lbuffer
+    lexpr ""
+    lwindow
+  else " we got error
+    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+
+    let sourcefile=expand("%")
+    lexpr sourcefile . "\n" . output_str " append filename for right errorformat
+    lwindow 5
+  end
 endfunction
 autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
+autocmd BufWrite *.html call HTMLFormat()
 
 function! HTMLCheck()
-  let text=getline(1, '$')
-  let sourcefile=expand("%")
-  let errors=system('tidy -q 1>/dev/null', text)
+  let input=getline(1, '$')
+  let errors=system('tidy -q 1>/dev/null', input)
   if len(errors) " ther are some errors
-    cexpr sourcefile . "\n" . errors " append filename for right errorformat
-    cwindow 5
-  else " no errors, so we have clear cbuffer
     set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
-    cexpr errors
-    cwindow 5
+
+    let sourcefile=expand("%")
+    lexpr sourcefile . "\n" . errors " append filename for right errorformat
+    lwindow 5
+  else " no errors, so we must clear lbuffer
+    lexpr ""
+    lwindow
   endif
 endfunction
 autocmd FileType html nnoremap <buffer> <c-f> :call HTMLCheck()<cr>
 
 
 function! BashCheck()
-  let sourcefile=expand("%")
-  let text=getline(1, '$')
+  let input=getline(1, '$')
 
   " Because shellcheck work only with files we have to create temporary file for
   " validation
   let tempfile=tempname()
-  call writefile(text, tempfile)
+  call writefile(input, tempfile)
   let errors=system("shellcheck -f gcc " . tempfile)
   call delete(tempfile)
 
-  " append filename for errorformat
   if len(errors)
-    cexpr sourcefile . "\n" . errors
-    cwindow 5
-  else " clear cbuffer
-    cexpr errors
-    cwindow 5
+    set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
+
+    let sourcefile=expand("%")
+    lexpr sourcefile . "\n" . errors " append filename for errorformat
+    lwindow 5
+  else " clear lbuffer
+    lexpr ""
+    lwindow
   end
 endfunction
 autocmd FileType sh nnoremap <buffer> <c-f> :call BashCheck()<cr>
-autocmd FileType sh set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
 
 "-------------------------------------------------------------------------------
 
