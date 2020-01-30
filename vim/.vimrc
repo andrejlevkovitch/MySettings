@@ -280,9 +280,10 @@ autocmd BufWrite *.json call PythonFormat()
 " HTML tidy
 function! HTMLFormat()
   let input=getline(1, "$")
-  let output_str=system("tidy -qi -ashtml", input)
+  let error_file=tempname()
+  let output_str=system("tidy -qi -ashtml 2>" . error_file, input)
 
-  if v:shell_error == 0 " all right
+  if len(output_str) " all right
     let output=split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
 
@@ -290,24 +291,31 @@ function! HTMLFormat()
     lexpr ""
     lwindow
   else " we got error
-    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+    let errors=readfile(error_file)
 
     let source_file=bufname("%")
-    lexpr source_file . "\n" . output_str " append filename for right errorformat
+    call insert(errors, source_file) " append filename for right errorformat
+
+    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+    lexpr errors
     lwindow 5
   end
+
+  call delete(error_file)
 endfunction
 autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
 autocmd BufWrite *.html call HTMLFormat()
 
 function! HTMLCheck()
   let input=getline(1, '$')
-  let errors=system('tidy -q 1>/dev/null', input)
+  let errors=system('tidy -q -e', input)
   if len(errors) " ther are some errors
-    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
-
+    " append filename for right errorformat
     let source_file=bufname("%")
-    lexpr source_file . "\n" . errors " append filename for right errorformat
+    let errors=source_file . "\n" . errors
+
+    set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
+    lexpr errors
     lwindow 5
   else " no errors, so we must clear lbuffer
     lexpr ""
@@ -328,10 +336,12 @@ function! BashCheck()
   call delete(temp_file)
 
   if len(errors)
-    set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
-
+    " append filename for errorformat
     let source_file=bufname("%")
-    lexpr source_file . "\n" . errors " append filename for errorformat
+    let errors=source_file . "\n" . errors
+
+    set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
+    lexpr errors
     lwindow 5
   else " clear lbuffer
     lexpr ""
