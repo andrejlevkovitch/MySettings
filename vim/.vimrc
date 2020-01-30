@@ -198,7 +198,7 @@ function! LuaFormat()
   " in case of some error formatter print to stderr error message and exit
   " with 0 code, so we need redirect stderr to file, for read message in case
   " of some error. So let create a temporary file
-  let errorfile=tempname()
+  let error_file=tempname()
 
   let flags=" -si "
 
@@ -208,7 +208,7 @@ function! LuaFormat()
     let flags=flags . " -c " . config
   end
 
-  let output_str=system("lua-format " . flags . " 2>" . errorfile, input)
+  let output_str=system("lua-format " . flags . " 2>" . error_file, input)
 
   if len(output_str) " all right
     let output=split(output_str, "\n")
@@ -218,35 +218,35 @@ function! LuaFormat()
     lexpr ""
     lwindow
   else " we got error
-    let errors=readfile(errorfile)
+    let errors=readfile(error_file)
 
     " insert filename of current buffer in front of list. Need for errorformat
-    let sourcefile=expand("%")
-    call insert(errors, sourcefile)
+    let source_file=bufname("%")
+    call insert(errors, source_file)
 
     set efm=%+P%f,line\ %l:%c\ %m,%-Q
     lexpr errors
     lwindow 5
   end
 
-  call delete(errorfile)
+  call delete(error_file)
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
 function! LuaCheck()
-  let sourcefile=expand("%")
+  let source_file=bufname("%")
   let input=getline(1, '$')
 
   " we have to create temporary file for validation, because luacheck work only
   " with files 
-  let tempfile=tempname()
-  call writefile(input, tempfile)
-  let errors=system("luacheck " . tempfile)
-  call delete(tempfile)
+  let temp_file=tempname()
+  call writefile(input, temp_file)
+  let errors=system("luacheck " . temp_file)
+  call delete(temp_file)
 
   set efm=%+P%f,%*[^:]:%l:%c:\ %m
-  lexpr sourcefile . "\n" . errors " append filename for errorformat
+  lexpr source_file . "\n" . errors " append filename for errorformat
   lwindow 5
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
@@ -292,8 +292,8 @@ function! HTMLFormat()
   else " we got error
     set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
 
-    let sourcefile=expand("%")
-    lexpr sourcefile . "\n" . output_str " append filename for right errorformat
+    let source_file=bufname("%")
+    lexpr source_file . "\n" . output_str " append filename for right errorformat
     lwindow 5
   end
 endfunction
@@ -306,8 +306,8 @@ function! HTMLCheck()
   if len(errors) " ther are some errors
     set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
 
-    let sourcefile=expand("%")
-    lexpr sourcefile . "\n" . errors " append filename for right errorformat
+    let source_file=bufname("%")
+    lexpr source_file . "\n" . errors " append filename for right errorformat
     lwindow 5
   else " no errors, so we must clear lbuffer
     lexpr ""
@@ -322,16 +322,16 @@ function! BashCheck()
 
   " Because shellcheck work only with files we have to create temporary file for
   " validation
-  let tempfile=tempname()
-  call writefile(input, tempfile)
-  let errors=system("shellcheck -f gcc " . tempfile)
-  call delete(tempfile)
+  let temp_file=tempname()
+  call writefile(input, temp_file)
+  let errors=system("shellcheck -f gcc " . temp_file)
+  call delete(temp_file)
 
   if len(errors)
     set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
 
-    let sourcefile=expand("%")
-    lexpr sourcefile . "\n" . errors " append filename for errorformat
+    let source_file=bufname("%")
+    lexpr source_file . "\n" . errors " append filename for errorformat
     lwindow 5
   else " clear lbuffer
     lexpr ""
