@@ -185,7 +185,13 @@ function! ClangFormat()
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
 
-  call CopyDiffToBuffer(input, output, bufname("%"))
+  " we can use error about not valid `.clang-format`
+  if v:shell_error == 0
+    call CopyDiffToBuffer(input, output, bufname("%"))
+  else " just place error string to lbuffer without parsing
+    lexpr output
+    lwindow
+  end
 endfunction
 autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
 autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
