@@ -245,8 +245,11 @@ function! LuaCheck()
   let errors=system("luacheck " . temp_file)
   call delete(temp_file)
 
+  " append filename for errorformat
+  let errors=source_file . "\n" . errors
+
   set efm=%+P%f,%*[^:]:%l:%c:\ %m
-  lexpr source_file . "\n" . errors " append filename for errorformat
+  lexpr errors 
   lwindow 5
 endfunction
 autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
