@@ -8,4 +8,4 @@ After installation scripts have to start at next sequence:
   7. `install_vim_like_tools.sh`
   8. `set_settings.sh` (need be started by user, not by root!)
 
-Other scripts not required
+Other scripts are optional
