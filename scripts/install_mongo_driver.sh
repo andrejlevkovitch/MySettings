@@ -13,30 +13,39 @@ if [ $? -ne 0 ]; then
 fi
 
 
+apt-get install -y \
+  libssl-dev \
+  libsasl2-dev
+
+if [ $? -ne 0 ]; then
+  print_error "can not be installed neded software"
+  exit 1
+fi
+
+
+# XXX mongo-c-driver need `.git` directory for building, so we need download git
+# repository instead archive
 PACKAGE_C=mongo-c-driver-ch
 VERSION_C=1.16.1
-LINK_C="https://github.com/mongodb/mongo-c-driver/archive/1.16.1.tar.gz"
-SHA_SUM_C="f27fe26b4c26ccc5b77bb6f02e7d420c86df4411f64a4cd7ca3c784890649a5a"
-ARCHIVE_C=$TMP_DIR/mongo_archive
+LINK_C="https://github.com/mongodb/mongo-c-driver.git"
 OUT_DIR_C=$TMP_DIR/mongo_build
 
 check_package $PACKAGE_C
 if [ $? -ne 0 ]; then
   print_info "Install $PACKAGE_C"
-  package_loader $LINK_C $ARCHIVE_C $SHA_SUM_C
+  git clone $LINK_C $OUT_DIR_C
   if [ $? -ne 0 ]; then
     print_error "Can not load $PACKAGE_C"
     exit 1
   fi
 
-  mkdir $OUT_DIR_C
-  tar -xzvf $ARCHIVE_C --directory $OUT_DIR_C --strip-components=1
-  rm $ARCHIVE_C
   cd $OUT_DIR_C
+  git checkout r1.16
 
   mkdir build_tmp
   cd build_tmp
   cmake \
+    -DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
     ..
@@ -79,8 +88,8 @@ if [ $? -ne 0 ]; then
   cd build_tmp
   cmake \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=17 \
-    -DCMAKE_INSTALL_PREFIX=/usr/local
+    -DBSONCXX_POLY_USE_BOOST=1 \
+    -DCMAKE_INSTALL_PREFIX=/usr/local \
     ..
   cmake --build . -- -j4
 
