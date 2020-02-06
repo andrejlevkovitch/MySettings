@@ -13,9 +13,12 @@ apt-get install -y \
   luajit lua-ldoc \
   python3-dev python-dev python3-pip \
   gdb gdbserver \
-  cppcheck \  # static analizer
-  tidy \      # checking HTML
+  cppcheck \
+  tidy \
   tree
+# cppcheck - static analizer
+# tidy - checking HTML
+
 
 if [ $? -ne 0 ]; then
   print_error "soft for programming can not be installed"

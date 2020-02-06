@@ -62,8 +62,8 @@ For virtualbox you can install extension and guest addition:
 
 On guest machine:
   - install `build-essential` and `linux-headers-...`
-	- install guest addition
-	- execute `sudo usermod -aG vboxsf $USER`
+  - install guest addition
+  - execute `sudo usermod -aG vboxsf $USER`
 
 
 Your shared folders will be in media folder
@@ -153,10 +153,10 @@ NOTE: before installing image you have to add pci devices of the `GPU`
 Also you need add next lines in image config file to `features` tag:
 ```xml
     <hyperv>
-	    <vendor_id state="on" value="whatever"/>
+      <vendor_id state="on" value="whatever"/>
     </hyperv>
     <kvm>
-	    <hidden state="on"/>
+     <hidden state="on"/>
     </kvm>
 ```
 
