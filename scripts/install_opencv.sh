@@ -23,6 +23,9 @@ apt-get install -y \
   libpng-dev \
   libjpeg-dev \
   libtiff-dev \
+  libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+  libxvidcore-dev libx264-dev \
+  ffmpeg \
   gcc-7 g++-7
 
 if [ $? -ne 0 ]; then
@@ -95,6 +98,7 @@ if [ $? -ne 0 ]; then
     -DBUILD_opencv_python3=OFF \
     -DBUILD_opencv_js=OFF \
     -DBUILD_JAVA=OFF \
+    -DWITH_FFMPEG=ON \
     $OPENCV_DIR
   cmake --build . -- -j4
 
@@ -118,8 +122,6 @@ print_delim
 # print_info "Install python3 support"
 # apt-get install -y \
 #   python3-numpy \
-#   libavcodec-dev \
-#   ffmpeg \
 #   python3-matplotlib \
 #   python3-pip
 
