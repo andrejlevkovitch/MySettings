@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO not well tested
 # NOTE: for install tensorflow you need set some params during configuration
 
 source utils.sh
