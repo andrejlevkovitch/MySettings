@@ -44,6 +44,8 @@ If you have testing buster, then you need manually change repositories. In
 security you have to set `testing-security` insted `buster/security`, and change
 buster to stable.
 
+Also you can fix problem by:
+  - `sudo apt-get update --allow-releaseinfo-change`
 
 ### Time
 
@@ -60,8 +62,8 @@ For virtualbox you can install extension and guest addition:
 
 On guest machine:
   - install `build-essential` and `linux-headers-...`
-	- install guest addition
-	- execute `sudo usermod -aG vboxsf $USER`
+  - install guest addition
+  - execute `sudo usermod -aG vboxsf $USER`
 
 
 Your shared folders will be in media folder
@@ -99,6 +101,38 @@ as root:
 umount /dev/sdb1
 cat image.iso > /dev/sdb; sync
 ```
+
+## Install nvidia driver and cuda
+1. run:
+```sh
+apt-get install linux-headers-$(uname -r)
+```
+2. run:
+```sh
+apt-get install dkms
+```
+3. add nouveau to blacklist:
+  1. create `/etc/modprove.d/blacklist-nouveau.conf`
+  2. add next lines to this files:
+```
+blacklist nouveau
+options nouveau modeset=0
+```
+  3. run:
+```sh
+update-initramfs -u
+```
+4. reboot in text mode
+5. switch off `x server`
+```sh
+systemctl stop lightdm.service
+```
+6. run `cuda*.run` file
+
+NOTE: in `ubuntu-16` with `cuda-9` you can have problem with
+`linux-headers` version. `cuda-9` can not be installed with
+`linux-headers` 15 or 17, so install kernel version less then
+15
 
 
 ## Add gpu to kvm (Intel, Nvidia)
@@ -151,10 +185,10 @@ NOTE: before installing image you have to add pci devices of the `GPU`
 Also you need add next lines in image config file to `features` tag:
 ```xml
     <hyperv>
-	    <vendor_id state="on" value="whatever"/>
+      <vendor_id state="on" value="whatever"/>
     </hyperv>
     <kvm>
-	    <hidden state="on"/>
+     <hidden state="on"/>
     </kvm>
 ```
 

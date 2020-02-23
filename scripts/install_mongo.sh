@@ -22,7 +22,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-systemctl enable mongod.service
-systemctl start mongod.service
+# XXX mongod service not set enabled automaticly, so, if you need, just run it
+# systemctl enable mongod.service
+# systemctl start mongod.service
 
 print_delim

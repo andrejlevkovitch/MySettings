@@ -1,4 +1,6 @@
 #!/bin/bash
+# NOTE: by default install without python support, but at the end of the script
+# is installation of python-opencv, which you can uncomment
 
 source utils.sh
 
@@ -21,6 +23,9 @@ apt-get install -y \
   libpng-dev \
   libjpeg-dev \
   libtiff-dev \
+  libavcodec-dev libavformat-dev libswscale-dev libv4l-dev \
+  libxvidcore-dev libx264-dev \
+  ffmpeg \
   gcc-7 g++-7
 
 if [ $? -ne 0 ]; then
@@ -28,13 +33,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-
-# also install packages for python (in this case for python2.7)
-apt-get install -y \
-  python3-numpy \
-  libavcodec-dev \
-  ffmpeg \
-  python3-matplotlib
 
 if [ $? -ne 0 ]; then
   print_error "neded packages can not be installed"
@@ -56,71 +54,97 @@ OPENCV_DIR=$TMP_DIR/opencv_dir
 CONTRIB_ARCHIVE=$TMP_DIR/contrib_archive
 CONTRIB_DIR=$TMP_DIR/contrib_dir
 
+FAILURE=false
+
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "load $PACKAGE"
+  for i in [1]; do
+    print_info "load $PACKAGE"
 
-  package_loader $OPENCV_LINK $OPENCV_ARCHIVE $OPENCV_SHA
-  if [ $? -ne 0 ]; then
-    print_error "$PACKAGE can not be loaded"
-    exit 1
-  fi
-  package_loader $CONTRIB_LINK $CONTRIB_ARCHIVE $CONTRIB_SHA
-  if [ $? -ne 0 ]; then
-    rm $OPENCV_ARCHIVE
-    print_error "contrib can not be loaded"
-    exit 1
-  fi
+    package_loader $OPENCV_LINK $OPENCV_ARCHIVE $OPENCV_SHA
+    if [ $? -ne 0 ]; then
+      print_error "$PACKAGE can not be loaded"
+      FAILURE=true
+      break
+    fi
+    package_loader $CONTRIB_LINK $CONTRIB_ARCHIVE $CONTRIB_SHA
+    if [ $? -ne 0 ]; then
+      print_error "contrib can not be loaded"
+      FAILURE=true
+      break
+    fi
 
-  mkdir $OPENCV_DIR
-  mkdir $CONTRIB_DIR
-  tar -xzvf $OPENCV_ARCHIVE --directory $OPENCV_DIR --strip-components=1
-  tar -xzvf $CONTRIB_ARCHIVE --directory $CONTRIB_DIR --strip-components=1
-  rm $OPENCV_ARCHIVE
-  rm $CONTRIB_ARCHIVE
+    mkdir $OPENCV_DIR
+    mkdir $CONTRIB_DIR
+    tar -xzvf $OPENCV_ARCHIVE --directory $OPENCV_DIR --strip-components=1
+    tar -xzvf $CONTRIB_ARCHIVE --directory $CONTRIB_DIR --strip-components=1
 
 
-  mkdir $OPENCV_DIR/build
-  cd $OPENCV_DIR/build
-  # Note! In cuda10 nvidia-video-codec was be deprecated, so you need option
-  # BUILD_opencv_cudacodec=OFF. If cuda version less then 10, then you can not
-  # set this (by default ON)
-  cmake \
-    -DCMAKE_C_COMPILER=gcc-7 \
-    -DCMAKE_CXX_COMPILER=g++-7 \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DOPENCV_EXTRA_MODULES_PATH=$CONTRIB_DIR/modules \
-    -DWITH_CUDA=ON \
-    -DOPENCV_DNN_CUDA=ON \
-    -DBUILD_opencv_cudacodec=OFF \
-    -DWITH_OPENCL=ON \
-    -DOPENCV_DNN_OPENCL=ON \
-    $OPENCV_DIR
-  cmake --build . -- -j4
+    mkdir $OPENCV_DIR/build
+    cd $OPENCV_DIR/build
+    # Note! In cuda10 nvidia-video-codec was be deprecated, so you need option
+    # BUILD_opencv_cudacodec=OFF. If cuda version less then 10, then you can not
+    # set this (by default ON)
+    cmake \
+      -DCMAKE_C_COMPILER=gcc-7 \
+      -DCMAKE_CXX_COMPILER=g++-7 \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DOPENCV_EXTRA_MODULES_PATH=$CONTRIB_DIR/modules \
+      -DWITH_CUDA=ON \
+      -DOPENCV_DNN_CUDA=ON \
+      -DBUILD_opencv_cudacodec=OFF \
+      -DWITH_OPENCL=ON \
+      -DOPENCV_DNN_OPENCL=ON \
+      -DBUILD_opencv_python2=OFF \
+      -DBUILD_opencv_python3=OFF \
+      -DBUILD_opencv_js=OFF \
+      -DBUILD_JAVA=OFF \
+      -DWITH_FFMPEG=ON \
+      $OPENCV_DIR
+    if [ $? -ne 0 ]; then
+      print_error "Configuration error"
+      FAILURE=true
+      break
+    fi
 
-  ch_install $PACKAGE $OPENCV_VER
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $OPENCV_DIR
-    rm -rf $CONTRIB_DIR
-    print_error "opencv can not be installed"
-    exit 1
-  fi
+    cmake --build . -- -j4
+    if [ $? -ne 0 ]; then
+      print_error "Compilation error"
+      FAILURE=true
+      break
+    fi
 
-  cd $CUR_DIR
-  rm -rf $OPENCV_DIR
-  rm -rf $CONTRIB_DIR
+    ch_install $PACKAGE $OPENCV_VER
+    if [ $? -ne 0 ]; then
+      print_error "opencv can not be installed"
+      FAILURE=true
+      break
+    fi
+  done
+fi
+
+cd $CUR_DIR
+rm -rf $OPENCV_DIR
+rm -rf $CONTRIB_DIR
+
+if $FAILURE; then
+  exit 1
 fi
 
 print_delim
 
 
-print_info "Install python3 support"
-pip3 install opencv-python opencv-contrib-python
-if [ $? -ne 0 ]; then
-  print_error "Can not install python3 support for opencv"
-  exit 1
-fi
+# print_info "Install python3 support"
+# apt-get install -y \
+#   python3-numpy \
+#   python3-matplotlib \
+#   python3-pip
+
+# pip3 install opencv-python opencv-contrib-python
+# if [ $? -ne 0 ]; then
+#   print_error "Can not install python3 support for opencv"
+#   exit 1
+# fi
 
 print_delim

@@ -19,33 +19,52 @@ SHA_SUM="255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
 ARCHIVE=$TMP/sdl2_ar
 OUT_DIR=$TMP/sdl2_dir
 
+FAILURE=false
+
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install $PACKAGE"
-  package_loader $LINK $ARCHIVE $SHA_SUM
-  if [ $? -ne 0 ]; then
-    print_error "$PACKAGE can not be loaded"
-    exit 1
-  fi
+  for i in [1]; do
+    print_info "Install $PACKAGE"
+    package_loader $LINK $ARCHIVE $SHA_SUM
+    if [ $? -ne 0 ]; then
+      print_error "$PACKAGE can not be loaded"
+      FAILURE=true
+      break
+    fi
 
-  tar -xzvf $ARCHIVE --directory $OUT_DIR --strip-components=1
-  rm $ARCHIVE
-  mkdir $OUT_DIR/build
-  cd $OUT_DIR/build
+    tar -xzvf $ARCHIVE --directory $OUT_DIR --strip-components=1
+    mkdir $OUT_DIR/build
+    cd $OUT_DIR/build
 
-  cmake -DCMAKE_BUILD_TYPE=Release ..
-  cmake --build . -- -j4
+    cmake -DCMAKE_BUILD_TYPE=Release ..
+    if [ $? -ne 0 ]; then
+      print_error "Configuration error"
+      FAILURE=true
+      break
+    fi
 
-  ch_install $PACKAGE $VERSION
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $OUT_DIR
-    print_error "$PACKAGE can not be installed"
-    exit 1
-  fi
+    cmake --build . -- -j4
+    if [ $? -ne 0 ]; then
+      print_error "Compilation error"
+      FAILURE=true
+      break
+    fi
 
-  cd $CUR_DIR
-  rm -rf $OUT_DIR
+    ch_install $PACKAGE $VERSION
+    if [ $? -ne 0 ]; then
+      print_error "$PACKAGE can not be installed"
+      FAILURE=true
+      break
+    fi
+  done
+fi
+
+cd $CUR_DIR
+rm $ARCHIVE
+rm -rf $OUT_DIR
+
+if $FAILURE; then
+  exit 1
 fi
 
 print_delim
