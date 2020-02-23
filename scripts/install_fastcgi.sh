@@ -29,27 +29,45 @@ VERSION=1.0.0
 LINK="https://github.com/lmovsesjan/Fastcgi-Daemon.git"
 OUT_DIR=$TMP_DIR/Fastcgi-Daemon
 
+FAILURE=false
+
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install $PACKAGE"
-  git clone $LINK $OUT_DIR
+  for i in [1]; do
+    print_info "Install $PACKAGE"
+    git clone $LINK $OUT_DIR
 
-  cd $OUT_DIR
-  autoreconf --install
-  ./configure --prefix=/usr/local
-  make
+    cd $OUT_DIR
+    autoreconf --install
+    ./configure --prefix=/usr/local
+    if [ $? -ne 0 ]; then
+      print_error "configuration failed"
+      FAILURE=true
+      break
+    fi
 
-  ch_install $PACKAGE $VERSION
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $OUT_DIR
-    print_error "$PACKAGE can not be installed"
-    exit 1
-  fi
-  ldconfig
+    make
+    if [ $? -ne 0 ]; then
+      print_error "compilation failed"
+      FAILURE=true
+      break
+    fi
 
-  cd $CUR_DIR
-  rm -rf $OUT_DIR
+    ch_install $PACKAGE $VERSION
+    if [ $? -ne 0 ]; then
+      print_error "$PACKAGE can not be installed"
+      FAILURE=true
+      break
+    fi
+    ldconfig
+  done
+fi
+
+cd $CUR_DIR
+rm -rf $OUT_DIR
+
+if $FAILURE; then
+  exit 1
 fi
 
 print_delim

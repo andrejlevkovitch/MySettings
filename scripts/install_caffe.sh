@@ -35,34 +35,57 @@ fi
 
 print_delim
 
+FAILURE=false
+
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  git clone $DOWNLOAD_LINK $OUT_DIR
+  for i in [1]; do
+    git clone $DOWNLOAD_LINK $OUT_DIR
+    if [ $? -ne 0 ]; then
+      print_error "Can not download source code"
+      FAILURE=true
+      break
+    fi
 
-  mkdir $OUT_DIR/build
-  cd $OUT_DIR/build
-  cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_C_COMPILER=gcc-7 \
-    -DCMAKE_CXX_COMPILER=g++-7 \
-    -DUSE_OPENCV=ON \
-    -DUSE_CUDNN=ON \
-    -DBLAS=Open \
-    -DBUILD_python=OFF \
-    $OUT_DIR
-  cmake --build . -- -j4
+    mkdir $OUT_DIR/build
+    cd $OUT_DIR/build
+    cmake \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_C_COMPILER=gcc-7 \
+      -DCMAKE_CXX_COMPILER=g++-7 \
+      -DUSE_OPENCV=ON \
+      -DUSE_CUDNN=ON \
+      -DBLAS=Open \
+      -DBUILD_python=OFF \
+      $OUT_DIR
+    if [ $? -ne 0 ]; then
+      print_error "configuration error"
+      FAILURE=true
+      break
+    fi
 
-  ch_install $PACKAGE $VERSION
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $OUT_DIR
-    print_error "$PACKAGE can not be installed"
-    exit 1
-  fi
+    cmake --build . -- -j4
+    if [ $? -ne 0 ]; then
+      print_error "compilation error"
+      FAILURE=true
+      break
+    fi
 
-  cd $CUR_DIR
-  rm -rf $OUT_DIR
+    ch_install $PACKAGE $VERSION
+    if [ $? -ne 0 ]; then
+      print_error "$PACKAGE can not be installed"
+      FAILURE=true
+      break
+    fi
+  done
+fi
+
+cd $CUR_DIR
+rm -rf $OUT_DIR
+
+if $FAILURE; then
+  exit 1
 fi
 
 print_delim
