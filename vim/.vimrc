@@ -189,6 +189,10 @@ function! ClangFormat()
   if v:shell_error == 0
     call CopyDiffToBuffer(input, output, bufname("%"))
   else " just place error string to lbuffer without parsing
+    " change YAML to .clang-format file with complete path
+    let config_file=findfile(".clang-format", ".;")
+    let output[0]=substitute(output[0], "YAML", config_file, "")
+
     lexpr output
     lwindow
   end
@@ -209,9 +213,9 @@ function! LuaFormat()
   let flags=" -si "
 
   " we can use config file for formatting which we have to set manually
-  let config=findfile(".lua-format", ".;")
-  if len(config) " append config file to flags
-    let flags=flags . " -c " . config
+  let config_file=findfile(".lua-format", ".;")
+  if len(config_file) " append config_file to flags
+    let flags=flags . " -c " . config_file
   end
 
   let output_str=system("lua-format " . flags . " 2>" . error_file, input)
