@@ -197,8 +197,8 @@ function! ClangFormat()
     lwindow
   end
 endfunction
-autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
-autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
+autocmd FileType c,cpp,cuda nnoremap <buffer> <c-k> :call ClangFormat()<cr>
+autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h,*.cu call ClangFormat()
 
 
 " Lua Format
