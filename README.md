@@ -112,7 +112,7 @@ apt-get install linux-headers-$(uname -r)
 apt-get install dkms
 ```
 3. add nouveau to blacklist:
-  1. create `/etc/modprove.d/blacklist-nouveau.conf`
+  1. create `/etc/modprobe.d/blacklist-nouveau.conf`
   2. add next lines to this files:
 ```
 blacklist nouveau
@@ -129,7 +129,7 @@ systemctl stop lightdm.service
 ```
 6. run `cuda*.run` file
 
-NOTE: in `ubuntu-16` with `cuda-9` you can have problem with
+__NOTE__: in `ubuntu-16` with `cuda-9` you can have problem with
 `linux-headers` version. `cuda-9` can not be installed with
 `linux-headers` 15 or 17, so install kernel version less then
 15
@@ -137,10 +137,10 @@ NOTE: in `ubuntu-16` with `cuda-9` you can have problem with
 
 ## Add gpu to kvm (Intel, Nvidia)
 
-NOTE: you can not use the `GPU` on you host, so switch to `internal GPU` and
+__NOTE__: you can not use the `GPU` on you host, so switch to `internal GPU` and
 remove all drivers for `GPU`. Also you have to switch on `VT-d`
 
-  - Install `kvm` (see `install_virt.sh`)
+  - Install [kvm](scripts/install_virt.sh)
   - Add nouveau to blacklist (`/etc/modprobe.d/blacklist-nouveau.conf`):
       ```bash
       blacklist nouveau
@@ -180,7 +180,9 @@ remove all drivers for `GPU`. Also you have to switch on `VT-d`
       dmesg | grep -i vfio
       ```
 
-NOTE: before installing image you have to add pci devices of the `GPU`
+__NOTE__: before installing image you have to add pci devices of the `GPU`.
+When you use `virt-manger` for create image, switch on
+`Customize configuration before install`
 
 Also you need add next lines in image config file to `features` tag:
 ```xml
@@ -194,7 +196,9 @@ Also you need add next lines in image config file to `features` tag:
 
 Use command:
 
-  - `virsh edit name_of_image`
+```sh
+virsh edit name_of_image
+```
 
 
 ## Change partions with save all data
@@ -222,7 +226,7 @@ Also you can have problem while boot: `resume device`. For resolve it you need
 change (or remove) `UUID` (user command `blkid`) of changed (removed) device in files `/etc/fstab` and
 `/etc/initramfs-tools/conf.d/resume`. And call `update-initramfs -u`.
 
-NOTE: if you have `PARTUUID` instead `UUID` you have to set `PARTUUID` instead
+__NOTE__: if you have `PARTUUID` instead `UUID` you have to set `PARTUUID` instead
 `UUID` in the files.
 
 Also, if you change swap partition you need format and on it:
