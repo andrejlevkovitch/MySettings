@@ -9,15 +9,18 @@ print_delim
 print_info "Install software for programming"
 apt-get install -y \
   git \
-  doxygen graphviz \
+  graphviz gnuplot \
+  doxygen \
   luajit lua-ldoc \
   python3-dev python-dev python3-pip \
   gdb gdbserver \
   cppcheck \
   tidy \
   tree
-# cppcheck - static analizer
-# tidy - checking HTML
+# cppcheck  - static analizer
+# tidy      - checking HTML
+# graphviz  - graph visualization
+# gnuplot   - plot vizualization
 
 
 if [ $? -ne 0 ]; then
