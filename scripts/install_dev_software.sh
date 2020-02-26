@@ -11,16 +11,18 @@ apt-get install -y \
   git \
   graphviz gnuplot \
   doxygen \
-  luajit lua-ldoc \
+  luajit lua-ldoc lua-busted \
   python3-dev python-dev python3-pip \
   gdb gdbserver \
   cppcheck \
   tidy \
   tree
-# cppcheck  - static analizer
-# tidy      - checking HTML
-# graphviz  - graph visualization
-# gnuplot   - plot vizualization
+# cppcheck    - static analizer
+# tidy        - checking HTML
+# graphviz    - graph visualization
+# gnuplot     - plot vizualization
+# lua-ldoc    - tool for generating lua documentation
+# lua-busted  - lua unit testing (BDD-style)
 
 
 if [ $? -ne 0 ]; then
