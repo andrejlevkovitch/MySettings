@@ -24,34 +24,35 @@ FAILURE=false
 
 check_package $PB_PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install $PB_PACKAGE"
-  package_loader $PB_LINK $PB_ARCHIVE $PB_SHA_SUM
-  if [ $? -ne 0 ]; then
-    print_error "$PB_PACKAGE can not be loaded"
-    exit 1
-  fi
+  for i in [1]; do
+    print_info "Install $PB_PACKAGE"
+    package_loader $PB_LINK $PB_ARCHIVE $PB_SHA_SUM
+    if [ $? -ne 0 ]; then
+      print_error "$PB_PACKAGE can not be loaded"
+      FAILURE=true
+      exit 1
+    fi
 
-  mkdir $PB_DIR
-  tar -xzvf $PB_ARCHIVE --directory $PB_DIR --strip-components=1
-  rm $PB_ARCHIVE
-  cd $PB_DIR
+    mkdir $PB_DIR
+    tar -xzvf $PB_ARCHIVE --directory $PB_DIR --strip-components=1
+    cd $PB_DIR
 
-  ./autogen.sh
-  ./configure
-  make -j4
+    ./autogen.sh
+    ./configure
+    make -j4
 
-  ch_install $PB_PACKAGE $PB_VERSION
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $PB_DIR
-    print_error "$PB_PACKAGE can not be installed"
-    exit 1
-  fi
-  ldconfig
-
+    ch_install $PB_PACKAGE $PB_VERSION
+    if [ $? -ne 0 ]; then
+      print_error "$PB_PACKAGE can not be installed"
+      FAILURE=true
+      exit 1
+    fi
+    ldconfig
+  done
 fi
 
 cd $CUR_DIR
+rm $PB_ARCHIVE
 rm -rf $PB_DIR
 
 if $FAILURE; then
