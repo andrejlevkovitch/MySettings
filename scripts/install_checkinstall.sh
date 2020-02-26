@@ -19,32 +19,54 @@ LINK="https://github.com/giuliomoro/checkinstall/archive/master.zip"
 ARCHIVE=$TMP_DIR/checkinstall_ar
 OUT_DIR=$TMP_DIR/checkinstall-master
 
+FAILURE=false
+
 check_package $PACKAGE
 if [ $? -ne 0 ]; then
-  print_info "Install $PACKAGE"
+  for i in [1]; do
+    print_info "Install $PACKAGE"
 
-  package_loader $LINK $ARCHIVE
-  if [ $? -ne 0 ]; then
-    print_error "Can not load $PACKAGE"
-    exit 1
-  fi
+    package_loader $LINK $ARCHIVE
+    if [ $? -ne 0 ]; then
+      print_error "Can not load $PACKAGE"
+      FAILURE=true
+      break
+    fi
 
-  unzip $ARCHIVE -d $TMP_DIR
-  rm $ARCHIVE
-  cd $OUT_DIR
+    unzip $ARCHIVE -d $TMP_DIR
+    cd $OUT_DIR
 
-  make -j4
-  make install
-  ch_install $PACKAGE $VERSION
-  if [ $? -ne 0 ]; then
-    cd $CUR_DIR
-    rm -rf $OUT_DIR
-    print_error "Can not install $PACKAGE"
-    exit 1
-  fi
+    make -j4
+    if [ $? -ne 0 ]; then
+      print_error "compilation failed"
+      FAILURE=true
+      break
+    fi
 
-  cd $CUR_DIR
-  rm -rf $OUT_DIR
+    # XXX because we can not get deb package before installation of checkinstall
+    # we install the program at first and build deb package for it after installation
+    make install
+    if [ $? -ne 0 ]; then
+      print_error "installation failed"
+      FAILURE=true
+      break
+    fi
+
+    ch_install $PACKAGE $VERSION
+    if [ $? -ne 0 ]; then
+      print_error "Can not install $PACKAGE"
+      FAILURE=true
+      break
+    fi
+  done
+fi
+
+cd $CUR_DIR
+rm $ARCHIVE
+rm -rf $OUT_DIR
+
+if $FAILURE; then
+  exit 1
 fi
 
 print_delim
