@@ -185,10 +185,10 @@ function! ClangFormat()
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
 
-  " we can use error about not valid `.clang-format`
+  " NOTE: we can get error about not valid `.clang-format`
   if v:shell_error == 0
     call CopyDiffToBuffer(input, output, bufname("%"))
-  else " just place error string to lbuffer without parsing
+  else " if we get error that means you have not valid config
     " change YAML to .clang-format file with complete path
     let config_file=findfile(".clang-format", ".;")
     let output[0]=substitute(output[0], "YAML", config_file, "")
@@ -197,8 +197,8 @@ function! ClangFormat()
     lwindow
   end
 endfunction
-autocmd FileType c,cpp,cuda nnoremap <buffer> <c-k> :call ClangFormat()<cr>
-autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h,*.cu call ClangFormat()
+autocmd FileType c,cpp nnoremap <buffer> <c-k> :call ClangFormat()<cr>
+autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
 
 " Lua Format
