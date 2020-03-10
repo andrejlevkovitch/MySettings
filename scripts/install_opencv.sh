@@ -120,7 +120,9 @@ fi
 
 cd $CUR_DIR
 rm -rf $OPENCV_DIR
+rm -rf $OPENCV_ARCHIVE
 rm -rf $CONTRIB_DIR
+rm -rf $CONTRIB_ARCHIVE
 
 if $FAILURE; then
   exit 1
