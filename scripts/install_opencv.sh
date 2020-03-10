@@ -34,12 +34,6 @@ if [ $? -ne 0 ]; then
 fi
 
 
-if [ $? -ne 0 ]; then
-  print_error "neded packages can not be installed"
-  exit 1
-fi
-
-
 print_delim
 
 PACKAGE=opencv
