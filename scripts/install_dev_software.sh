@@ -8,7 +8,7 @@ print_delim
 
 print_info "Install software for programming"
 apt-get install -y \
-  git \
+  git git-lfs \
   graphviz gnuplot \
   doxygen \
   luajit lua-ldoc lua-busted \
@@ -23,6 +23,7 @@ apt-get install -y \
 # gnuplot     - plot vizualization
 # lua-ldoc    - tool for generating lua documentation
 # lua-busted  - lua unit testing (BDD-style)
+# git-lfs     - git module for versioning big files with git
 
 
 if [ $? -ne 0 ]; then
