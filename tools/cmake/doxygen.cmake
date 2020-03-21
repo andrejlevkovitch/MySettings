@@ -14,7 +14,7 @@ if(DOXYGEN_FOUND)
   set(DOXYGEN_OPTIMIZE_OUTPUT_FOR_C "YES")
   set(DOXYGEN_CPP_CLI_SUPPORT "YES")
   set(DOXYGEN_CASE_SENSE_NAMES "NO")
-  set(DOXYGEN_EXCLUDE_PATTERNS "*/build*/*" "*/test*/*" "*/example*/*" "*/third_party*/*")
+  set(DOXYGEN_EXCLUDE_PATTERNS "*/build*/*" "*/test*/*" "*/example*/*" "*/third_party*/*" "*/third-party*/*")
   set(DOXYGEN_GENERATE_LATEX "NO")
 
   doxygen_add_docs(doxygen ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "generate doxygen documentation by cmake")
