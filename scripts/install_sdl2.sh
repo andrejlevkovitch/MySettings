@@ -16,8 +16,8 @@ PACKAGE=sdl2
 VERSION=2.0.9
 LINK="https://www.libsdl.org/release/SDL2-2.0.9.tar.gz"
 SHA_SUM="255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
-ARCHIVE=$TMP/sdl2_ar
-OUT_DIR=$TMP/sdl2_dir
+ARCHIVE=$TMP_DIR/sdl2_ar
+OUT_DIR=$TMP_DIR/sdl2_dir
 
 FAILURE=false
 
@@ -32,6 +32,7 @@ if [ $? -ne 0 ]; then
       break
     fi
 
+    mkdir $OUT_DIR
     tar -xzvf $ARCHIVE --directory $OUT_DIR --strip-components=1
     mkdir $OUT_DIR/build
     cd $OUT_DIR/build
