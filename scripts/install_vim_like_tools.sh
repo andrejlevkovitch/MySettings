@@ -230,7 +230,7 @@ print_delim
 
 LF_PACKAGE=lua-format
 LF_VERSION=1.2.2
-LF_LINK="https://github.com/andrejlevkovitch/LuaFormatter/archive/master.zip"
+LF_LINK="https://github.com/andrejlevkovitch/LuaFormatter.git"
 LF_ARCHIVE=$TMP_DIR/lt_ar
 LF_DIR=$TMP_DIR/LuaFormatter-master
 
@@ -241,17 +241,17 @@ if [ $? -ne 0 ]; then
   for i in [1]; do
     print_info "Install checkinstall"
 
-    package_loader $LF_LINK $LF_ARCHIVE
+    git clone --recurse-submodules $LF_LINK $LF_DIR
     if [ $? -ne 0 ]; then
       print_error "Can not load $LF_PACKAGE"
       FAILURE=true
       break
     fi
 
-    unzip $LF_ARCHIVE -d $TMP_DIR
     cd $LF_DIR
-
-    cmake .
+    mkdir build
+    cd build
+    cmake ..
     if [ $? -ne 0 ]; then
       print_error "Configuration failed"
       FAILURE=true
@@ -275,7 +275,7 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $CUR_DIR
-rm $LF_ARCHIVE
+rm -rf $LF_ARCHIVE
 rm -rf $LF_DIR
 
 if $FAILURE; then

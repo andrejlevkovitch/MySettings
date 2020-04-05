@@ -210,7 +210,7 @@ function! LuaFormat()
   " of some error. So let create a temporary file
   let error_file=tempname()
 
-  let flags=" -si "
+  let flags=" -i "
 
   " we can use config file for formatting which we have to set manually
   let config_file=findfile(".lua-format", ".;")
