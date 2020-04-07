@@ -434,6 +434,7 @@ else
 endif
 
 syn match cOperator display ' / '
+syn match cOperator display ' % '
 syn match cOperator display ' /='
 syn match cOperator display '\~'
 syn match cOperator display '!'
