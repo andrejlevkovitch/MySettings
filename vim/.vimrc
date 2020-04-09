@@ -95,7 +95,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'andrejlevkovitch/color_coded'
+Plugin 'andrejlevkovitch/vim-hl-client'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
 Plugin 'tikhomirov/vim-glsl'
@@ -156,12 +156,12 @@ let g:NERDTreeIndicatorMapCustom = {
 " help function for formatters
 function! CopyDiffToBuffer(input, output, bufname)
   " prevent out of range in cickle
-  let min_len=min([len(a:input), len(a:output)])
+  let min_len = min([len(a:input), len(a:output)])
 
   " copy all lines, that was changed
   for i in range(0, min_len - 1)
-    let output_line=a:output[i]
-    let input_line=a:input[i]
+    let output_line = a:output[i]
+    let input_line  = a:input[i]
     if input_line != output_line
       call setline(i + 1, output_line) " lines calculate from 1, items - from 0
     end
@@ -179,8 +179,8 @@ endfunction
 
 " Clang Format
 function! ClangFormat()
-  let input=getline(1, "$")
-  let output_str=system("clang-format -assume-filename " . bufname("%"), input)
+  let input      =  getline(1, "$")
+  let output_str =  system("clang-format -assume-filename " .. bufname("%"), input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
@@ -190,8 +190,8 @@ function! ClangFormat()
     call CopyDiffToBuffer(input, output, bufname("%"))
   else " if we get error that means you have not valid config
     " change YAML to .clang-format file with complete path
-    let config_file=findfile(".clang-format", ".;")
-    let output[0]=substitute(output[0], "YAML", config_file, "")
+    let config_file = findfile(".clang-format", ".;")
+    let output[0]   = substitute(output[0], "YAML", config_file, "")
 
     lexpr output
     lwindow
@@ -203,35 +203,35 @@ autocmd BufWrite *.cpp,*.hpp,*.cxx,*.c,*.h call ClangFormat()
 
 " Lua Format
 function! LuaFormat()
-  let input=getline(1, "$")
+  let input = getline(1, "$")
 
   " in case of some error formatter print to stderr error message and exit
   " with 0 code, so we need redirect stderr to file, for read message in case
   " of some error. So let create a temporary file
-  let error_file=tempname()
+  let error_file = tempname()
 
-  let flags=" -i "
+  let flags = " -i "
 
   " we can use config file for formatting which we have to set manually
-  let config_file=findfile(".lua-format", ".;")
-  if len(config_file) " append config_file to flags
-    let flags=flags . " -c " . config_file
+  let config_file = findfile(".lua-format", ".;")
+  if empty(config_file) == 0 " append config_file to flags
+    let flags = flags .. " -c " .. config_file
   end
 
-  let output_str=system("lua-format " . flags . " 2>" . error_file, input)
+  let output_str=system("lua-format " .. flags .. " 2> " .. error_file, input)
 
-  if len(output_str) " all right
-    let output=split(output_str, "\n")
+  if empty(output_str) == 0 " all right
+    let output = split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
 
     " also clear lbuffer
     lexpr ""
     lwindow
   else " we got error
-    let errors=readfile(error_file)
+    let errors = readfile(error_file)
 
     " insert filename of current buffer in front of list. Need for errorformat
-    let source_file=bufname("%")
+    let source_file = bufname("%")
     call insert(errors, source_file)
 
     set efm=%+P%f,line\ %l:%c\ %m,%-Q
@@ -245,18 +245,18 @@ autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
 autocmd BufWrite *.lua call LuaFormat()
 
 function! LuaCheck()
-  let source_file=bufname("%")
-  let input=getline(1, '$')
+  let source_file = bufname("%")
+  let input       = getline(1, '$')
 
   " we have to create temporary file for validation, because luacheck work only
   " with files 
-  let temp_file=tempname()
+  let temp_file = tempname()
   call writefile(input, temp_file)
-  let errors=system("luacheck " . temp_file)
+  let errors = system("luacheck " .. temp_file)
   call delete(temp_file)
 
   " append filename for errorformat
-  let errors=source_file . "\n" . errors
+  let errors = source_file .. "\n" .. errors
 
   set efm=%+P%f,%*[^:]:%l:%c:\ %m
   lexpr errors 
@@ -267,10 +267,10 @@ autocmd FileType lua nnoremap <buffer> <c-f> :call LuaCheck()<cr>
 
 " Python Format
 function! PythonFormat()
-  let input=getline(1, '$')
-  let output_str=system('yapf --style=chromium', input)
+  let input       = getline(1, '$')
+  let output_str  = system('yapf --style=chromium', input)
   if v:shell_error == 0 " all right
-    let output=split(output_str, "\n")
+    let output = split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
 
     " and creare lbuffer
@@ -292,21 +292,21 @@ autocmd BufWrite *.json call PythonFormat()
 
 " HTML tidy
 function! HTMLFormat()
-  let input=getline(1, "$")
-  let error_file=tempname()
-  let output_str=system("tidy -qi -ashtml 2>" . error_file, input)
+  let input       = getline(1, "$")
+  let error_file  = tempname()
+  let output_str  = system("tidy -qi -ashtml 2>" .. error_file, input)
 
-  if len(output_str) " all right
-    let output=split(output_str, "\n")
+  if empty(output_str) == 0 " all right
+    let output = split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
 
     " alse cleare lbuffer
     lexpr ""
     lwindow
   else " we got error
-    let errors=readfile(error_file)
+    let errors = readfile(error_file)
 
-    let source_file=bufname("%")
+    let source_file = bufname("%")
     call insert(errors, source_file) " append filename for right errorformat
 
     set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
@@ -320,12 +320,12 @@ autocmd FileType html nnoremap <buffer> <c-k> :call HTMLFormat()<cr>
 autocmd BufWrite *.html call HTMLFormat()
 
 function! HTMLCheck()
-  let input=getline(1, '$')
-  let errors=system('tidy -q -e', input)
-  if len(errors) " ther are some errors
+  let input   =  getline(1, '$')
+  let errors  =  system('tidy -q -e', input)
+  if empty(errors) == 0 " ther are some errors
     " append filename for right errorformat
-    let source_file=bufname("%")
-    let errors=source_file . "\n" . errors
+    let source_file = bufname("%")
+    let errors      = source_file .. "\n" .. errors
 
     set efm=%+P%f,line\ %l\ column\ %c\ -\ %t%*[^:]:\ %m,%-Q
     lexpr errors
@@ -339,19 +339,19 @@ autocmd FileType html nnoremap <buffer> <c-f> :call HTMLCheck()<cr>
 
 
 function! BashCheck()
-  let input=getline(1, '$')
+  let input = getline(1, '$')
 
   " Because shellcheck work only with files we have to create temporary file for
   " validation
-  let temp_file=tempname()
+  let temp_file = tempname()
   call writefile(input, temp_file)
-  let errors=system("shellcheck -f gcc " . temp_file)
+  let errors = system("shellcheck -f gcc " .. temp_file)
   call delete(temp_file)
 
-  if len(errors)
+  if empty(errors) == 0
     " append filename for errorformat
-    let source_file=bufname("%")
-    let errors=source_file . "\n" . errors
+    let source_file = bufname("%")
+    let errors      = source_file .. "\n" .. errors
 
     set efm=%+P%f,%*[^:]:%l:%c:\ %t%*[^:]:\ %m,%-Q
     lexpr errors
@@ -375,7 +375,7 @@ let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:ycm_filepath_completion_use_working_dir = 1
-let g:ycm_confirm_extra_conf=0
+let g:ycm_confirm_extra_conf = 0
 
 " Maximum hight diagnostic window
 let g:ycm_max_diagnostics_to_display = 5
@@ -410,11 +410,6 @@ autocmd FileType tagbar setlocal nocursorline nocursorcolumn
 
 " GLSL
 autocmd BufWinEnter *.glsl setfiletype glsl
-
-"-------------------------------------------------------------------------------
-
-" Color-coded
-let g:color_coded_filetypes = ['c', 'cpp']
 
 "-------------------------------------------------------------------------------
 
