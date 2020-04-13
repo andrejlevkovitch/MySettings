@@ -2,9 +2,6 @@
 # This can be run by user without root
 # Only after install_pkgs script!
 
-# XXX the variable need for configuring color_coded
-FULL_CURRENT_CLANG_VERSION=9.0.1
-
 source utils.sh
 
 print_delim
@@ -33,26 +30,6 @@ if [ $? -ne 0 ]; then
   print_error "YCM can not be installed"
   exit 1
 fi
-
-# NOTE: color_coded must be compiled with save version of lua with witch
-# compiled vim. BUT! if you have several versions of lua can be founded not
-# needed version. So be careful. In this case you will get SEGMENTATION FAULT
-if [ ! -d $HOME_DIR/.vim/bundle/color_coded/build ]; then
-  mkdir $HOME_DIR/.vim/bundle/color_coded/build
-fi
-cd $HOME_DIR/.vim/bundle/color_coded/build
-cmake -DDOWNLOAD_CLANG=OFF -DCLANG_VERSION=$FULL_CURRENT_CLANG_VERSION ..
-cmake --build . --target install -- -j4
-
-if [ $? -ne 0 ]; then
-  cd $CUR_DIR
-  print_error "color_coded can not be compiled"
-  exit 1
-fi
-cd $CUR_DIR
-
-print_info "Install needed config files for vim"
-cp $FILE_DIR/../vim/color_coded.vim $HOME_DIR/.vim/bundle/color_coded/after/syntax
 
 print_info "Install vimb config"
 if [ ! -d $HOME_DIR/.config/vimb ]; then
