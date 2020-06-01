@@ -1,9 +1,9 @@
-set home-page=https://naviny.by
+set home-page=https://nn.by
 
 set font-size=20
 set minimum-font-size=15
 
 set default-zoom=120
 
-shortcut-add s=https://startpage.com/do/search?q=$0
+shortcut-add s=https://google.com/search?q=$0
 shortcut-default s
