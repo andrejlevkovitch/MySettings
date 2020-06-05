@@ -78,9 +78,9 @@ if $FAILURE; then
   exit 1
 fi
 
-LB_PACKAGE=lua-bson
-LB_VERSION=1.0.0
-LB_LINK="https://github.com/isage/lua-cbson.git"
+LB_PACKAGE=lua-cbson
+LB_VERSION=1.0.1
+LB_LINK="https://github.com/andrejlevkovitch/lua-cbson.git"
 LB_DIR=$TMP_DIR/lua-cbson
 
 FAILURE=false
