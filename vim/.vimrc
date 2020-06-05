@@ -385,6 +385,9 @@ let g:ycm_max_num_candidates = 0
 
 let g:ycm_key_invoke_completion = '<C-Space>'
 
+"let g:ycm_auto_trigger = 0
+let g:ycm_min_num_of_chars_for_completion = 99
+
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
 " Recomplile file and use new options
