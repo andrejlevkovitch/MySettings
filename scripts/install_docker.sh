@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source utils.sh
+
 print_info "Install docker-ce"
 apt-get install -y \
   apt-transport-https \
