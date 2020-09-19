@@ -425,4 +425,4 @@ autocmd FileType python set tabstop=2
 autocmd FileType python set softtabstop=2
 
 " vim-hl-client
-au VimEnter * AsyncRun ~/.vim/bundle/hl-server/build/bin/hl-server --threads=2
+let g:hl_server_binary  = "~/.vim/bundle/hl-server/build/bin/hl-server"
