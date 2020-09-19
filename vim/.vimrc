@@ -95,7 +95,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'skywind3000/asyncrun.vim'
 Plugin 'andrejlevkovitch/vim-hl-client'
+Plugin 'andrejlevkovitch/hl-server'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
 Plugin 'tikhomirov/vim-glsl'
@@ -421,3 +423,6 @@ let g:python_highlight_all = 1
 autocmd FileType python set shiftwidth=2
 autocmd FileType python set tabstop=2
 autocmd FileType python set softtabstop=2
+
+" vim-hl-client
+au VimEnter * AsyncRun ~/.vim/bundle/hl-server/build/bin/hl-server --threads=2
