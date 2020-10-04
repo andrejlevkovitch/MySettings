@@ -177,6 +177,11 @@ function! CopyDiffToBuffer(input, output, bufname)
       call append("$", a:output[min_len:])
     end
   end
+
+  " XXX if formatting is a long operation and we call after format start some
+  " other command, then window will display invalid data. For prevent this we
+  " just redraw the windows
+  redraw!
 endfunction
 
 " Clang Format
