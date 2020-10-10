@@ -233,3 +233,12 @@ Also, if you change swap partition you need format and on it:
 
 - `mkswap /dev/sda4`
 - `swapon -a`
+
+
+## Browse files on android phone
+
+install `mtp`
+
+```bash
+apt-get install mtp-tools
+```
