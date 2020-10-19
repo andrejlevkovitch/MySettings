@@ -14,6 +14,7 @@ set smartcase
 " change color founded elements
 highlight Search ctermbg=brown guibg=brown
 " Use utf8
+set encoding=utf8
 set termencoding=utf8
 " No vi
 set nocompatible
