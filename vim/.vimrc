@@ -141,7 +141,7 @@ call NERDTreeHighlightFile('lua', 'lightyellow', 'none', 'lightyellow', '#151515
 call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('xml', 'yellow', 'none', 'yellow', '#151515')
 
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeDitStatusIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",

@@ -1,6 +1,5 @@
 #!/bin/bash
 # Note: have to be run only after install_base_software.sh. Also you need installed cmake
-# Note: you need have only one version of lua interpreter (see `color_coded` in `set_settings.sh`)
 
 source utils.sh
 
@@ -17,7 +16,6 @@ print_info "Install additional packages"
 apt-get install -y \
   libncurses5-dev libncursesw5-dev \
   libcairo2-dev \
-  liblua5.1-0 liblua5.1-0-dev \
   libperl-dev \
   ruby-dev \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
@@ -31,17 +29,6 @@ if [ $? -ne 0 ]; then
   print_error "neded packages can not be installed"
   exit 1
 fi
-
-print_delim
-
-print_info "Add links for lua"
-LUA_DIR=/usr/include/lua5.1
-if [ ! -d $LUA_DIR/lib ]; then
-  mkdir $LUA_DIR/lib
-fi
-ln -sf /usr/lib/x86_64-linux-gnu/liblua5.1.so $LUA_DIR/lib/liblua.so
-ln -sf /usr/lib/x86_64-linux-gnu/liblua5.1.a  $LUA_DIR/lib/liblua.a
-ln -sf $LUA_DIR                               $LUA_DIR/include
 
 print_delim
 
@@ -103,9 +90,9 @@ fi
 print_delim
 
 VIM_PACKAGE=vim
-VIM_VERSION=8.1.1140
-VIM_LINK="https://github.com/vim/vim/archive/v8.1.1140.tar.gz"
-VIM_SHA="b2bd214f9e562308af7203e3e8cfeb13327d503ab2fe23090db9c42f13ca0145"
+VIM_VERSION=8.2.1875
+VIM_LINK="https://github.com/vim/vim/archive/v$VIM_VERSION.tar.gz"
+VIM_SHA="69d2520ea44fdc68f57b8819b4cfcf209ab45984f9c9fb4d7d5ae264c983cc46"
 VIM_ARCHIVE=vim_ar
 VIM_DIR=vim_dir
 
@@ -127,8 +114,6 @@ if [ $? -ne 0 ]; then
     cd $VIM_DIR
 
     ./configure --with-features=huge \
-                --enable-luainterp=yes \
-                --with-lua-prefix=/usr/include/lua5.1 \
                 --enable-python3interp=yes \
                 --with-python3-config-dir=/usr/lib/python3.7/config-3.7m-x86_64-linux-gnu \
                 --enable-rubyinterp=yes \
