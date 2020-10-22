@@ -90,9 +90,9 @@ fi
 print_delim
 
 VIM_PACKAGE=vim
-VIM_VERSION=8.2.1875
+VIM_VERSION=8.2.0012
 VIM_LINK="https://github.com/vim/vim/archive/v$VIM_VERSION.tar.gz"
-VIM_SHA="69d2520ea44fdc68f57b8819b4cfcf209ab45984f9c9fb4d7d5ae264c983cc46"
+VIM_SHA="d1ebe8232fcd8bc0d97c7560a1f407efc6ee65865353bd01d79b6a23b85b1d5f"
 VIM_ARCHIVE=vim_ar
 VIM_DIR=vim_dir
 
