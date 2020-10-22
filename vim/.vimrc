@@ -140,19 +140,6 @@ call NERDTreeHighlightFile('lua', 'lightyellow', 'none', 'lightyellow', '#151515
 call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
 call NERDTreeHighlightFile('xml', 'yellow', 'none', 'yellow', '#151515')
 
-let g:NERDTreeDitStatusIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
 "-------------------------------------------------------------------------------
 
 " help function for formatters
