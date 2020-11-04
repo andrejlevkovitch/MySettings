@@ -355,7 +355,7 @@ function! BashCheck()
     lwindow
   end
 endfunction
-autocmd FileType sh nnoremap <buffer> <c-f> :call BashCheck()<cr>
+autocmd FileType sh,bash nnoremap <buffer> <c-f> :call BashCheck()<cr>
 
 "-------------------------------------------------------------------------------
 

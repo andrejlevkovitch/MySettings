@@ -16,7 +16,8 @@ apt-get install -y \
   gdb gdbserver \
   cppcheck \
   tidy \
-  tree
+  tree \
+  shellcheck
 # cppcheck    - static analizer
 # tidy        - checking HTML
 # graphviz    - graph visualization
