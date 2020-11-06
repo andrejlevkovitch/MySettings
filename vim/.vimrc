@@ -97,7 +97,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'andrejlevkovitch/vim-hl-client'
-Plugin 'andrejlevkovitch/hl-server'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
 Plugin 'tikhomirov/vim-glsl'
@@ -417,4 +416,4 @@ autocmd FileType python set tabstop=2
 autocmd FileType python set softtabstop=2
 
 " vim-hl-client
-let g:hl_server_binary  = "~/.vim/bundle/hl-server/build/bin/hl-server"
+let g:hl_server_binary  = "~/.vim/bundle/vim-hl-client/third-party/hl-server/build/bin/hl-server"
