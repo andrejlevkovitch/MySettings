@@ -17,11 +17,8 @@ if(DOXYGEN_FOUND)
   set(DOXYGEN_EXCLUDE_PATTERNS "*/build*/*" "*/test*/*" "*/example*/*" "*/third_party*/*" "*/third-party*/*")
   set(DOXYGEN_GENERATE_LATEX "NO")
 
-  doxygen_add_docs(doxygen ${CMAKE_CURRENT_SOURCE_DIR} COMMENT "generate doxygen documentation by cmake")
-
-  add_custom_target(documentation
-    COMMAND doxygen "Doxyfile.doxygen"
-    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-    COMMENT "Generate doxygen documentation"
+  doxygen_add_docs(${PROJECT_NAME}_doxygen ${CMAKE_CURRENT_SOURCE_DIR}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMENT "generate doxygen documentation by cmake"
     )
 endif()
