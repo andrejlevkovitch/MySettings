@@ -242,3 +242,8 @@ install `mtp`
 ```bash
 apt-get install mtp-tools
 ```
+
+
+## Xubuntu BUG with screen lock
+
+If your screen locks without passibility to unlock, then reboot and remove `xfce4-screensaver` and install `xscreensaver` instead
