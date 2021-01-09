@@ -187,6 +187,7 @@ if [ $? -ne 0 ]; then
       break
     fi
 
+    # XXX gcc-10 can't compile this project, use CC=gcc-9 (or less)
     make -j4
     if [ $? -ne 0 ]; then
       print_error "Compilation failed"
