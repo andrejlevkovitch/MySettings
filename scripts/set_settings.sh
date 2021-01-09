@@ -9,8 +9,7 @@ print_delim
 print_info "Downloads vim plugins"
 cp $FILE_DIR/../vim/.vimrc $HOME_DIR/
 if [ ! -d $HOME_DIR/.vim ]; then
-  mkdir $HOME_DIR/.vim
-  mkdir $HOME_DIR/.vim/bundle
+  mkdir -p $HOME_DIR/.vim/bundle
 fi
 if [ ! -d $HOME_DIR/.vim/bundle/Vundle.vim ]; then
   git clone https://github.com/VundleVim/Vundle.vim.git $HOME_DIR/.vim/bundle/Vundle.vim/
@@ -28,6 +27,18 @@ python3 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clang-completer
 if [ $? -ne 0 ]; then
   cd $CUR_DIR
   print_error "YCM can not be installed"
+  exit 1
+fi
+
+# compile hl-server
+mkdir -p ~/.vim/bundle/vim-hl-client/third-party/hl-server/build
+cd ~/.vim/bundle/vim-hl-client/third-party/hl-server/build
+cmake ..
+cmake --build . -- -j4
+
+if [ $? -ne 0 ]; then
+  cd $CUR_DIR
+  print_error "hl-server was not compiled"
   exit 1
 fi
 
