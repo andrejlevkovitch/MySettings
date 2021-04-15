@@ -134,6 +134,10 @@ __NOTE__: in `ubuntu-16` with `cuda-9` you can have problem with
 `linux-headers` 15 or 17, so install kernel version less then
 15
 
+__NOTE__: if after rebooting your keypad don't works, then problem can be in
+`xserver-xorg-input-all` package. You should run system in recovery mode,
+enable `network-manager` and install `xserver-xorg-input-all` package
+
 
 ## Add gpu to kvm (Intel, Nvidia)
 
