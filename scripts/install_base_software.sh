@@ -5,21 +5,7 @@ source utils.sh
 
 print_delim
 
-if [ "$CUR_SYSTEM" = "ubuntu" ]; then
-  print_info "add testing ppa"
-  add-apt-repository -y ppa:ubuntu-toolchain-r/test
-elif [ "$CUR_SYSTEM" = "debian" ]; then
-  if [ "$(lsb_release -cs)" != "buster" ]; then
-    print_info "upgrade debian to buster"
-    sed -i "s/$(lsb_release -cs)/buster/g" /etc/apt/sources.list
-    apt-get update
-    apt-get upgrade -y
-    apt-get dist-upgrade -y
-  fi
-else
-  print_error "unsupported system: $CUR_SYSTEM"
-  exit 1
-fi
+# XXX be carefull with different debian/ubuntu distributives
 
 
 print_info "upgrade system before installation"
