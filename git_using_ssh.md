@@ -10,6 +10,20 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ssh-add ~/.ssh/id_ed25519
 ```
 
+__NOTE__ if you got error:
+
+```
+Could not open a connection to your authentication agent.
+```
+
+run next command:
+
+```sh
+eval "$(ssh-agent -s)"
+```
+
+and will try again
+
 3. upload public key to github
 
 4. authenticate to github via ssh
