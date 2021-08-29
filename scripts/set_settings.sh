@@ -31,8 +31,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # compile hl-server
-mkdir -p ~/.vim/bundle/vim-hl-client/third-party/hl-server/build
-cd ~/.vim/bundle/vim-hl-client/third-party/hl-server/build
+mkdir -p ~/.vim/bundle/vim-hl-client/build
+cd ~/.vim/bundle/vim-hl-client/build
 cmake ..
 cmake --build . -- -j4
 
