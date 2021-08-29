@@ -6,6 +6,8 @@ source utils.sh
 
 print_delim
 
+CLANGD_VERSION=12
+
 print_info "Install software for programming"
 apt-get install -y \
   git git-lfs \
@@ -17,7 +19,9 @@ apt-get install -y \
   cppcheck \
   tidy \
   tree \
-  shellcheck
+  shellcheck \
+  clangd-${CLANGD_VERSION}
+
 # cppcheck    - static analizer
 # tidy        - checking HTML
 # graphviz    - graph visualization
@@ -25,11 +29,15 @@ apt-get install -y \
 # lua-ldoc    - tool for generating lua documentation
 # lua-busted  - lua unit testing (BDD-style)
 # git-lfs     - git module for versioning big files with git
+# clangd-12   - c-language server
 
 
 if [ $? -ne 0 ]; then
   print_error "soft for programming can not be installed"
   exit 1
 fi
+
+update-alternatives --install\
+          /usr/bin/clangd           clangd            /usr/bin/clangd-${CLANGD_VERSION}     50
 
 print_delim

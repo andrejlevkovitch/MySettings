@@ -380,6 +380,10 @@ let g:ycm_key_invoke_completion = '<C-Space>'
 
 let g:ycm_auto_trigger = 1
 let g:ycm_min_num_of_chars_for_completion = 5
+" clangd options
+let g:ycm_use_clangd = 1
+let g:ycm_clangd_uses_ycmd_caching = 0
+let g:ycm_clangd_binary_path = exepath("clangd")
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
