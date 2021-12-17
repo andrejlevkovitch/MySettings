@@ -356,6 +356,35 @@ function! BashCheck()
 endfunction
 autocmd FileType sh,bash nnoremap <buffer> <c-f> :call BashCheck()<cr>
 
+
+" Go format
+function! GoFormat()
+  let input      = getline(1, "$")
+  let output_str = system("gofmt", input)
+
+  " output of system is a string, so transform it to list
+  let output=split(output_str, "\n")
+
+  " NOTE: you can get error about invalid go code
+  if v:shell_error == 0
+    call CopyDiffToBuffer(input, output, bufname("%"))
+
+    " also clear lbuffer
+    lexpr ""
+    lwindow
+  else " if we get error, then it means that you have critical error in the code
+    " change `<standard input>` to filename for correct error displaing
+    for i in range(len(output))
+        let output[i] = substitute(output[i], "<standard input>", bufname(""), "")
+    endfor
+
+    lexpr output
+    lwindow
+  end
+endfunction
+autocmd FileType go nnoremap <buffer> <c-k> :call GoFormat()<cr>
+autocmd BufWrite *.go call GoFormat()
+
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
