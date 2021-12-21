@@ -95,7 +95,7 @@ filetype plugin indent on
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'ycm-core/YouCompleteMe'
 Plugin 'andrejlevkovitch/vim-hl-client'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
