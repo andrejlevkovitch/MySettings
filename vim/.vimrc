@@ -278,9 +278,24 @@ autocmd FileType python nnoremap <buffer> <c-k> :call PythonFormat()<cr>
 autocmd BufWrite *.py call PythonFormat()
 
 
-" Json Format (just uses python format)
-autocmd FileType json nnoremap <buffer> <c-k> :call PythonFormat()<cr>
-"autocmd BufWrite *.json call PythonFormat()
+" Json Format
+function! JsonFormat()
+  let input       = getline(1, '$')
+  let output_str  = system('jq ""', input)
+  if v:shell_error == 0 " all right
+    let output = split(output_str, "\n")
+    call CopyDiffToBuffer(input, output, bufname("%"))
+
+    " and creare lbuffer
+    lexpr ""
+    lwindow
+  else " we got errors
+    lexpr output_str
+    lwindow 5
+  end
+endfunction
+autocmd FileType json nnoremap <buffer> <c-k> :call JsonFormat()<cr>
+"autocmd BufWrite *.json call JsonFormat()
 
 
 " HTML tidy
