@@ -39,7 +39,7 @@ After this steps you can clone your repositories as
 git clone git@github.com:username/repo.git
 ```
 
-__NOTE__ for repositories, that was uploaded earlier, you need update url:
+__NOTE__ for repositories, that was downloaded earlier, you need update url:
 
 ```bash
 git remote set-url origin git@github.com:username/your-repository.git
