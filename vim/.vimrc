@@ -400,6 +400,35 @@ endfunction
 autocmd FileType go nnoremap <buffer> <c-k> :call GoFormat()<cr>
 autocmd BufWrite *.go call GoFormat()
 
+
+" Rust format
+function! RustFormat()
+  let input      = getline(1, "$")
+  let output_str = system("rustfmt", input)
+
+  " output of system is a string, so transform it to list
+  let output=split(output_str, "\n")
+
+  " NOTE: you can get error about invalid rust code
+  if v:shell_error == 0
+    call CopyDiffToBuffer(input, output, bufname("%"))
+
+    " also clear lbuffer
+    lexpr ""
+    lwindow
+  else " if we get error, then it means that you have critical error in the code
+    " change `<stdin>` to filename for correct error displaing
+    for i in range(len(output))
+        let output[i] = substitute(output[i], " --> <stdin>", bufname(""), "")
+    endfor
+
+    lexpr output
+    lwindow
+  end
+endfunction
+autocmd FileType rust nnoremap <buffer> <c-k> :call RustFormat()<cr>
+autocmd BufWrite *.rs call RustFormat()
+
 "-------------------------------------------------------------------------------
 
 " YouCompleteMe
@@ -428,6 +457,7 @@ let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_use_clangd = 1
 let g:ycm_clangd_uses_ycmd_caching = 0
 let g:ycm_clangd_binary_path = exepath("clangd")
+let g:ycm_rust_toolchain_root = $HOME."/.cargo"
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
