@@ -501,5 +501,10 @@ let g:hl_server_binary  = "~/.vim/bundle/vim-hl-client/build/bin/hl-server"
 let g:rainbow_active = 1
 
 let g:rainbow_conf = {
-\	'ctermfgs': ['Yellow', 'Blue', 'Brown']
+\	'ctermfgs': ['Yellow', 'Blue', 'Brown'],
+\ 'separately': {
+\   'cpp': {
+\     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold', 'start=/\[\[/ end=/\]\]/ fold']
+\   }
+\ }
 \}
