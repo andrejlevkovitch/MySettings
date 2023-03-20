@@ -505,6 +505,8 @@ let g:rainbow_conf = {
 \ 'separately': {
 \   'cpp': {
 \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold', 'start=/\[\[/ end=/\]\]/ fold']
-\   }
+\   },
+\   'cmake': 0,
+\   'nerdtree': 0
 \ }
 \}
