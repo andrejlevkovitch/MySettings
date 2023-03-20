@@ -38,6 +38,6 @@ if [ $? -ne 0 ]; then
 fi
 
 update-alternatives --install\
-          /usr/bin/clangd           clangd            /usr/bin/clangd-${CLANGD_VERSION}     50
+          /usr/bin/clangd           clangd            /usr/bin/clangd-10     50
 
 print_delim
