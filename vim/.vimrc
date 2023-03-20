@@ -105,6 +105,7 @@ Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'vim-python/python-syntax'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'godlygeek/tabular'
+Plugin 'luochen1990/rainbow'
 
 call vundle#end()
 filetype plugin indent on
@@ -495,3 +496,10 @@ autocmd FileType python set softtabstop=2
 
 " vim-hl-client
 let g:hl_server_binary  = "~/.vim/bundle/vim-hl-client/build/bin/hl-server"
+
+" rainbow parentheses
+let g:rainbow_active = 1
+
+let g:rainbow_conf = {
+\	'ctermfgs': ['Yellow', 'Blue', 'Brown']
+\}
