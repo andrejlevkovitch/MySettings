@@ -57,11 +57,8 @@ set history=200
 set wildmenu
 
 set nowrap
-set colorcolumn=80
 if exists('+colorcolumn')
-    highlight ColorColumn   ctermbg=235  guibg=#2c2d27
-    highlight CursorLine    ctermbg=235  guibg=#2c2d27
-    highlight CursorColumn  ctermbg=235  guibg=#2c2d27
+    highlight ColorColumn ctermbg=235 guibg=#2c2d27
     let &colorcolumn=join(range(81,999),",")
 else
     autocmd BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
@@ -69,8 +66,8 @@ end
 
 " Show cursor line
 set cursorline
-highlight CursorLine guibg=lightblue ctermbg=233
-highlight CursorLine term=none cterm=none
+highlight CursorLine guibg=lightblue ctermbg=darkblue
+highlight CursorLine term=bold cterm=bold
 
 "-------------------------------------------------------------------------------
 
@@ -457,7 +454,6 @@ let g:ycm_min_num_of_chars_for_completion = 5
 " clangd options
 let g:ycm_use_clangd = 1
 let g:ycm_clangd_uses_ycmd_caching = 0
-let g:ycm_clangd_binary_path = exepath("clangd")
 let g:ycm_rust_toolchain_root = $HOME."/.cargo"
 
 " Check errors ctrl-f
