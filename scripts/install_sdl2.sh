@@ -13,9 +13,10 @@ fi
 
 
 PACKAGE=sdl2
-VERSION=2.0.9
-LINK="https://www.libsdl.org/release/SDL2-2.0.9.tar.gz"
-SHA_SUM="255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
+VERSION=2.26.5
+SHA_SUM="ad8fea3da1be64c83c45b1d363a6b4ba8fd60f5bde3b23ec73855709ec5eabf7"
+
+LINK="https://www.libsdl.org/release/SDL2-${VERSION}.tar.gz"
 ARCHIVE=$TMP_DIR/sdl2_ar
 OUT_DIR=$TMP_DIR/sdl2_dir
 
