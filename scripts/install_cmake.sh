@@ -23,9 +23,10 @@ fi
 print_delim
 
 PACKAGE=cmake
-VERSION=3.14.1
-LINK="https://github.com/Kitware/CMake/releases/download/v3.14.1/cmake-3.14.1.tar.gz"
-SHA_SUM="7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f"
+VERSION=3.26.4
+SHA_SUM="313b6880c291bd4fe31c0aa51d6e62659282a521e695f30d5cc0d25abbd5c208"
+
+LINK="https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}.tar.gz"
 ARCHIVE=$TMP_DIR/cmake_archive
 OUT_DIR=$TMP_DIR/cmake_dir
 
