@@ -20,7 +20,7 @@ apt-get install -y \
   ruby-dev \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
   xz-utils \
-  python3.8-dev \
+  python3-dev \
   libcurl4-openssl-dev \
   libtinfo5 \
   w3m
@@ -116,13 +116,11 @@ if [ $? -ne 0 ]; then
 
     ./configure --with-features=huge \
                 --enable-python3interp=yes \
-                --with-python3-config-dir=/usr/lib/python3.8/config-3.8m-$(arch)-linux-gnu \
-                --enable-rubyinterp=yes \
-                --enable-perlinterp=yes \
+                --with-python3-config-dir=$(python3-config --configdir) \
                 --enable-multibyte \
                 --enable-gui=no \
-                --enable-cscope \
-                --enable-largefile \
+                --enable-cscope=no \
+                --enable-largefile=no \
                 --disable-netbeans \
                 --prefix=/usr/local
     if [ $? -ne 0 ]; then
