@@ -20,7 +20,7 @@ apt-get install -y \
   ruby-dev \
   libx11-dev libxtst-dev libxt-dev libsm-dev libxpm-dev \
   xz-utils \
-  python3-dev \
+  python3.8-dev \
   libcurl4-openssl-dev \
   libtinfo5 \
   w3m
@@ -90,8 +90,8 @@ fi
 print_delim
 
 VIM_PACKAGE=vim
-VIM_VERSION=9.0.0000
-VIM_SHA="1b3cd3732eb7039cf58a9321de26ab1a12d81c2f6760eb03c5d7b60d548f4587"
+VIM_VERSION=9.0.0214
+VIM_SHA="64b6d303adb20e12b6e597c9cdece02de11548594529369cb6ef7bbcf03b185c"
 
 VIM_LINK="https://github.com/vim/vim/archive/v${VIM_VERSION}.tar.gz"
 VIM_ARCHIVE=vim_ar
@@ -116,7 +116,7 @@ if [ $? -ne 0 ]; then
 
     ./configure --with-features=huge \
                 --enable-python3interp=yes \
-                --with-python3-config-dir=$(python3-config --configdir) \
+                --with-python3-config-dir=$(python3.8-config --configdir) \
                 --enable-multibyte \
                 --enable-gui=no \
                 --enable-cscope=no \
