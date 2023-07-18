@@ -93,11 +93,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ycm-core/YouCompleteMe'
-Plugin 'andrejlevkovitch/vim-hl-client'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
 Plugin 'tikhomirov/vim-glsl'
-"Plugin 'vifm/vifm.vim'
 Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'vim-python/python-syntax'
 Plugin 'plasticboy/vim-markdown'
@@ -455,6 +453,42 @@ let g:ycm_min_num_of_chars_for_completion = 5
 let g:ycm_use_clangd = 1
 let g:ycm_clangd_uses_ycmd_caching = 0
 let g:ycm_rust_toolchain_root = $HOME."/.cargo"
+
+" experimental
+let g:ycm_enable_semantic_highlighting=1
+
+hi default Member         cterm=NONE ctermfg=147
+hi default Variable       cterm=NONE ctermfg=white
+hi default EnumConstant   cterm=NONE ctermfg=DarkGreen
+hi default Namespace      cterm=bold ctermfg=46
+
+let MY_YCM_HIGHLIGHT_GROUP = {
+      \   'namespace':      'Namespace',
+      \   'type':           'Type',
+      \   'class':          'Type',
+      \   'struct':         'Type',
+      \   'interface':      'Type',
+      \   'concept':        'Type',
+      \   'typeParameter':  'Type',
+      \   'enum':           'EnumConstant',
+      \   'enumMember':     'EnumConstant',
+      \   'function':       'Function',
+      \   'method':         'Member',
+      \   'member':         'Member',
+      \   'property':       'Member',
+      \   'macro':          'Macro',
+      \   'variable':       'Variable',
+      \   'parameter':      'Variable',
+      \   'label':          'Label',
+      \ }
+
+for tokenType in keys( MY_YCM_HIGHLIGHT_GROUP )
+  call prop_type_add( 'YCM_HL_' . tokenType,
+                    \ { 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ] } )
+endfor
+
+hi default YcmErrorSection ctermbg=NONE
+" experimental
 
 " Check errors ctrl-f
 map <c-f> :YcmDiags<cr>
