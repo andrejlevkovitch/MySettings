@@ -480,11 +480,24 @@ let MY_YCM_HIGHLIGHT_GROUP = {
       \   'variable':       'Variable',
       \   'parameter':      'Variable',
       \   'label':          'Label',
+      \   'comment':        '',
+      \   'operator':       '',
+      \   'keyword':        '',
+      \   'modifier':       '',
+      \   'event':          '',
+      \   'number':         '',
+      \   'string':         '',
+      \   'regexp':         '',
+      \   'unknown':        '',
       \ }
 
 for tokenType in keys( MY_YCM_HIGHLIGHT_GROUP )
-  call prop_type_add( 'YCM_HL_' . tokenType,
-                    \ { 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ] } )
+  if len(MY_YCM_HIGHLIGHT_GROUP[ tokenType ]) != 0
+    call prop_type_add( 'YCM_HL_' . tokenType,
+                      \ { 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ] } )
+  else
+    call prop_type_add('YCM_HL_' . tokenType, {})
+  end
 endfor
 
 hi default YcmErrorSection ctermbg=NONE
