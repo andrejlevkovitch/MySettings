@@ -16,13 +16,11 @@ apt-get install -y \
   luajit lua-ldoc lua-busted \
   python3-dev python-dev python3-pip \
   gdb gdbserver \
-  cppcheck \
   tidy \
   tree \
   shellcheck \
   clangd-${CLANGD_VERSION}
 
-# cppcheck    - static analizer
 # tidy        - checking HTML
 # graphviz    - graph visualization
 # gnuplot     - plot vizualization
