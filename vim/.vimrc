@@ -6,7 +6,7 @@ set number
 syntax on
 " Search while type
 set incsearch
-" Search rezult highligt
+" Search rezult highlight
 set hlsearch
 " Smart case from register
 set ignorecase
@@ -458,11 +458,13 @@ let g:ycm_rust_toolchain_root = $HOME."/.cargo"
 let g:ycm_enable_semantic_highlighting=1
 
 hi default Member         cterm=NONE ctermfg=147
-hi default Variable       cterm=NONE ctermfg=white
 hi default EnumConstant   cterm=NONE ctermfg=DarkGreen
 hi default Namespace      cterm=bold ctermfg=46
 
-let MY_YCM_HIGHLIGHT_GROUP = {
+let g:ycm_semantic_highlight_groups = [
+      \{
+      \ 'filetypes': ['c', 'cpp'],
+      \ 'highlight': {
       \   'namespace':      'Namespace',
       \   'type':           'Type',
       \   'class':          'Type',
@@ -477,28 +479,100 @@ let MY_YCM_HIGHLIGHT_GROUP = {
       \   'member':         'Member',
       \   'property':       'Member',
       \   'macro':          'Macro',
-      \   'variable':       'Variable',
-      \   'parameter':      'Variable',
+      \   'variable':       v:null,
+      \   'parameter':      v:null,
       \   'label':          'Label',
-      \   'comment':        '',
-      \   'operator':       '',
-      \   'keyword':        '',
-      \   'modifier':       '',
-      \   'event':          '',
-      \   'number':         '',
-      \   'string':         '',
-      \   'regexp':         '',
-      \   'unknown':        '',
+      \   'comment':        v:null,
+      \   'operator':       v:null,
+      \   'keyword':        v:null,
+      \   'modifier':       v:null,
+      \   'event':          v:null,
+      \   'number':         v:null,
+      \   'string':         v:null,
+      \   'regexp':         v:null,
+      \   'unknown':        v:null,
+      \   'bracket':        v:null,
       \ }
+      \},
+      \{
+      \ 'filetypes': ['rust'],
+      \ 'highlight': {
+      \   'namespace':      v:null,
+      \   'type':           'rustTrait',
+      \   'class':          'rustTrait',
+      \   'struct':         'rustTrait',
+      \   'interface':      'rustTrait',
+      \   'concept':        'rustTrait',
+      \   'typeParameter':  'rustTrait',
+      \   'enum':           'EnumConstant',
+      \   'enumMember':     'EnumConstant',
+      \   'function':       v:null,
+      \   'method':         v:null,
+      \   'member':         v:null,
+      \   'property':       v:null,
+      \   'macro':          v:null,
+      \   'variable':       v:null,
+      \   'parameter':      v:null,
+      \   'label':          v:null,
+      \   'comment':        v:null,
+      \   'operator':       v:null,
+      \   'keyword':        v:null,
+      \   'modifier':       v:null,
+      \   'event':          v:null,
+      \   'number':         v:null,
+      \   'string':         v:null,
+      \   'regexp':         v:null,
+      \   'unknown':        v:null,
+      \   'bracket':        v:null,
+      \   'punctuation':    v:null,
+      \   'formatSpecifier':v:null,
+      \   'macroBang':      v:null,
+      \   'brace':          v:null,
+      \   'boolean':        v:null,
+      \   'comparison':     v:null,
+      \   'colon':          v:null,
+      \   'angle':          v:null,
+      \   'semicolon':      v:null,
+      \   'escapeSequence': v:null,
+      \   'comma':          v:null,
+      \   'character':      v:null,
+      \   'parenthesis':    v:null,
+      \ }
+      \},
+      \{
+      \ 'filetypes': ['go'],
+      \ 'highlight': {
+      \   'namespace':      'Namespace',
+      \   'type':           'goType',
+      \   'class':          'goType',
+      \   'struct':         'goType',
+      \   'interface':      'goType',
+      \   'concept':        v:null,
+      \   'typeParameter':  v:null,
+      \   'enum':           'EnumConstant',
+      \   'enumMember':     'EnumConstant',
+      \   'function':       'goFunction',
+      \   'method':         'goFunction',
+      \   'member':         'goFunction',
+      \   'property':       'goFunction',
+      \   'macro':          v:null,
+      \   'variable':       v:null,
+      \   'parameter':      v:null,
+      \   'label':          'Label',
+      \   'comment':        v:null,
+      \   'operator':       v:null,
+      \   'keyword':        v:null,
+      \   'modifier':       v:null,
+      \   'event':          v:null,
+      \   'number':         v:null,
+      \   'string':         v:null,
+      \   'regexp':         v:null,
+      \   'unknown':        v:null,
+      \   'bracket':        v:null,
+      \ }
+      \}
+      \]
 
-for tokenType in keys( MY_YCM_HIGHLIGHT_GROUP )
-  if len(MY_YCM_HIGHLIGHT_GROUP[ tokenType ]) != 0
-    call prop_type_add( 'YCM_HL_' . tokenType,
-                      \ { 'highlight': MY_YCM_HIGHLIGHT_GROUP[ tokenType ] } )
-  else
-    call prop_type_add('YCM_HL_' . tokenType, {})
-  end
-endfor
 
 hi default YcmErrorSection ctermbg=NONE
 " experimental
