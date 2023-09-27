@@ -22,7 +22,7 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-python3.7 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer
+python3 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer
 
 if [ $? -ne 0 ]; then
   cd $CUR_DIR
