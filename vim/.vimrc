@@ -6,7 +6,7 @@ set number
 syntax on
 " Search while type
 set incsearch
-" Search rezult highligt
+" Search rezult highlight
 set hlsearch
 " Smart case from register
 set ignorecase
@@ -57,12 +57,6 @@ set history=200
 set wildmenu
 
 set nowrap
-if exists('+colorcolumn')
-    highlight ColorColumn ctermbg=235 guibg=#2c2d27
-    let &colorcolumn=join(range(81,999),",")
-else
-    autocmd BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-end
 
 " Show cursor line
 set cursorline
@@ -93,11 +87,9 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ycm-core/YouCompleteMe'
-Plugin 'andrejlevkovitch/vim-hl-client'
 Plugin 'rdnetto/YCM-Generator'
 Plugin 'majutsushi/tagbar'
 Plugin 'tikhomirov/vim-glsl'
-"Plugin 'vifm/vifm.vim'
 Plugin 'pboettch/vim-cmake-syntax'
 Plugin 'vim-python/python-syntax'
 Plugin 'plasticboy/vim-markdown'
@@ -279,7 +271,7 @@ autocmd BufWrite *.py call PythonFormat()
 " Json Format
 function! JsonFormat()
   let input       = getline(1, '$')
-  let output_str  = system('jq ""', input)
+  let output_str  = system('jq "."', input)
   if v:shell_error == 0 " all right
     let output = split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
