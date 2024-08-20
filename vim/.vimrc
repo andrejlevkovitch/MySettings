@@ -163,7 +163,7 @@ endfunction
 " Clang Format
 function! ClangFormat()
   let input      =  getline(1, "$")
-  let output_str =  system("clang-format -assume-filename " .. bufname("%"), input)
+  let output_str =  system("clang-format -assume-filename " .. bufname("%") .. " -fallback-style=none", input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
