@@ -12,12 +12,12 @@ fi
 
 
 apt-get install -y \
-  libwebkit2gtk-4.0-dev
+  libwebkit2gtk-4.1-dev
 
 PACKAGE=vimb
-VERSION=3.3.0
-LINK="https://github.com/fanglingsu/vimb/archive/3.3.0.tar.gz"
-SHA_SUM="5c6fe39b1b2ca18a342bb6683f7fd5b139ead53903f57dd9eecd5a1074576d6c"
+VERSION=3.7.0
+LINK="https://github.com/fanglingsu/vimb/archive/${VERSION}.tar.gz"
+SHA_SUM="025b785891f3dc536827eaffaccd56b7d90455a310146180ee168a3cb0501577"
 ARCHIVE=$TMP_DIR/vimb_ar
 OUT_DIR=$TMP_DIR/vimb_dir
 
