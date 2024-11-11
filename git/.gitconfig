@@ -7,9 +7,9 @@
 	templatedir = 
 [core]
 	editor = vim
-[diff]
-  external = git_diff_wrapper
 [difftool]
+	tool = vimdiff
+  prompt = false
   trustExitCode = true
 [pager]
   diff = 
