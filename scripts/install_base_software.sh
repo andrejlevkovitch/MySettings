@@ -21,7 +21,8 @@ apt-get install -y \
   libtool \
   libpng-dev \
   zlibc zlib1g-dev \
-  unzip
+  unzip \
+  vifm
 
 if [ $? -ne 0 ]; then
   print_error "base soft can not be installed"
