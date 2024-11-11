@@ -75,6 +75,8 @@ autocmd BufRead,BufNewFile *.qrc setfiletype xml
 autocmd BufRead,BufNewFile *.qss setfiletype css
 " For qml
 autocmd BufRead,BufNewFile *.qml setfiletype qml
+" For gnuplot
+autocmd BufRead,BufNewFile *.plot setfiletype gnuplot
 
 "-------------------------------------------------------------------------------
 
