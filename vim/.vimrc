@@ -60,7 +60,7 @@ set nowrap
 
 " Show cursor line
 set cursorline
-highlight CursorLine guibg=lightblue ctermbg=darkblue
+highlight CursorLine guibg=lightblue ctermbg=darkgray
 highlight CursorLine term=bold cterm=bold
 
 "-------------------------------------------------------------------------------
