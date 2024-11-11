@@ -37,7 +37,7 @@ set ch=1
 " Show information about file
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [POS=%04l,%04v]\ [LEN=%L]
 set laststatus=2
-" Hide mose while typing
+" Hide mouse while typing
 set mousehide
 " Turn on auto tabs
 set autoindent
@@ -491,7 +491,7 @@ let g:hl_server_binary  = "~/.vim/bundle/vim-hl-client/build/bin/hl-server"
 let g:rainbow_active = 1
 
 let g:rainbow_conf = {
-\	'ctermfgs': ['Yellow', 'Blue', 'Brown'],
+\	'ctermfgs': ['Yellow', 'Lightblue', 'Lightmagenta', 'Green'],
 \ 'separately': {
 \   'cpp': {
 \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold', 'start=/\[\[/ end=/\]\]/ fold']
