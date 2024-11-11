@@ -22,8 +22,7 @@ apt-get install -y \
   xz-utils \
   python3-dev \
   libcurl4-openssl-dev \
-  libtinfo5 \
-  w3m
+  libtinfo5
 
 if [ $? -ne 0 ]; then
   print_error "neded packages can not be installed"
