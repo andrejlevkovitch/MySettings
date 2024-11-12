@@ -1,9 +1,0 @@
-Package: lua-format
-Version: 1.3.6
-Architecture: amd64
-Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
-Depends: libc6, libstdc++6
-Section: editors
-Priority: optional
-Homepage: https://github.com/Koihik/LuaFormatter
-Description: Code formatter for Lua

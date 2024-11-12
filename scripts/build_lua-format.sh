@@ -6,21 +6,17 @@ set -e
 VERSION=1.3.6
 LINK="https://github.com/Koihik/LuaFormatter.git"
 ARCHIVE=/tmp/lt.tar.gz
-SRC_DIR=/tmp/LuaFormatter-src
-DEB_DIR=/tmp/lua-format
+TMP_DIR=/tmp/lf
+SRC_DIR=../packages/lua-format
+CHANGELOG="$SRC_DIR/debian/changelog"
 
 
-mkdir -p "$DEB_DIR/DEBIAN"
-cp "../package-files/lf-control" "$DEB_DIR/DEBIAN/control"
+printf "lua-format ($VERSION) UNRELEASED; urgency=medium\n\n  * Initial release. (Closes: #XXXXXX)\n\n -- Andrei Liaukovich <andrejlevkovitch@gmail.com>  $(date -R)\n" > "$SRC_DIR/debian/changelog"
 
 
-git clone --recurse-submodules "$LINK" "$SRC_DIR"
+git clone --recurse-submodules "$LINK" "$TMP_DIR"
+mv "$TMP_DIR/"* "$SRC_DIR/"
 
-mkdir "$SRC_DIR/build"
-cd "$SRC_DIR/build"
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cd "$SRC_DIR"
 
-make -j"$(nproc)"
-DESTDIR="$DEB_DIR" make install
-
-dpkg-deb --build "$DEB_DIR"
+dpkg-buildpackage -us -uc -b

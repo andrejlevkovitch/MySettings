@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+
+clean:
+	rm -rf ${CURDIR}/debian/vim
+
+build:
+	mkdir build
+	cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+	cd build && make -j$(shell nproc)
+
+binary:
+	cd build && make install DESTDIR=${CURDIR}/debian/vim
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

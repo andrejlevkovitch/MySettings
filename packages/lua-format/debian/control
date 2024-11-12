@@ -1,0 +1,11 @@
+Source: lua-format
+Section: editors
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10), cmake
+
+Package: lua-format
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://github.com/Koihik/LuaFormatter
+Description: Code formatter for Lua

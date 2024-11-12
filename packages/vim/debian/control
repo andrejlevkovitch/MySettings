@@ -1,0 +1,13 @@
+Source: vim
+Section: editors
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10), autoconf, libncurses-dev, python3-dev
+
+Package: vim
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Suggests: ctags
+Provides: editor
+Homepage: https://www.vim.org/
+Description: Vi IMproved - enhanced vi editor

@@ -1,9 +1,0 @@
-Package: ctags
-Version: 0.0.1
-Architecture: amd64
-Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
-Depends: libc6, libstdc++6, zlib1g, libyaml-0-2, libxml2
-Section: editors
-Priority: optional
-Homepage: https://ctags.io/
-Description: A maintained ctags implementation 
