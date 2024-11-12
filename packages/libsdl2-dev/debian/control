@@ -1,0 +1,11 @@
+Source: libsdl2-dev
+Section: libdevel
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10)
+
+Package: libsdl2-dev
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://www.libsdl.org/
+Description: Simple DirectMedia Layer development files
