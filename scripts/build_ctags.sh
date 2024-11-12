@@ -3,26 +3,26 @@
 
 set -e
 
-CTAGS_VERSION=0.0.1
-CTAGS_LINK="https://github.com/universal-ctags/ctags/archive/master.zip"
-CTAGS_ARCHIVE=/tmp/ctags.zip
-CTAGS_DIR=/tmp/ctags-master
-CTAGS_DEB_DIR=/tmp/ctags
+VERSION=0.0.1
+LINK="https://github.com/universal-ctags/ctags/archive/master.zip"
+ARCHIVE=/tmp/ctags.zip
+SRC_DIR=/tmp/ctags-master
+DEB_DIR=/tmp/ctags
 
 
-mkdir -p "$CTAGS_DEB_DIR/DEBIAN"
-cp "../package-files/ctags-control" "$CTAGS_DEB_DIR/DEBIAN/control"
+mkdir -p "$DEB_DIR/DEBIAN"
+cp "../package-files/ctags-control" "$DEB_DIR/DEBIAN/control"
 
 
-wget "$CTAGS_LINK" -O "$CTAGS_ARCHIVE"
+wget "$LINK" -O "$ARCHIVE"
 
-unzip $CTAGS_ARCHIVE -d /tmp
-cd $CTAGS_DIR
+unzip $ARCHIVE -d /tmp
+cd $SRC_DIR
 
 ./autogen.sh
 ./configure
 
 make -j"$(nproc)"
-DESTDIR="$CTAGS_DEB_DIR" make install
+DESTDIR="$DEB_DIR" make install
 
-dpkg-deb --build "$CTAGS_DEB_DIR"
+dpkg-deb --build "$DEB_DIR"

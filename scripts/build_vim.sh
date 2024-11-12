@@ -4,27 +4,27 @@
 
 set -e
 
-VIM_VERSION=9.1.0680
-VIM_LINK="https://github.com/vim/vim/archive/v${VIM_VERSION}.tar.gz"
-VIM_ARCHIVE=/tmp/vim.tar.gz
-VIM_DIR=/tmp/vim-src
-VIM_DEB_DIR=/tmp/vim
+VERSION=9.1.0680
+LINK="https://github.com/vim/vim/archive/v${VERSION}.tar.gz"
+ARCHIVE=/tmp/vim.tar.gz
+SRC_DIR=/tmp/vim-src
+DEB_DIR=/tmp/vim
 
 
-mkdir -p "$VIM_DEB_DIR/DEBIAN"
-cp "../package-files/vim-control"  "$VIM_DEB_DIR/DEBIAN/control"
-cp "../package-files/vim-postinst" "$VIM_DEB_DIR/DEBIAN/postinst"
+mkdir -p "$DEB_DIR/DEBIAN"
+cp "../package-files/vim-control"  "$DEB_DIR/DEBIAN/control"
+cp "../package-files/vim-postinst" "$DEB_DIR/DEBIAN/postinst"
 
 
-wget "$VIM_LINK" -O "$VIM_ARCHIVE"
+wget "$LINK" -O "$ARCHIVE"
 
-mkdir "$VIM_DIR"
-tar -xzvf "$VIM_ARCHIVE" --directory "$VIM_DIR" --strip-components=1
+mkdir "$SRC_DIR"
+tar -xzvf "$ARCHIVE" --directory "$SRC_DIR" --strip-components=1
 
 # add some custom syntax files
-cp -f ../vim/syntax/* "$VIM_DIR/runtime/syntax"
+cp -f ../vim/syntax/* "$SRC_DIR/runtime/syntax"
 
-cd $VIM_DIR
+cd "$SRC_DIR"
 
 ./configure --with-features=huge \
             --enable-python3interp=yes \
@@ -37,6 +37,6 @@ cd $VIM_DIR
             --prefix=/usr/local
 
 make -j"$(nproc)"
-DESTDIR="$VIM_DEB_DIR" make install
+DESTDIR="$DEB_DIR" make install
 
-dpkg-deb --build $VIM_DEB_DIR
+dpkg-deb --build "$DEB_DIR"
