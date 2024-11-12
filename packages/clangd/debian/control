@@ -1,0 +1,11 @@
+Source: clangd
+Section: devel
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10)
+
+Package: clangd
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://www.llvm.org/
+Description: Language server that provides IDE-like features to editors
