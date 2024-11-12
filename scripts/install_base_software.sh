@@ -19,10 +19,8 @@ apt-get install -y \
   pkg-config \
   autoconf automake \
   libtool \
-  libpng-dev \
   zlibc zlib1g-dev \
-  unzip \
-  vifm
+  unzip
 
 if [ $? -ne 0 ]; then
   print_error "base soft can not be installed"

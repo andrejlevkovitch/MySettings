@@ -18,6 +18,7 @@ apt-get install -y \
   gdb gdbserver \
   tidy \
   tree \
+  vifm \
   shellcheck \
   clangd-${CLANGD_VERSION}
 
