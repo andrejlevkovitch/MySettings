@@ -5,10 +5,10 @@
 source utils.sh
 
 # if you need other version of gcc just set it here
-GCC_VERSION=8
+GCC_VERSION=12
 
 # if you need other version of clang just set it here
-CLANG_VERSION=9
+CLANG_VERSION=19
 CLANG_REPO_DEB="deb http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 CLANG_REPO_SRC="deb-src http://apt.llvm.org/$(lsb_release -cs)/ llvm-toolchain-$(lsb_release -cs)-$CLANG_VERSION main"
 
@@ -40,7 +40,7 @@ print_delim
 
 print_info "Install llvm"
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-add-apt-repository "$CLANG_REPO_DEB"
+add-apt-repository -y "$CLANG_REPO_DEB"
 apt-get update
 apt-get upgrade -y
 
@@ -91,9 +91,10 @@ update-alternatives --install \
 --slave /usr/bin/llvm-tblgen       llvm-tblgen      /usr/bin/llvm-tblgen-$CLANG_VERSION
 
 update-alternatives --install\
-          /usr/bin/clang           clang            /usr/bin/clang-$CLANG_VERSION     50 \
---slave   /usr/bin/clang++         clang++          /usr/bin/clang++-$CLANG_VERSION  \
---slave   /usr/bin/lldb            lldb             /usr/bin/lldb-$CLANG_VERSION \
+        /usr/bin/clang             clang            /usr/bin/clang-$CLANG_VERSION     50 \
+--slave /usr/bin/clangd            clangd            /usr/bin/clangd-$CLANG_VERSION \
+--slave /usr/bin/clang++           clang++          /usr/bin/clang++-$CLANG_VERSION  \
+--slave /usr/bin/lldb              lldb             /usr/bin/lldb-$CLANG_VERSION \
 --slave /usr/bin/lldb-server       lldb-server      /usr/bin/lldb-server-$CLANG_VERSION \
 --slave /usr/bin/lld               lld              /usr/bin/lld-$CLANG_VERSION \
 --slave /usr/bin/ld.lld            ld-lld           /usr/bin/ld.lld-$CLANG_VERSION \
@@ -102,5 +103,7 @@ update-alternatives --install\
 --slave /usr/bin/run-clang-tidy    run-clang-tidy   /usr/bin/run-clang-tidy-$CLANG_VERSION \
 --slave /usr/bin/run-clang-tidy.py run-clang-tidy.py /usr/bin/run-clang-tidy-$CLANG_VERSION.py \
 --slave /usr/bin/clang-apply-replacements clang-apply-replacements /usr/bin/clang-apply-replacements-$CLANG_VERSION
+
+update-alternatives --install\
 
 print_delim
