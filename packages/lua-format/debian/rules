@@ -1,15 +1,17 @@
 #!/usr/bin/make -f
 
+NAME=lua-format
+
 clean:
-	rm -rf ${CURDIR}/debian/vim
+	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
-	mkdir build
+	mkdir -p build
 	cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
 	cd build && make -j$(shell nproc)
 
 binary:
-	cd build && make install DESTDIR=${CURDIR}/debian/vim
+	cd build && make install DESTDIR=${CURDIR}/debian/${NAME}
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb

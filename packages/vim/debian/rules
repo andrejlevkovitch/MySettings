@@ -1,7 +1,9 @@
 #!/usr/bin/make -f
 
+NAME=vim
+
 clean:
-	rm -rf ${CURDIR}/debian/vim
+	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
 	./configure --with-features=huge \
@@ -16,7 +18,7 @@ build:
 	make -j$(shell nproc)
 
 binary:
-	make install DESTDIR=${CURDIR}/debian/vim
+	make install DESTDIR=${CURDIR}/debian/${NAME}
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb

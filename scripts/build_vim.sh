@@ -21,5 +21,4 @@ tar -xzvf "$ARCHIVE" --directory "$SRC_DIR" --strip-components=1
 cp -f ../vim/syntax/* "$SRC_DIR/runtime/syntax"
 
 cd "$SRC_DIR"
-
 dpkg-buildpackage -us -uc -b

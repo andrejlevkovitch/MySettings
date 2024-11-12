@@ -18,5 +18,4 @@ git clone --recurse-submodules "$LINK" "$TMP_DIR"
 mv "$TMP_DIR/"* "$SRC_DIR/"
 
 cd "$SRC_DIR"
-
 dpkg-buildpackage -us -uc -b

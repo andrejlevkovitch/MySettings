@@ -15,6 +15,6 @@ printf "ctags ($VERSION) UNRELEASED; urgency=medium\n\n  * Initial release. (Clo
 wget "$LINK" -O "$ARCHIVE"
 
 unzip $ARCHIVE -d ../packages
-cd $SRC_DIR
 
+cd $SRC_DIR
 dpkg-buildpackage -us -uc -b
