@@ -1,6 +1,6 @@
 #!/bin/bash
 # Tools: wget, tar, autoconf
-# Dependencies: libncurses5-dev, python3-dev
+# Dependencies: libncurses-dev, python3-dev
 
 set -e
 

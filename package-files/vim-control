@@ -2,7 +2,7 @@ Package: vim
 Version: 9.1.0680
 Architecture: amd64
 Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
-Depends: libc6, zlib1g, libpython3.10, libsm6, libice6, libxt6, libx11-6, libtinfo6, libselinux1, libuuid1, libbsd0, libxcb1, libpcre2-8-0, libexpat1, libmd0, libxau6, libxdmcp6
+Depends: libc6, zlib1g, libtinfo6, libuuid1, libexpat1, libpython3.10
 Suggests: ctags
 Provides: editor
 Section: editors
