@@ -30,18 +30,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# compile hl-server
-mkdir -p ~/.vim/bundle/vim-hl-client/build
-cd ~/.vim/bundle/vim-hl-client/build
-cmake ..
-cmake --build . -- -j4
-
-if [ $? -ne 0 ]; then
-  cd $CUR_DIR
-  print_error "hl-server was not compiled"
-  exit 1
-fi
-
 print_info "Install vimb config"
 if [ ! -d $HOME_DIR/.config/vimb ]; then
   mkdir $HOME_DIR/.config/vimb/
