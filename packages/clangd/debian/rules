@@ -12,7 +12,8 @@ build:
 	cd build && make clangd -j$(shell nproc)
 
 binary:
-	cd build && make install DESTDIR=${CURDIR}/debian/${NAME}
+	mkdir -p ${CURDIR}/debian/${NAME}/usr/local/bin/
+	cp build/bin/clangd ${CURDIR}/debian/${NAME}/usr/local/bin/
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb
