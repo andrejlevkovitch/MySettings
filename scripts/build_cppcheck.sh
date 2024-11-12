@@ -1,5 +1,5 @@
 #!/bin/bash
-# Tools: cmake
+# Tools: wget, tar, cmake, debhelper
 # Dependencies: libpcre3-dev
 
 set -e
