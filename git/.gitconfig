@@ -9,8 +9,8 @@
 	editor = vim
 [difftool]
 	tool = vimdiff
-	promt = vimdiff
-	trustExitCode = vimdiff
+	prompt = false
+	trustExitCode = true
 [pager]
 	diff = 
 [merge]
