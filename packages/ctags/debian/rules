@@ -2,7 +2,7 @@
 
 NAME=ctags
 
-BUILD_DIR=/tmp/ctags-master
+BUILD_DIR=/tmp/ctags
 
 
 clean:

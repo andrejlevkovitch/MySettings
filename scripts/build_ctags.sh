@@ -3,10 +3,10 @@
 
 set -e
 
-VERSION=0.0.1
-LINK="https://github.com/universal-ctags/ctags/archive/master.zip"
-ARCHIVE=/tmp/ctags.zip
-SRC_DIR=/tmp/ctags-master
+VERSION=6.1.0
+LINK="https://github.com/universal-ctags/ctags/archive/refs/tags/v${VERSION}.tar.gz"
+ARCHIVE=/tmp/ctags.tar.gz
+SRC_DIR=/tmp/ctags
 DEB_DIR=../packages/ctags
 
 
@@ -15,7 +15,8 @@ printf "ctags ($VERSION) UNRELEASED; urgency=medium\n\n  * Initial release. (Clo
 
 wget "$LINK" -O "$ARCHIVE"
 
-unzip -o "$ARCHIVE" -d /tmp
+mkdir -p "$SRC_DIR"
+tar -xzvf "$ARCHIVE" --directory "$SRC_DIR" --strip-components=1
 
 cd "$DEB_DIR"
 dpkg-buildpackage -us -uc -b
