@@ -8,7 +8,7 @@ function(FindOrFetch name fetch_link)
     if (${name}_FOUND)
       message(STATUS "Found ${name}")
     else()
-      message(WARNING "${name} was not found, try to fetch it from github")
+      message(WARNING "${name} was not found, try to fetch it from: ${fetch_link}")
       string(REGEX MATCH "\/([^/]*)$" src_dir ${fetch_link})
       FetchContent_Declare(${name}
         GIT_REPOSITORY ${fetch_link}
