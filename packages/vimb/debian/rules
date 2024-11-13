@@ -2,14 +2,17 @@
 
 NAME=vimb
 
+BUILD_DIR=/tmp/vimb
+
+
 clean:
 	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
-	make -j$(shell nproc)
+	cd ${BUILD_DIR} && make -j$(shell nproc)
 
 binary:
-	make install DESTDIR=${CURDIR}/debian/${NAME}
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb

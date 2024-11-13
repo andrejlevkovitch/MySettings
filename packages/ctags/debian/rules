@@ -1,16 +1,16 @@
 #!/usr/bin/make -f
 
-NAME=catch2
+NAME=ctags
 
-BUILD_DIR=/tmp/catch2/build
+BUILD_DIR=/tmp/ctags-master
 
 
 clean:
 	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
-	mkdir -p ${BUILD_DIR}
-	cd ${BUILD_DIR} && cmake -DCMAKE_BUILD_TYPE=Release ..
+	cd ${BUILD_DIR} && ./autogen.sh
+	cd ${BUILD_DIR} && ./configure
 	cd ${BUILD_DIR} && make -j$(shell nproc)
 
 binary:

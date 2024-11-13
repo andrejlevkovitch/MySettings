@@ -2,16 +2,19 @@
 
 NAME=lua-format
 
+BUILD_DIR=/tmp/lf/build
+
+
 clean:
 	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
-	mkdir -p build
-	cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
-	cd build && make -j$(shell nproc)
+	mkdir -p ${BUILD_DIR}
+	cd ${BUILD_DIR} && cmake -DCMAKE_BUILD_TYPE=Release ..
+	cd ${BUILD_DIR} && make -j$(shell nproc)
 
 binary:
-	cd build && make install DESTDIR=${CURDIR}/debian/${NAME}
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb

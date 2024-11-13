@@ -2,15 +2,18 @@
 
 NAME=cmake
 
+BUILD_DIR=/tmp/cmake
+
+
 clean:
 	rm -rf ${CURDIR}/debian/${NAME}
 
 build:
-	./bootstrap --system-curl
-	make -j$(shell nproc)
+	cd ${BUILD_DIR} && ./bootstrap --system-curl
+	cd ${BUILD_DIR} && make -j$(shell nproc)
 
 binary:
-	make install DESTDIR=${CURDIR}/debian/${NAME}
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
 	dh_shlibdeps
 	dh_gencontrol
 	dh_builddeb
