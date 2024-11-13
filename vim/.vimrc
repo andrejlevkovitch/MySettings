@@ -55,6 +55,8 @@ set showmatch
 set history=200
 " Dop information in status bar
 set wildmenu
+" Allow eiditing in vimdiff
+set noro
 
 set nowrap
 
