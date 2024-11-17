@@ -11,7 +11,8 @@ SRC_DIR=/tmp/vim
 DEB_DIR=../packages/vim
 
 
-printf "vim ($VERSION) UNRELEASED; urgency=medium\n\n  * Initial release. (Closes: #XXXXXX)\n\n -- Andrei Liaukovich <andrejlevkovitch@gmail.com>  $(date -R)\n" > "$DEB_DIR/debian/changelog"
+# version prefix `2:` is needed for compatibility with ubuntu deb packages
+printf "vim (2:$VERSION) UNRELEASED; urgency=medium\n\n  * Initial release. (Closes: #XXXXXX)\n\n -- Andrei Liaukovich <andrejlevkovitch@gmail.com>  $(date -R)\n" > "$DEB_DIR/debian/changelog"
 
 
 wget "$LINK" -O "$ARCHIVE"
