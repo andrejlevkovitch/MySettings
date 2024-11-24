@@ -398,7 +398,7 @@ autocmd BufWrite *.go call GoFormat()
 " Rust format
 function! RustFormat()
   let input      = getline(1, "$")
-  let output_str = system("rustfmt", input)
+  let output_str = system("rustfmt +nightly", input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
