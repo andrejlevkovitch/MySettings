@@ -1,0 +1,20 @@
+unstable_features           = true
+edition                     = "2021"
+
+tab_spaces                  = 2
+
+imports_granularity         = "Module"
+reorder_imports             = true
+group_imports               = "StdExternalCrate"
+
+reorder_modules             = true
+reorder_impl_items          = true
+
+blank_lines_upper_bound     = 2
+format_strings              = true
+remove_nested_parens        = true
+fn_params_layout            = "Tall"
+
+condense_wildcard_suffixes  = true
+use_field_init_shorthand    = true
+use_try_shorthand           = true
