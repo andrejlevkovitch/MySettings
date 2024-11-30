@@ -58,6 +58,9 @@ set wildmenu
 " Allow eiditing in vimdiff
 set noro
 
+" disable rust tab=4
+let g:rust_recommended_style=0
+
 set nowrap
 
 " Show cursor line
