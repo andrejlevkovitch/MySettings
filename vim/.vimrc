@@ -9,8 +9,8 @@ set incsearch
 " Search rezult highlight
 set hlsearch
 " Smart case from register
-set ignorecase
-set smartcase
+"set ignorecase
+"set smartcase
 " change color founded elements
 highlight Search ctermbg=brown guibg=brown
 " Use utf8
