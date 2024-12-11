@@ -401,7 +401,14 @@ autocmd BufWrite *.go call GoFormat()
 " Rust format
 function! RustFormat()
   let input      = getline(1, "$")
-  let output_str = system("rustfmt +nightly", input)
+
+  let config_file = findfile(".rustfmt.toml", ".;")
+  let flags = " +nightly "
+  if empty(config_file) == 0 " append config_file to flags
+    let flags = flags .. " --config-path " .. config_file
+  end
+
+  let output_str = system("rustfmt " .. flags, input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
