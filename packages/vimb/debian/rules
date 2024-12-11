@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+
+NAME=vimb
+
+BUILD_DIR=/tmp/vimb
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+build:
+	cd ${BUILD_DIR} && make -j$(shell nproc)
+
+binary:
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

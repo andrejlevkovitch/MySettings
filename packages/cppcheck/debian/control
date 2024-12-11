@@ -1,0 +1,11 @@
+Source: cppcheck
+Section: devel
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10)
+
+Package: cppcheck
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://sourceforge.net/p/cppcheck/wiki/Home/
+Description: tool for static C/C++ code analysis (CLI)

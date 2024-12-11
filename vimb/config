@@ -1,9 +1,9 @@
-set home-page=https://nn.by
+set home-page=https://en.cppreference.com
 
 set font-size=20
 set minimum-font-size=15
 
 set default-zoom=120
 
-shortcut-add s=https://google.com/search?q=$0
+shortcut-add s=https://duckduckgo.com/$0
 shortcut-default s

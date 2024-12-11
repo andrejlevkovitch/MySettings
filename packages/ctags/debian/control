@@ -1,0 +1,12 @@
+Source: ctags
+Section: editors
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10), autoconf
+
+Package: ctags
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Provides: editor
+Homepage: https://ctags.io/
+Description: A maintained ctags implementation 

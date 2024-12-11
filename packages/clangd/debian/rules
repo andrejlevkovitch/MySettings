@@ -1,0 +1,25 @@
+#!/usr/bin/make -f
+
+NAME=clangd
+
+BUILD_DIR=/tmp/clangd/build
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+.PHONY: build
+build:
+	mkdir -p ${BUILD_DIR}
+	cd ${BUILD_DIR} && cmake -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" -DCMAKE_BUILD_TYPE=Release ../llvm
+	cd ${BUILD_DIR} && make clangd -j$(shell nproc)
+
+binary:
+	mkdir -p ${CURDIR}/debian/${NAME}/usr/local/bin/
+	cp ${BUILD_DIR}/bin/clangd ${CURDIR}/debian/${NAME}/usr/local/bin/
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

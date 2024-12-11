@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+NAME=catch2
+
+BUILD_DIR=/tmp/catch2/build
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+build:
+	mkdir -p ${BUILD_DIR}
+	cd ${BUILD_DIR} && cmake -DCMAKE_BUILD_TYPE=Release ..
+	cd ${BUILD_DIR} && make -j$(shell nproc)
+
+binary:
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

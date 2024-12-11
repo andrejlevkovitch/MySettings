@@ -1,0 +1,8 @@
+.*.swp
+packages/*.changes
+packages/*.buildinfo
+packages/*.deb
+packages/*/debian/files
+packages/*/debian/changelog
+packages/*/debian/*.substvars
+packages/*/debian/*/

@@ -37,7 +37,7 @@ set ch=1
 " Show information about file
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [POS=%04l,%04v]\ [LEN=%L]
 set laststatus=2
-" Hide mose while typing
+" Hide mouse while typing
 set mousehide
 " Turn on auto tabs
 set autoindent
@@ -55,18 +55,17 @@ set showmatch
 set history=200
 " Dop information in status bar
 set wildmenu
+" Allow eiditing in vimdiff
+set noro
+
+" disable rust tab=4
+let g:rust_recommended_style=0
 
 set nowrap
-if exists('+colorcolumn')
-    highlight ColorColumn ctermbg=235 guibg=#2c2d27
-    let &colorcolumn=join(range(81,999),",")
-else
-    autocmd BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-end
 
 " Show cursor line
 set cursorline
-highlight CursorLine guibg=lightblue ctermbg=darkblue
+highlight CursorLine guibg=lightblue ctermbg=darkgray
 highlight CursorLine term=bold cterm=bold
 
 "-------------------------------------------------------------------------------
@@ -81,6 +80,8 @@ autocmd BufRead,BufNewFile *.qrc setfiletype xml
 autocmd BufRead,BufNewFile *.qss setfiletype css
 " For qml
 autocmd BufRead,BufNewFile *.qml setfiletype qml
+" For gnuplot
+autocmd BufRead,BufNewFile *.plot setfiletype gnuplot
 
 "-------------------------------------------------------------------------------
 
@@ -169,7 +170,7 @@ endfunction
 " Clang Format
 function! ClangFormat()
   let input      =  getline(1, "$")
-  let output_str =  system("clang-format -assume-filename " .. bufname("%"), input)
+  let output_str =  system("clang-format -assume-filename " .. bufname("%") .. " -fallback-style=none", input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
@@ -277,7 +278,7 @@ autocmd BufWrite *.py call PythonFormat()
 " Json Format
 function! JsonFormat()
   let input       = getline(1, '$')
-  let output_str  = system('jq ""', input)
+  let output_str  = system('jq "."', input)
   if v:shell_error == 0 " all right
     let output = split(output_str, "\n")
     call CopyDiffToBuffer(input, output, bufname("%"))
@@ -400,7 +401,14 @@ autocmd BufWrite *.go call GoFormat()
 " Rust format
 function! RustFormat()
   let input      = getline(1, "$")
-  let output_str = system("rustfmt", input)
+
+  let config_file = findfile(".rustfmt.toml", ".;")
+  let flags = " +nightly "
+  if empty(config_file) == 0 " append config_file to flags
+    let flags = flags .. " --config-path " .. config_file
+  end
+
+  let output_str = system("rustfmt " .. flags, input)
 
   " output of system is a string, so transform it to list
   let output=split(output_str, "\n")
@@ -618,7 +626,7 @@ let g:hl_server_binary  = "~/.vim/bundle/vim-hl-client/build/bin/hl-server"
 let g:rainbow_active = 1
 
 let g:rainbow_conf = {
-\	'ctermfgs': ['Yellow', 'Blue', 'Brown'],
+\	'ctermfgs': ['Yellow', 'Lightblue', 'Lightmagenta', 'Green'],
 \ 'separately': {
 \   'cpp': {
 \     'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold', 'start=/\[\[/ end=/\]\]/ fold']

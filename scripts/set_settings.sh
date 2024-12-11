@@ -22,23 +22,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-python3.8 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer
+python3 $HOME_DIR/.vim/bundle/YouCompleteMe/install.py --clangd-completer --go-completer --rust-completer
 
 if [ $? -ne 0 ]; then
   cd $CUR_DIR
   print_error "YCM can not be installed"
-  exit 1
-fi
-
-# compile hl-server
-mkdir -p ~/.vim/bundle/vim-hl-client/build
-cd ~/.vim/bundle/vim-hl-client/build
-cmake ..
-cmake --build . -- -j4
-
-if [ $? -ne 0 ]; then
-  cd $CUR_DIR
-  print_error "hl-server was not compiled"
   exit 1
 fi
 
@@ -50,19 +38,6 @@ cp $FILE_DIR/../vimb/* $HOME_DIR/.config/vimb/
 
 print_info "Install config for git"
 cp $FILE_DIR/../git/.gitconfig $HOME/
-
-print_info "Install config for gdb"
-cp $FILE_DIR/../gdb/.gdbinit $HOME_DIR
-if [ ! -d $HOME_DIR/.gdb ]; then
-  mkdir $HOME_DIR/.gdb
-fi
-git clone https://github.com/Lekensteyn/qt5printers.git $HOME_DIR/.gdb/qt5printers
-
-print_info "Install config for w3m"
-if [ ! -d $HOME_DIR/.w3m ]; then
-  mkdir $HOME_DIR/.w3m
-fi
-cp $FILE_DIR/../w3m/* $HOME_DIR/.w3m
 
 cd $CUR_DIR
 

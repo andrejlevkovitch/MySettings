@@ -19,7 +19,6 @@ apt-get install -y \
   pkg-config \
   autoconf automake \
   libtool \
-  libpng-dev \
   zlibc zlib1g-dev \
   unzip
 

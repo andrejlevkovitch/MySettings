@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+
+NAME=ctags
+
+BUILD_DIR=/tmp/ctags
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+build:
+	cd ${BUILD_DIR} && ./autogen.sh
+	cd ${BUILD_DIR} && ./configure
+	cd ${BUILD_DIR} && make -j$(shell nproc)
+
+binary:
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

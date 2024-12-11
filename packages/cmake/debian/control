@@ -1,0 +1,12 @@
+Source: cmake
+Section: devel
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10), libcurl4-openssl-dev
+
+Package: cmake
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Provides: editor
+Homepage: https://cmake.org/
+Description: cross-platform, open-source make system

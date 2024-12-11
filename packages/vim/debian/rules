@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+
+NAME=vim
+
+BUILD_DIR=/tmp/vim
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+build:
+	cd ${BUILD_DIR} && ./configure  --with-features=huge \
+																	--enable-python3interp=yes \
+																	--with-python3-config-dir="$(shell python3-config --configdir)" \
+																	--enable-multibyte \
+																	--enable-gui=no \
+																	--enable-cscope=no \
+																	--enable-largefile=no \
+																	--disable-netbeans \
+																	--prefix=/usr/local
+	cd ${BUILD_DIR} && make -j$(shell nproc)
+
+binary:
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+NAME=cppcheck
+
+BUILD_DIR=/tmp/cppcheck/cmake-build
+
+
+clean:
+	rm -rf ${CURDIR}/debian/${NAME}
+
+.PHONY: build
+build:
+	mkdir -p ${BUILD_DIR}
+	cd ${BUILD_DIR} && cmake -DCMAKE_BUILD_TYPE=Release -DHAVE_RULES=ON -DUSE_MATCHCOMPILER=ON -DBUILD_TESTS=OFF -DBUILD_GUI=OFF ..
+	cd ${BUILD_DIR} && make -j$(shell nproc)
+
+binary:
+	cd ${BUILD_DIR} && make install DESTDIR=${CURDIR}/debian/${NAME}
+	dh_shlibdeps
+	dh_gencontrol
+	dh_builddeb
+	
+binary-arch:
+	dpkg --print-architecture

@@ -1,0 +1,11 @@
+Source: catch2
+Section: devel
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10)
+
+Package: catch2
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://github.com/catchorg/Catch2
+Description: C++ Automated Test Cases in Headers

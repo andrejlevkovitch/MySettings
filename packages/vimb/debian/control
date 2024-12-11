@@ -1,0 +1,11 @@
+Source: vimb
+Section: net
+Priority: optional
+Maintainer: Andrei Liaukovich <andrejlevkovitch@gmail.com>
+Build-Depends: debhelper (>= 10)
+
+Package: vimb
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Homepage: https://fanglingsu.github.io/vimb
+Description: Vimb - the vim like browser
